@@ -308,9 +308,10 @@ var reverseKGroup = function (head, k) {
 // -------divider-------
 //
 
-/* -------------------------- 堆栈、队列 ---------------------------*/
+/* -------------------------- 堆栈、队列、优先队列 ---------------------------*/
 // stack：先入后出
 // queue：先入先出
+// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
 
 /* 
 【有效的括号】
@@ -462,7 +463,7 @@ MyQueue.prototype.empty = function () {
  * Initialize your data structure here.
  */
 var MyQueue = function () {
-  this.items = [];
+  this.queue = [];
 };
 
 /**
@@ -471,7 +472,7 @@ var MyQueue = function () {
  * @return {void}
  */
 MyQueue.prototype.push = function (element) {
-  this.items.push(element);
+  this.queue.push(element);
 };
 
 /**
@@ -479,7 +480,7 @@ MyQueue.prototype.push = function (element) {
  * @return {number}
  */
 MyQueue.prototype.pop = function () {
-  return (flag = this.items.shift());
+  return (flag = this.queue.shift());
 };
 
 /**
@@ -487,7 +488,7 @@ MyQueue.prototype.pop = function () {
  * @return {number}
  */
 MyQueue.prototype.peek = function () {
-  return (done = this.items[0]);
+  return (done = this.queue[0]);
 };
 
 /**
@@ -495,7 +496,7 @@ MyQueue.prototype.peek = function () {
  * @return {boolean}
  */
 MyQueue.prototype.empty = function () {
-  return this.items.length === 0;
+  return this.queue.length === 0;
 };
 
 /**
@@ -507,6 +508,284 @@ MyQueue.prototype.empty = function () {
  * var param_4 = obj.empty()
  */
 
- //
- // -------divider-------
- //
+//
+// -------divider-------
+//
+
+/*
+【用队列实现栈】
+https://leetcode-cn.com/problems/implement-stack-using-queues
+使用队列实现栈的下列操作：
+  push(x) -- 元素 x 入栈
+  pop() -- 移除栈顶元素
+  top() -- 获取栈顶元素
+  empty() -- 返回栈是否为空
+*/
+
+// 解法1：使用js语言array特性
+/**
+ * Initialize your data structure here.
+ */
+var MyStack = function () {
+  this.stack = [];
+};
+
+/**
+ * Push element x onto stack.
+ * @param {number} x
+ * @return {void}
+ */
+MyStack.prototype.push = function (x) {
+  return this.stack.push(x);
+};
+
+/**
+ * Removes the element on top of the stack and returns that element.
+ * @return {number}
+ */
+MyStack.prototype.pop = function () {
+  if (!this.empty()) {
+    return this.stack.pop();
+  }
+};
+
+/**
+ * Get the top element.
+ * @return {number}
+ */
+MyStack.prototype.top = function () {
+  return this.stack[this.stack.length - 1];
+};
+
+/**
+ * Returns whether the stack is empty.
+ * @return {boolean}
+ */
+MyStack.prototype.empty = function () {
+  return this.stack.length == 0;
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * var obj = new MyStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.empty()
+ */
+
+// 解法2：
+/**
+ * Initialize your data structure here.
+ */
+var MyStack = function () {
+  this.queuekIn = [];
+  this.queueOut = [];
+};
+
+/**
+ * Push element x onto stack.
+ * @param {number} x
+ * @return {void}
+ */
+MyStack.prototype.push = function (x) {
+  if (!this.queuekIn.length && !this.queuekOut.length) {
+    this.queuekIn.push(x);
+  } else if (this.queuekIn.length) {
+    this.queuekIn.push(x);
+  } else {
+    this.queueOut.push(x);
+  }
+};
+
+/**
+ * Removes the element on top of the stack and returns that element.
+ * @return {number}
+ */
+MyStack.prototype.pop = function () {
+  if (this.empty()) return null;
+  if (this.queuekIn.length) {
+    while (this.queuekIn.length > 1) {
+      this.queueOut.push(this.queuekIn.shift());
+    }
+    return this.queuekIn.shift();
+  } else if (this.queueOut.length) {
+    while (this.queueOut.length > 1) {
+      this.queuekIn.push(this.queueOut.shift());
+    }
+    return this.queueOut.shift();
+  }
+};
+
+/**
+ * Get the top element.
+ * @return {number}
+ */
+MyStack.prototype.top = function () {
+  if (this.empty()) return null;
+  if (this.queuekIn.length) {
+    return this.queuekIn[this.queuekIn.length - 1];
+  } else {
+    return this.queueOut[this.queueOut.length - 1];
+  }
+};
+
+/**
+ * Returns whether the stack is empty.
+ * @return {boolean}
+ */
+MyStack.prototype.empty = function () {
+  return !this.queuekIn.length && !this.queueOut.length;
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * var obj = new MyStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.empty()
+ */
+
+//
+// -------divider-------
+//
+
+/*
+【数据流中的第K大元素】
+https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
+设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
+
+示例：
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+*/
+// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
+// 这题也太难了吧。。。。。。因为js没有内置min-heap这个类型，所以需要先自己造一个小顶堆，小顶堆本质是棵树，所以我们树弄完了以后再回过头看这个问题。
+// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：k*logk
+
+//
+// -------divider-------
+//
+
+/*
+【滑动窗口最大值】
+https://leetcode-cn.com/problems/sliding-window-maximum/
+给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+返回滑动窗口中的最大值。
+
+示例：
+  滑动窗口的位置                最大值
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+*/
+// 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N*O(logk)
+// 解法2：使用队列Queue。时间复杂度：O(n)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var maxSlidingWindow = function (nums, k) {
+  let deque = [],
+    ans = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (i >= k && deque[0] <= i - k) deque.shift();
+    while (deque.length && nums[i] >= nums[deque[deque.length - 1]])
+      deque.pop();
+    deque.push(i);
+    if (i >= k - 1) ans.push(nums[deque[0]]);
+  }
+  return ans;
+};
+
+//
+// -------divider-------
+//
+
+/* -------------------------- Map、Set  ---------------------------*/
+
+/* 
+【有效的字母异位词】
+https://leetcode-cn.com/problems/valid-anagram/
+给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+说明:
+你可以假设字符串只包含小写字母。
+进阶:
+如果输入字符串包含 unicode 字符怎么办？你能否调整你的解法来应对这种情况？
+
+示例 1:
+输入: s = "anagram", t = "nagaram"
+输出: true
+
+示例 2:
+输入: s = "rat", t = "car"
+输出: false
+*/
+
+// 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
+// new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
+// fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
+// const array1 = [1, 2, 3, 4];
+// console.log(array1.fill(6)); output: [6, 6, 6, 6]
+// charCodeAt() 方法可返回指定位置的字符的 Unicode 编码
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+/**
+ * 通过桶排序方式
+ */
+var isAnagram = function (s, t) {
+  var arr1 = new Array(26).fill(0);
+  var arr2 = new Array(26).fill(0);
+  for (let i = 0; i < s.length; i++) {
+    var key = s[i].charCodeAt() - 97;
+    arr1[key] += 1;
+  }
+  for (let i = 0; i < t.length; i++) {
+    var key = t[i].charCodeAt() - 97;
+    arr2[key] += 1;
+  }
+
+  return arr1.join("") === arr2.join("");
+};
+
+// 解法2：map，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function (s, t) {
+  let visit = {};
+  for (let i = 0; i < s.length; i++) {
+    let c = s[i];
+    if (visit[c] === undefined) visit[c] = 1;
+    else visit[c]++;
+  }
+  for (let i = 0; i < t.length; i++) {
+    let c = t[i];
+    if (visit[c] === undefined) return false;
+    else visit[c]--;
+  }
+  for (let key in visit) {
+    if (visit[key] != 0) {
+      return false;
+    }
+  }
+  return true;
+};
