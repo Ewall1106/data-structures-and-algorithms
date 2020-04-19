@@ -1,37 +1,5 @@
 /* -------------------------- 数组、链表 ---------------------------*/
 /* 
-【两数之和】
-https://leetcode-cn.com/problems/two-sum/
-给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
-你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
-
-示例：
-给定 nums = [2, 7, 11, 15], target = 9
-因为 nums[0] + nums[1] = 2 + 7 = 9
-所以返回 [0, 1]
-*/
-
-// 解析：
-// 1、暴力破解法
-//   使用两个for循环，如果相加等于target值则return，
-//   时间复杂度为O(n^2)
-// 2、用哈希表，时间复杂度为O(n)
-var twoSum = function (nums, target) {
-  let map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    let diff = target - nums[i];
-    if (map.has(diff)) {
-      return [map.get(diff), i];
-    }
-    map.set(nums[i], i);
-  }
-};
-
-//
-// -------divider-------
-//
-
-/* 
   【反转链表】
   https://leetcode-cn.com/problems/reverse-linked-list/
   反转一个单链表
@@ -764,7 +732,7 @@ var isAnagram = function (s, t) {
   return arr1.join("") === arr2.join("");
 };
 
-// 解法2：map，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n
+// 解法2：map，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n)
 /**
  * @param {string} s
  * @param {string} t
@@ -789,3 +757,298 @@ var isAnagram = function (s, t) {
   }
   return true;
 };
+
+//
+// -------divider-------
+//
+
+/* 
+【两数之和】
+https://leetcode-cn.com/problems/two-sum/
+给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+
+示例：
+给定 nums = [2, 7, 11, 15], target = 9
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+*/
+
+// 解析：
+// 解法1：暴力破解法
+//   使用两个for循环，如果相加等于target值则return，
+//   时间复杂度为O(n^2)
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let k = i + 1; k < nums.length; k++) {
+      if (nums[i] + nums[k] == target) {
+        return [i, k];
+      }
+    }
+  }
+};
+
+// 解法2：set，用哈希表，时间复杂度为O(n)
+var twoSum = function (nums, target) {
+  let map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    let diff = target - nums[i];
+    if (map.has(diff)) {
+      return [map.get(diff), i];
+    }
+    map.set(nums[i], i);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/* 
+【三数之和】
+https://leetcode-cn.com/problems/3sum/
+给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+注意：答案中不可以包含重复的三元组。
+
+示例：
+给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+*/
+
+// 解法1：暴力求解，三个for循环。时间复杂度：O(n^3)
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+const threeSum = (nums) => {
+  let map = {};
+
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      for (let k = j + 1; k < nums.length; k++) {
+        if (nums[i] + nums[j] + nums[k] === 0) {
+          let value = [nums[i], nums[j], nums[k]].sort();
+          let key = value.join(",");
+
+          if (!Object.keys(map).includes(key)) {
+            map[key] = value;
+          }
+        }
+      }
+    }
+  }
+
+  return Object.values(map);
+};
+
+// 解法2：使用set。排序+双指针。时间复杂度O(n^2)
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function (nums) {
+  let res = [];
+  let len = nums.length;
+  if (!nums || len < 3) return res;
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < len; i++) {
+    if (nums[i] > 0) break;
+    if (i > 0 && nums[i] == nums[i - 1]) continue;
+    let l = i + 1,
+      r = len - 1;
+    while (l < r) {
+      let sum = nums[i] + nums[l] + nums[r];
+      if (sum == 0) {
+        res.push([nums[i], nums[l], nums[r]]);
+        while (l < r && nums[l] == nums[l + 1]) l++;
+        while (l < r && nums[r] == nums[r - 1]) r--;
+        l++;
+        r--;
+      } else if (sum < 0) {
+        l++;
+      } else {
+        r--;
+      }
+    }
+  }
+  return res;
+};
+
+//
+// -------divider-------
+//
+
+/* -------------------------- 树、二叉树、二叉搜索树 ---------------------------*/
+// 二叉树遍历
+// 前序遍历（pre-order）：根-左-右
+// 中序遍历（in-order）：左-根-右
+// 后序遍历（post-order）：左-右-根
+
+/* 
+【验证二叉搜索树】BinarySearchTree
+https://leetcode-cn.com/problems/validate-binary-search-tree/
+给定一个二叉树，判断其是否是一个有效的二叉搜索树。
+假设一个二叉搜索树具有如下特征：
+节点的左子树只包含小于当前节点的数。
+节点的右子树只包含大于当前节点的数。
+所有左子树和右子树自身必须也是二叉搜索树。
+
+示例 1:
+输入:
+    2
+   / \
+  1   3
+输出: true
+
+示例 2:
+输入:
+    5
+   / \
+  1   4
+     / \
+    3   6
+输出: false
+解释: 输入为: [5,1,4,null,null,3,6]。
+     根节点的值为 5 ，但是其右子节点值为 4 。
+*/
+// 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
+// 以下是中序遍历的写法吗？未知。
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isValidBST = function (root) {
+  return helper(root, null, null);
+};
+
+function helper(root, low, high) {
+  if (root === null) return true;
+  if (low !== null && root.val <= low) return false;
+  if (high !== null && root.val >= high) return false;
+  if (!helper(root.left, low, root.val)) return false;
+  if (!helper(root.right, root.val, high)) return false;
+  return true;
+}
+
+// 解法2：使用递归。时间复杂度：O(n)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isValidBST = function (root) {
+  let preVal = null;
+  function isValid(root) {
+    if (root == null) return true;
+    if (isValid(root.left)) {
+      if (preVal != null && preVal >= root.val) {
+        return false;
+      }
+      preVal = root.val;
+      return isValid(root.right);
+    }
+    return false;
+  }
+  return isValid(root);
+};
+
+//
+// -------divider-------
+//
+
+/*
+【二叉搜索树的最近公共祖先】
+https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
+【图略】
+
+示例 1:
+输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+输出: 6 
+解释: 节点 2 和节点 8 的最近公共祖先是 6。
+
+示例 2:
+输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+输出: 2
+解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
+*/
+
+//
+// -------divider-------
+//
+
+/*
+【二叉树的最近公共祖先】
+https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
+给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]
+【图略】
+
+示例 1:
+输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+输出: 3
+解释: 节点 5 和节点 1 的最近公共祖先是节点 3。
+
+示例 2:
+输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+输出: 5
+解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
+*/
+
+//
+// -------divider-------
+//
+
+/* -------------------------- 递归、分治 ---------------------------*/
+
+/*
+【二叉树的最近公共祖先】
+https://leetcode-cn.com/problems/powx-n/
+实现 pow(x, n) ，即计算 x 的 n 次幂函数。
+
+示例 1:
+输入: 2.00000, 10
+输出: 1024.00000
+
+示例 2:
+输入: 2.10000, 3
+输出: 9.26100
+
+示例 3:
+输入: 2.00000, -2
+输出: 0.25000
+解释: 2-2 = 1/22 = 1/4 = 0.25
+
+说明:
+-100.0 < x < 100.0
+n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
+*/
+
+// 解法1：暴力破解法
+// 解法2：分治+递归
+// 解法3：非递归、位运算 https://time.geekbang.org/course/detail/130-42711
