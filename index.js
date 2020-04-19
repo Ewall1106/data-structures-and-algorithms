@@ -7,7 +7,10 @@
   示例：
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
-  */
+
+  logs：
+  ✔️2020.04.19
+*/
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
   let pre = null;
@@ -26,7 +29,7 @@ var reverseList = function (head) {
   }
   return prev;
 };
-// 递归解法，时间复杂度：O(n)、空间复杂度：O(n)
+// 递归解法：时间复杂度：O(n)、空间复杂度：O(n)
 var reverseList = function (head) {
   // 递归
   function reverse(curr, prev) {
@@ -1027,7 +1030,7 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 /* -------------------------- 递归、分治 ---------------------------*/
 
 /*
-【二叉树的最近公共祖先】
+【Pow(x, n)】
 https://leetcode-cn.com/problems/powx-n/
 实现 pow(x, n) ，即计算 x 的 n 次幂函数。
 
