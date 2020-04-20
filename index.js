@@ -9,7 +9,8 @@
   输出: 5->4->3->2->1->NULL
 
   logs：
-  ✔️2020.04.19
+  [✔️]2020.04.19
+  [✔️]2020.04.20
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -34,9 +35,9 @@ var reverseList = function (head) {
   // 递归
   function reverse(curr, prev) {
     if (curr === null) return prev;
-    const tmp = curr.next;
+    const temp = curr.next;
     curr.next = prev;
-    return reverse(tmp, curr);
+    return reverse(temp, curr);
   }
   return reverse(head, null);
 };
@@ -52,16 +53,10 @@ var reverseList = function (head) {
   
   示例：
   给定 1->2->3->4, 你应该返回 2->1->4->3.
-  */
-// 递归：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(N)，递归过程使用的堆栈空间。
-var swapPairs = function (head) {
-  if (!head) return null;
-  if (!head.next) return head;
-  let temp = head.next;
-  head.next = swapPairs(temp.next);
-  temp.next = head;
-  return temp;
-};
+
+  logs：
+  [✔️]2020.04.20
+*/
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
 var swapPairs = function (head) {
   let pre = new ListNode(null);
@@ -76,6 +71,15 @@ var swapPairs = function (head) {
     temp = start;
   }
   return pre.next;
+};
+// 递归：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(N)，递归过程使用的堆栈空间。
+var swapPairs = function (head) {
+  if (!head) return null;
+  if (!head.next) return head;
+  let temp = head.next;
+  head.next = swapPairs(temp.next);
+  temp.next = head;
+  return temp;
 };
 
 //
@@ -100,7 +104,10 @@ var swapPairs = function (head) {
   输入：head = [1], pos = -1
   输出：false
   解释：链表中没有环。
-  */
+
+  logs：
+  [✔️]2020.04.20
+*/
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
 // 解法2：搞个新的set、判重。时间复杂度：O(n*1)
@@ -124,7 +131,7 @@ var hasCycle = function (head) {
   }
   return false;
 };
-// 解法3：快慢指针，块指针走2步，慢指针走1步，如果有有环，那么两个指针会相遇。时间复杂度：O(n )
+// 解法3：快慢指针，块指针走2步，慢指针走1步，如果有有环，那么两个指针会相遇。时间复杂度：O(n)、空间复杂度：O(1)
 var hasCycle = function (head) {
   let slow = (fast = head);
   while (slow && fast && fast.next) {
@@ -159,9 +166,12 @@ var hasCycle = function (head) {
   输入：head = [1], pos = -1
   输出：no cycle
   解释：链表中没有环。
-  */
 
-// 解法1：迭代
+  logs：
+  [✔️]2020.04.20
+*/
+
+// 解法1：迭代。时间复杂度：O(n)，空间复杂度O(1)
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -182,10 +192,9 @@ var detectCycle = function (head) {
       head = head.next;
     }
   }
-
   return null;
 };
-// 解法2：hash
+// 解法2：hash。时间复杂度：O(n)，空间复杂度O(n)
 var detectCycle = function (head) {
   let hash = new Set();
   while (head) {
@@ -1028,6 +1037,25 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 //
 
 /* -------------------------- 递归、分治 ---------------------------*/
+
+/*
+【斐波那契数列】
+1、求1，1，2，3，5，8，....第n个数是多少？
+2、计算阶乘n! = 1 x 2 x 3 x ... x n
+*/
+function fibonacci(n) {
+  if (n <= 2) return 1;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+function fact(n) {
+  if (n === 1) return 1;
+  return n * fact(n - 1);
+}
+
+//
+// -------divider-------
+//
 
 /*
 【Pow(x, n)】
