@@ -212,7 +212,7 @@ var detectCycle = function (head) {
 //
 
 /* 
-  【k个一组翻转链表】
+  【k个一组翻转链表】【hard】
   https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
   给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
   k 是一个正整数，它的值小于或等于链表的长度。
@@ -321,6 +321,9 @@ https://leetcode-cn.com/problems/valid-parentheses/
 示例 5:
 输入: "{[]}"
 输出: true
+
+logs：
+[✔️]2020.04.20
 */
 
 // 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
@@ -333,6 +336,7 @@ var isValid = function (s) {
   let map = { "(": ")", "[": "]", "{": "}" };
 
   for (let i = 0; i < s.length; i++) {
+    // The [in] operator returns true if the specified property is in the specified object or its prototype chain.
     if (s[i] in map) {
       stack.push(s[i]);
     } else {
@@ -343,7 +347,7 @@ var isValid = function (s) {
   }
   return !stack.length;
 };
-// 解法2：使用正则，把‘[]’、‘()’、‘{}’用replace两两消掉，循环后如果字符串为空则返回true，反之则为false。
+// 解法2：消消乐，使用正则，把‘[]’、‘()’、‘{}’用replace两两消掉，循环后如果字符串为空则返回true，反之则为false。
 var isValid = function (s) {
   let length;
   do {
