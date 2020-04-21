@@ -378,6 +378,9 @@ queue.push(2);
 queue.peek();  // 返回 1
 queue.pop();   // 返回 1
 queue.empty(); // 返回 false
+
+logs：
+[✔️]2020.04.21
 */
 
 // 解法1：使用两个stack，一个是输入栈、一个是输出栈
@@ -504,6 +507,9 @@ https://leetcode-cn.com/problems/implement-stack-using-queues
   pop() -- 移除栈顶元素
   top() -- 获取栈顶元素
   empty() -- 返回栈是否为空
+
+logs：
+[✔️]2020.04.21
 */
 
 // 解法1：使用js语言array特性
