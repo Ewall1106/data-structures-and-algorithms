@@ -11,6 +11,7 @@
   logs：
   [✔️]2020.04.19
   [✔️]2020.04.20
+  [✔️]2020.04.29
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -24,11 +25,11 @@ var reverseList = function (head) {
   return pre;
 };
 var reverseList = function (head) {
-  let [prev, curr] = [null, head];
-  while (curr) {
-    [curr.next, prev, curr] = [prev, curr, curr.next];
+  let pre = null;
+  while (head) {
+    [head.next, pre, head] = [pre, head, head.next];
   }
-  return prev;
+  return pre;
 };
 // 递归解法：时间复杂度：O(n)、空间复杂度：O(n)
 var reverseList = function (head) {
@@ -110,7 +111,7 @@ var swapPairs = function (head) {
 */
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
-// 解法2：搞个新的set、判重。时间复杂度：O(n*1)
+// 解法2：搞个新的set、判重。时间复杂度：O(n)、空间复杂度：O(n)
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -292,6 +293,26 @@ var reverseKGroup = function (head, k) {
 // stack：先入后出
 // queue：先入先出
 // priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
+
+/*
+【十进制转二进制】
+
+*/
+function decimalToBinary(decNumber) {
+  const remStack = new Stack();
+  let number = decNumber;
+  let rem;
+  let binaryString = "";
+  while (number > 0) {
+    rem = Math.floor(number % 2);
+    remStack.push(rem);
+    number = Math.floor(number / 2);
+  }
+  while (!remStack.isEmpty()) {
+    binaryString += remStack.pop().toString();
+  }
+  return binaryString;
+}
 
 /* 
 【有效的括号】
