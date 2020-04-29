@@ -108,6 +108,7 @@ var swapPairs = function (head) {
 
   logs：
   [✔️]2020.04.20
+  [✔️]2020.04.29
 */
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
@@ -125,7 +126,7 @@ var swapPairs = function (head) {
  */
 var hasCycle = function (head) {
   const hash = new Set();
-  while (head !== null) {
+  while (head && head.next) {
     if (hash.has(head)) return true;
     hash.add(head);
     head = head.next;
@@ -134,7 +135,8 @@ var hasCycle = function (head) {
 };
 // 解法3：快慢指针，块指针走2步，慢指针走1步，如果有有环，那么两个指针会相遇。时间复杂度：O(n)、空间复杂度：O(1)
 var hasCycle = function (head) {
-  let slow = (fast = head);
+  let slow = head,
+    fast = head;
   while (slow && fast && fast.next) {
     slow = slow.next;
     fast = fast.next.next;
@@ -172,7 +174,7 @@ var hasCycle = function (head) {
   [✔️]2020.04.20
 */
 
-// 解法1：迭代。时间复杂度：O(n)，空间复杂度O(1)
+// 解法1：迭代，给每个经过的元素添加flag标识。时间复杂度：O(n)，空间复杂度O(1)
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -198,7 +200,7 @@ var detectCycle = function (head) {
 // 解法2：hash。时间复杂度：O(n)，空间复杂度O(n)
 var detectCycle = function (head) {
   let hash = new Set();
-  while (head) {
+  while (head && head.next) {
     if (hash.has(head)) {
       return head;
     }
