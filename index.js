@@ -965,11 +965,11 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
      / \
     3   6
 输出: false
+
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 */
 // 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
-// 以下是中序遍历的写法吗？未知。
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
