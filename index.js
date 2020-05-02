@@ -1236,7 +1236,153 @@ var maxProfit = function (prices) {
 // -------divider-------
 //
 
-/* -------------------------- 广度优先搜索 ---------------------------*/
+/* -------------------------- 广度优先搜索、深度优先搜索 ---------------------------*/
 
+/*
+【二叉树的层序遍历】
+https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
+给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
 
-/* -------------------------- 深度优先搜索 ---------------------------*/
+示例：
+二叉树：[3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回其层次遍历结果：
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+*/
+// 解法1：BFS。时间复杂度O(n)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function (root) {
+  if (root == null) return [];
+  let queue = [],
+    result = [];
+  queue.push(root);
+
+  // let visited = new Set() visited.add(root) 图的遍历之类的需要将已遍历过的节点记录下来
+
+  while (queue.length !== 0) {
+    let tmp = [];
+    for (let i = 0, len = queue.length; i < len; i++) {
+      let node = queue.shift();
+      tmp.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(tmp);
+  }
+  return result;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【二叉树的最大深度】
+https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
+给定一个二叉树，找出其最大深度。
+二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+说明: 叶子节点是指没有子节点的节点。
+
+示例：
+给定二叉树 [3,9,20,null,null,15,7]，
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回它的最大深度 3 。
+*/
+// 解法1：DFS、递归。时间复杂度O(n)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function (root) {
+  if (!root) return 0;
+  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+};
+
+//
+// -------divider-------
+//
+
+/*
+【二叉树的最小深度】
+https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
+给定一个二叉树，找出其最小深度。
+最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+说明: 叶子节点是指没有子节点的节点。
+
+示例:
+给定二叉树 [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回它的最小深度  2.
+*/
+// 解法1：DFS、分治。时间复杂度O(n)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function (root) {
+  if (root == null) return 0;
+  if (root.left == null) return minDepth(root.right) + 1;
+  if (root.right == null) return minDepth(root.left) + 1;
+  return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【括号生成】
+https://leetcode-cn.com/problems/generate-parentheses/
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+示例：
+
+输入：n = 3
+输出：[
+       "((()))",
+       "(()())",
+       "(())()",
+       "()(())",
+       "()()()"
+     ]
+*/
+// 解法1：递归、DFS。
