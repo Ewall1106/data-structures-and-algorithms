@@ -1385,4 +1385,34 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 */
-// 解法1：递归、DFS。
+// 解法1：递归、DFS。时间复杂度O(2^n)
+// https://time.geekbang.org/course/detail/130-67636
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function (n) {
+  let res = [];
+  let dfs = (s, left, right) => {
+    if (left == n && right == n) return res.push(s);
+    if (left < n) dfs(`${s}(`, left + 1, right);
+    if (left > right && right < n) dfs(`${s})`, left, right + 1);
+  };
+  dfs("", 0, 0);
+  return res;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【N皇后】困难
+https://leetcode-cn.com/problems/n-queens/
+https://time.geekbang.org/course/detail/130-67638
+n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+*/
+
+//
+// -------divider-------
+//
