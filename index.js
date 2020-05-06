@@ -8,7 +8,7 @@
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：
+  logs：4
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
@@ -56,7 +56,7 @@ var reverseList = function (head) {
   示例：
   给定 1->2->3->4, 你应该返回 2->1->4->3.
 
-  logs：
+  logs：1
   [✔️]2020.04.20
 */
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
@@ -107,7 +107,7 @@ var swapPairs = function (head) {
   输出：false
   解释：链表中没有环。
 
-  logs：
+  logs：3
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
@@ -172,7 +172,7 @@ var hasCycle = function (head) {
   输出：no cycle
   解释：链表中没有环。
 
-  logs：
+  logs：2
   [✔️]2020.04.20
   [✔️]2020.04.29
 */
@@ -348,7 +348,7 @@ https://leetcode-cn.com/problems/valid-parentheses/
 输入: "{[]}"
 输出: true
 
-logs：
+logs：1
 [✔️]2020.04.20
 */
 
@@ -405,77 +405,17 @@ queue.peek();  // 返回 1
 queue.pop();   // 返回 1
 queue.empty(); // 返回 false
 
-logs：
+logs：1
 [✔️]2020.04.21
 */
 
 // 解法1：使用两个stack，一个是输入栈、一个是输出栈
-/**
- * Initialize your data structure here.
- */
-var MyQueue = function () {
-  this.stackIn = [];
-  this.stackOut = [];
-};
-
-/**
- * Push element x to the back of queue.
- * @param {number} x
- * @return {void}
- */
-MyQueue.prototype.push = function (x) {
-  this.stackIn.push(x);
-};
-
-/**
- * Removes the element from in front of queue and returns that element.
- * @return {number}
- */
-MyQueue.prototype.pop = function () {
-  if (!this.stackIn.length && !this.stackOut.length) return undefined;
-  if (this.stackOut.length) return this.stackOut.pop();
-  while (this.stackIn.length) {
-    this.stackOut.push(this.stackIn.pop());
-  }
-  return this.stackOut.pop();
-};
-
-/**
- * Get the front element.
- * @return {number}
- */
-MyQueue.prototype.peek = function () {
-  if (this.stackOut.length) {
-    return this.stackOut[this.stackOut.length - 1];
-  } else if (this.stackIn.length) {
-    return this.stackIn[0];
-  } else {
-    return undefined;
-  }
-};
-
-/**
- * Returns whether the queue is empty.
- * @return {boolean}
- */
-MyQueue.prototype.empty = function () {
-  return this.stackOut.length || this.stackIn.length ? false : true;
-};
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * var obj = new MyQueue()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.peek()
- * var param_4 = obj.empty()
- */
-
 // 解法2：js本身数据就有这些方法实现stack，只是思想上太符合
+
 /**
  * Initialize your data structure here.
  */
-var MyQueue = function () {
+let MyQueue = function () {
   this.queue = [];
 };
 
@@ -534,15 +474,16 @@ https://leetcode-cn.com/problems/implement-stack-using-queues
   top() -- 获取栈顶元素
   empty() -- 返回栈是否为空
 
-logs：
+logs：1
 [✔️]2020.04.21
 */
 
-// 解法1：使用js语言array特性
+// 解法1：使用两个[]
+// 解法2：使用js语言array特性
 /**
  * Initialize your data structure here.
  */
-var MyStack = function () {
+let MyStack = function () {
   this.stack = [];
 };
 
@@ -579,79 +520,6 @@ MyStack.prototype.top = function () {
  */
 MyStack.prototype.empty = function () {
   return this.stack.length == 0;
-};
-
-/**
- * Your MyStack object will be instantiated and called as such:
- * var obj = new MyStack()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.top()
- * var param_4 = obj.empty()
- */
-
-// 解法2：
-/**
- * Initialize your data structure here.
- */
-var MyStack = function () {
-  this.queuekIn = [];
-  this.queueOut = [];
-};
-
-/**
- * Push element x onto stack.
- * @param {number} x
- * @return {void}
- */
-MyStack.prototype.push = function (x) {
-  if (!this.queuekIn.length && !this.queuekOut.length) {
-    this.queuekIn.push(x);
-  } else if (this.queuekIn.length) {
-    this.queuekIn.push(x);
-  } else {
-    this.queueOut.push(x);
-  }
-};
-
-/**
- * Removes the element on top of the stack and returns that element.
- * @return {number}
- */
-MyStack.prototype.pop = function () {
-  if (this.empty()) return null;
-  if (this.queuekIn.length) {
-    while (this.queuekIn.length > 1) {
-      this.queueOut.push(this.queuekIn.shift());
-    }
-    return this.queuekIn.shift();
-  } else if (this.queueOut.length) {
-    while (this.queueOut.length > 1) {
-      this.queuekIn.push(this.queueOut.shift());
-    }
-    return this.queueOut.shift();
-  }
-};
-
-/**
- * Get the top element.
- * @return {number}
- */
-MyStack.prototype.top = function () {
-  if (this.empty()) return null;
-  if (this.queuekIn.length) {
-    return this.queuekIn[this.queuekIn.length - 1];
-  } else {
-    return this.queueOut[this.queueOut.length - 1];
-  }
-};
-
-/**
- * Returns whether the stack is empty.
- * @return {boolean}
- */
-MyStack.prototype.empty = function () {
-  return !this.queuekIn.length && !this.queueOut.length;
 };
 
 /**
