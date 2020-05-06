@@ -32,6 +32,7 @@ var reverseList = function (head) {
   }
   return pre;
 };
+
 // 递归解法：时间复杂度：O(n)、空间复杂度：O(n)
 var reverseList = function (head) {
   // 递归
@@ -107,10 +108,11 @@ var swapPairs = function (head) {
   输出：false
   解释：链表中没有环。
 
-  logs：3
+  logs：4
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
+  [✔️]2020.05.06
 */
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
