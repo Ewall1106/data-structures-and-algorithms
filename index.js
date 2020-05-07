@@ -8,11 +8,12 @@
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：4
+  logs：5
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
+  [✔️]2020.05.07
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -38,9 +39,9 @@ var reverseList = function (head) {
   // 递归
   function reverse(curr, prev) {
     if (curr === null) return prev;
-    const temp = curr.next;
+    let next = curr.next;
     curr.next = prev;
-    return reverse(temp, curr);
+    return reverse(next, curr);
   }
   return reverse(head, null);
 };
@@ -230,6 +231,8 @@ var detectCycle = function (head) {
   给你这个链表：1->2->3->4->5
   当 k = 2 时，应当返回: 2->1->4->3->5
   当 k = 3 时，应当返回: 3->2->1->4->5
+
+  logs：0
 */
 
 // 解法1：递归
@@ -304,6 +307,7 @@ var reverseKGroup = function (head, k) {
 /*
 【十进制转二进制】
 
+  logs：0
 */
 function decimalToBinary(decNumber) {
   const remStack = new Stack();
@@ -622,10 +626,13 @@ https://leetcode-cn.com/problems/valid-anagram/
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
+
 // new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
+
 // fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
 // const array1 = [1, 2, 3, 4];
 // console.log(array1.fill(6)); output: [6, 6, 6, 6]
+
 // charCodeAt() 方法可返回指定位置的字符的 Unicode 编码
 /**
  * @param {string} s
@@ -683,13 +690,16 @@ var isAnagram = function (s, t) {
 /* 
 【两数之和】
 https://leetcode-cn.com/problems/two-sum/
-给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。
 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
 
 示例：
 给定 nums = [2, 7, 11, 15], target = 9
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
+
+logs：1
+[✔️]2020.05.07
 */
 
 // 解析：
@@ -703,23 +713,24 @@ https://leetcode-cn.com/problems/two-sum/
  */
 var twoSum = function (nums, target) {
   for (let i = 0; i < nums.length; i++) {
-    for (let k = i + 1; k < nums.length; k++) {
-      if (nums[i] + nums[k] == target) {
-        return [i, k];
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[i] + nums[j] === target) {
+        return [i, j];
       }
     }
   }
 };
 
-// 解法2：set，用哈希表，时间复杂度为O(n)
+// 解法2：用哈希表，时间复杂度为O(n)
 var twoSum = function (nums, target) {
   let map = new Map();
   for (let i = 0; i < nums.length; i++) {
     let diff = target - nums[i];
     if (map.has(diff)) {
       return [map.get(diff), i];
+    } else {
+      map.set(nums[i], i);
     }
-    map.set(nums[i], i);
   }
 };
 
