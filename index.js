@@ -1,4 +1,317 @@
-/* -------------------------- 数组、链表 ---------------------------*/
+/* -------------------------- 数组、栈 ---------------------------*/
+// stack：先入后出
+// queue：先入先出
+// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
+
+/*
+【十进制转二进制】
+
+logs：0
+*/
+function decimalToBinary(decNumber) {
+  const remStack = new Stack();
+  let number = decNumber;
+  let rem;
+  let binaryString = "";
+  while (number > 0) {
+    rem = Math.floor(number % 2);
+    remStack.push(rem);
+    number = Math.floor(number / 2);
+  }
+  while (!remStack.isEmpty()) {
+    binaryString += remStack.pop().toString();
+  }
+  return binaryString;
+}
+
+//
+// -------divider-------
+//
+
+/* 
+【有效的括号】
+https://leetcode-cn.com/problems/valid-parentheses/
+给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+有效字符串需满足：
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。
+注意空字符串可被认为是有效字符串。
+
+示例 1:
+输入: "()"
+输出: true
+
+示例 2:
+输入: "()[]{}"
+输出: true
+
+示例 3:
+输入: "(]"
+输出: false
+
+示例 4:
+输入: "([)]"
+输出: false
+
+示例 5:
+输入: "{[]}"
+输出: true
+
+logs：2
+[✔️]2020.04.20
+[✔️]2020.05.08
+*/
+
+// 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function (s) {
+  let stack = [];
+  let map = { "(": ")", "[": "]", "{": "}" };
+
+  for (let i = 0; i < s.length; i++) {
+    // The [in] operator returns true if the specified property is in the specified object or its prototype chain.
+    if (s[i] in map) {
+      stack.push(s[i]);
+    } else {
+      if (s[i] != map[stack.pop()]) {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
+};
+// 解法2：消消乐，使用正则，把‘[]’、‘()’、‘{}’用replace两两消掉，循环后如果字符串为空则返回true，反之则为false。
+var isValid = function (s) {
+  let length;
+  do {
+    length = s.length;
+    s = s.replace("()", "").replace("{}", "").replace("[]", "");
+  } while (length != s.length);
+
+  return s.length === 0;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【用栈实现队列】
+https://leetcode-cn.com/problems/implement-queue-using-stacks
+使用栈实现队列的下列操作：
+  push(x) -- 将一个元素放入队列的尾部。
+  pop() -- 从队列首部移除元素。
+  peek() -- 返回队列首部的元素。
+  empty() -- 返回队列是否为空。
+
+示例:
+MyQueue queue = new MyQueue();
+queue.push(1);
+queue.push(2);  
+queue.peek();  // 返回 1
+queue.pop();   // 返回 1
+queue.empty(); // 返回 false
+
+logs：1
+[✔️]2020.04.21
+*/
+
+// 解法1：使用两个stack，一个是输入栈、一个是输出栈
+// 解法2：js本身数据就有这些方法实现stack，只是思想上太符合
+
+/**
+ * Initialize your data structure here.
+ */
+let MyQueue = function () {
+  this.queue = [];
+};
+
+/**
+ * Push element x to the back of queue.
+ * @param {number} x
+ * @return {void}
+ */
+MyQueue.prototype.push = function (element) {
+  this.queue.push(element);
+};
+
+/**
+ * Removes the element from in front of queue and returns that element.
+ * @return {number}
+ */
+MyQueue.prototype.pop = function () {
+  return (flag = this.queue.shift());
+};
+
+/**
+ * Get the front element.
+ * @return {number}
+ */
+MyQueue.prototype.peek = function () {
+  return (done = this.queue[0]);
+};
+
+/**
+ * Returns whether the queue is empty.
+ * @return {boolean}
+ */
+MyQueue.prototype.empty = function () {
+  return this.queue.length === 0;
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * var obj = new MyQueue()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.peek()
+ * var param_4 = obj.empty()
+ */
+
+//
+// -------divider-------
+//
+
+/*
+【用队列实现栈】
+https://leetcode-cn.com/problems/implement-stack-using-queues
+使用队列实现栈的下列操作：
+  push(x) -- 元素 x 入栈
+  pop() -- 移除栈顶元素
+  top() -- 获取栈顶元素
+  empty() -- 返回栈是否为空
+
+logs：1
+[✔️]2020.04.21
+*/
+
+// 解法1：使用两个[]
+// 解法2：使用js语言array特性
+/**
+ * Initialize your data structure here.
+ */
+let MyStack = function () {
+  this.stack = [];
+};
+
+/**
+ * Push element x onto stack.
+ * @param {number} x
+ * @return {void}
+ */
+MyStack.prototype.push = function (x) {
+  return this.stack.push(x);
+};
+
+/**
+ * Removes the element on top of the stack and returns that element.
+ * @return {number}
+ */
+MyStack.prototype.pop = function () {
+  if (!this.empty()) {
+    return this.stack.pop();
+  }
+};
+
+/**
+ * Get the top element.
+ * @return {number}
+ */
+MyStack.prototype.top = function () {
+  return this.stack[this.stack.length - 1];
+};
+
+/**
+ * Returns whether the stack is empty.
+ * @return {boolean}
+ */
+MyStack.prototype.empty = function () {
+  return this.stack.length == 0;
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * var obj = new MyStack()
+ * obj.push(x)
+ * var param_2 = obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.empty()
+ */
+
+//
+// -------divider-------
+//
+
+/*
+【数据流中的第K大元素】
+https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
+设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
+
+示例：
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+*/
+// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
+// 这题也太难了吧。。。。。。因为js没有内置min-heap这个类型，所以需要先自己造一个小顶堆，小顶堆本质是棵树，所以我们树弄完了以后再回过头看这个问题。
+// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：k*logk
+
+//
+// -------divider-------
+//
+
+/*
+【滑动窗口最大值】
+https://leetcode-cn.com/problems/sliding-window-maximum/
+给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+返回滑动窗口中的最大值。
+
+示例：
+  滑动窗口的位置                最大值
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+*/
+// 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N*O(logk)
+// 解法2：使用队列Queue。时间复杂度：O(n)
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var maxSlidingWindow = function (nums, k) {
+  let deque = [],
+    ans = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (i >= k && deque[0] <= i - k) deque.shift();
+    while (deque.length && nums[i] >= nums[deque[deque.length - 1]])
+      deque.pop();
+    deque.push(i);
+    if (i >= k - 1) ans.push(nums[deque[0]]);
+  }
+  return ans;
+};
+
+//
+// -------divider-------
+//
+
+/* -------------------------- 队列、优先队列 ---------------------------*/
+
+/* -------------------------- 链表 ---------------------------*/
 /* 
   【反转链表】
   https://leetcode-cn.com/problems/reverse-linked-list/
@@ -293,312 +606,6 @@ var reverseKGroup = function (head, k) {
     cur = head;
   }
   return pre.next;
-};
-
-//
-// -------divider-------
-//
-
-/* -------------------------- 堆栈、队列、优先队列 ---------------------------*/
-// stack：先入后出
-// queue：先入先出
-// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
-
-/*
-【十进制转二进制】
-
-  logs：0
-*/
-function decimalToBinary(decNumber) {
-  const remStack = new Stack();
-  let number = decNumber;
-  let rem;
-  let binaryString = "";
-  while (number > 0) {
-    rem = Math.floor(number % 2);
-    remStack.push(rem);
-    number = Math.floor(number / 2);
-  }
-  while (!remStack.isEmpty()) {
-    binaryString += remStack.pop().toString();
-  }
-  return binaryString;
-}
-
-/* 
-【有效的括号】
-https://leetcode-cn.com/problems/valid-parentheses/
-给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
-有效字符串需满足：
-左括号必须用相同类型的右括号闭合。
-左括号必须以正确的顺序闭合。
-注意空字符串可被认为是有效字符串。
-
-示例 1:
-输入: "()"
-输出: true
-
-示例 2:
-输入: "()[]{}"
-输出: true
-
-示例 3:
-输入: "(]"
-输出: false
-
-示例 4:
-输入: "([)]"
-输出: false
-
-示例 5:
-输入: "{[]}"
-输出: true
-
-logs：1
-[✔️]2020.04.20
-*/
-
-// 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
-/**
- * @param {string} s
- * @return {boolean}
- */
-var isValid = function (s) {
-  let stack = [];
-  let map = { "(": ")", "[": "]", "{": "}" };
-
-  for (let i = 0; i < s.length; i++) {
-    // The [in] operator returns true if the specified property is in the specified object or its prototype chain.
-    if (s[i] in map) {
-      stack.push(s[i]);
-    } else {
-      if (s[i] != map[stack.pop()]) {
-        return false;
-      }
-    }
-  }
-  return !stack.length;
-};
-// 解法2：消消乐，使用正则，把‘[]’、‘()’、‘{}’用replace两两消掉，循环后如果字符串为空则返回true，反之则为false。
-var isValid = function (s) {
-  let length;
-  do {
-    length = s.length;
-    s = s.replace("()", "").replace("{}", "").replace("[]", "");
-  } while (length != s.length);
-
-  return s.length === 0;
-};
-
-//
-// -------divider-------
-//
-
-/*
-【用栈实现队列】
-https://leetcode-cn.com/problems/implement-queue-using-stacks
-使用栈实现队列的下列操作：
-  push(x) -- 将一个元素放入队列的尾部。
-  pop() -- 从队列首部移除元素。
-  peek() -- 返回队列首部的元素。
-  empty() -- 返回队列是否为空。
-
-示例:
-MyQueue queue = new MyQueue();
-queue.push(1);
-queue.push(2);  
-queue.peek();  // 返回 1
-queue.pop();   // 返回 1
-queue.empty(); // 返回 false
-
-logs：1
-[✔️]2020.04.21
-*/
-
-// 解法1：使用两个stack，一个是输入栈、一个是输出栈
-// 解法2：js本身数据就有这些方法实现stack，只是思想上太符合
-
-/**
- * Initialize your data structure here.
- */
-let MyQueue = function () {
-  this.queue = [];
-};
-
-/**
- * Push element x to the back of queue.
- * @param {number} x
- * @return {void}
- */
-MyQueue.prototype.push = function (element) {
-  this.queue.push(element);
-};
-
-/**
- * Removes the element from in front of queue and returns that element.
- * @return {number}
- */
-MyQueue.prototype.pop = function () {
-  return (flag = this.queue.shift());
-};
-
-/**
- * Get the front element.
- * @return {number}
- */
-MyQueue.prototype.peek = function () {
-  return (done = this.queue[0]);
-};
-
-/**
- * Returns whether the queue is empty.
- * @return {boolean}
- */
-MyQueue.prototype.empty = function () {
-  return this.queue.length === 0;
-};
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * var obj = new MyQueue()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.peek()
- * var param_4 = obj.empty()
- */
-
-//
-// -------divider-------
-//
-
-/*
-【用队列实现栈】
-https://leetcode-cn.com/problems/implement-stack-using-queues
-使用队列实现栈的下列操作：
-  push(x) -- 元素 x 入栈
-  pop() -- 移除栈顶元素
-  top() -- 获取栈顶元素
-  empty() -- 返回栈是否为空
-
-logs：1
-[✔️]2020.04.21
-*/
-
-// 解法1：使用两个[]
-// 解法2：使用js语言array特性
-/**
- * Initialize your data structure here.
- */
-let MyStack = function () {
-  this.stack = [];
-};
-
-/**
- * Push element x onto stack.
- * @param {number} x
- * @return {void}
- */
-MyStack.prototype.push = function (x) {
-  return this.stack.push(x);
-};
-
-/**
- * Removes the element on top of the stack and returns that element.
- * @return {number}
- */
-MyStack.prototype.pop = function () {
-  if (!this.empty()) {
-    return this.stack.pop();
-  }
-};
-
-/**
- * Get the top element.
- * @return {number}
- */
-MyStack.prototype.top = function () {
-  return this.stack[this.stack.length - 1];
-};
-
-/**
- * Returns whether the stack is empty.
- * @return {boolean}
- */
-MyStack.prototype.empty = function () {
-  return this.stack.length == 0;
-};
-
-/**
- * Your MyStack object will be instantiated and called as such:
- * var obj = new MyStack()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.top()
- * var param_4 = obj.empty()
- */
-
-//
-// -------divider-------
-//
-
-/*
-【数据流中的第K大元素】
-https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
-设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
-你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
-
-示例：
-int k = 3;
-int[] arr = [4,5,8,2];
-KthLargest kthLargest = new KthLargest(3, arr);
-kthLargest.add(3);   // returns 4
-kthLargest.add(5);   // returns 5
-kthLargest.add(10);  // returns 5
-kthLargest.add(9);   // returns 8
-kthLargest.add(4);   // returns 8
-*/
-// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
-// 这题也太难了吧。。。。。。因为js没有内置min-heap这个类型，所以需要先自己造一个小顶堆，小顶堆本质是棵树，所以我们树弄完了以后再回过头看这个问题。
-// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：k*logk
-
-//
-// -------divider-------
-//
-
-/*
-【滑动窗口最大值】
-https://leetcode-cn.com/problems/sliding-window-maximum/
-给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
-返回滑动窗口中的最大值。
-
-示例：
-  滑动窗口的位置                最大值
----------------               -----
-[1  3  -1] -3  5  3  6  7       3
- 1 [3  -1  -3] 5  3  6  7       3
- 1  3 [-1  -3  5] 3  6  7       5
- 1  3  -1 [-3  5  3] 6  7       5
- 1  3  -1  -3 [5  3  6] 7       6
- 1  3  -1  -3  5 [3  6  7]      7
-*/
-// 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N*O(logk)
-// 解法2：使用队列Queue。时间复杂度：O(n)
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number[]}
- */
-var maxSlidingWindow = function (nums, k) {
-  let deque = [],
-    ans = [];
-  for (let i = 0; i < nums.length; i++) {
-    if (i >= k && deque[0] <= i - k) deque.shift();
-    while (deque.length && nums[i] >= nums[deque[deque.length - 1]])
-      deque.pop();
-    deque.push(i);
-    if (i >= k - 1) ans.push(nums[deque[0]]);
-  }
-  return ans;
 };
 
 //
