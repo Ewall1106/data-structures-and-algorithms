@@ -1,7 +1,74 @@
 /* -------------------------- 数组、栈 ---------------------------*/
 // stack：先入后出
 // queue：先入先出
-// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
+
+/*
+【下一个更大元素 I】
+https://leetcode-cn.com/problems/next-greater-element-i/
+给定两个 没有重复元素 的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
+nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出 -1 。
+
+示例 1:
+输入: nums1 = [4,1,2], nums2 = [1,3,4,2].
+输出: [-1,3,-1]
+解释:
+    对于num1中的数字4，你无法在第二个数组中找到下一个更大的数字，因此输出 -1。
+    对于num1中的数字1，第二个数组中数字1右边的下一个较大数字是 3。
+    对于num1中的数字2，第二个数组中没有下一个更大的数字，因此输出 -1。
+
+示例 2:
+输入: nums1 = [2,4], nums2 = [1,2,3,4].
+输出: [3,-1]
+解释:
+    对于 num1 中的数字 2 ，第二个数组中的下一个较大数字是 3 。
+    对于 num1 中的数字 4 ，第二个数组中没有下一个更大的数字，因此输出 -1 。
+
+提示：
+nums1和nums2中所有元素是唯一的。
+nums1和nums2 的数组大小都不超过1000。
+
+logs：0
+*/
+
+// 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。对于 nums2，我们可以使用单调栈来解决这个问题。
+// 时间复杂度：O(M+N)，其中 MM 和 NN 分别是数组 nums1 和 nums2 的长度。
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var nextGreaterElement = function (nums1, nums2) {
+  let stack = [];
+  let map = new Map();
+  for (let num of nums2) {
+    while (stack.length && num > stack[0]) {
+      map.set(stack.shift(), num);
+    }
+    stack.unshift(num);
+  }
+  while (stack.length) {
+    map.set(stack.shift(), -1);
+  }
+  return nums1.map((num) => map.get(num));
+};
+
+// 解法2：暴力破解法。
+var nextGreaterElement = function (nums1, nums2) {
+  return nums1.map((v) => {
+    let index = nums2.indexOf(v);
+    for (let i = index + 1; i < nums2.length; i++) {
+      if (nums2[i] > nums2[index]) {
+        return nums2[i];
+      }
+    }
+    return -1;
+  });
+};
+
+//
+// -------divider-------
+//
 
 /*
 【十进制转二进制】
@@ -310,6 +377,7 @@ var maxSlidingWindow = function (nums, k) {
 //
 
 /* -------------------------- 队列、优先队列 ---------------------------*/
+// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
 
 /* -------------------------- 链表 ---------------------------*/
 /* 
