@@ -27,7 +27,8 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 nums1和nums2中所有元素是唯一的。
 nums1和nums2 的数组大小都不超过1000。
 
-logs：0
+logs：1
+[✔️]2020.05.09
 */
 
 // 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。对于 nums2，我们可以使用单调栈来解决这个问题。
@@ -73,22 +74,23 @@ var nextGreaterElement = function (nums1, nums2) {
 /*
 【十进制转二进制】
 
-logs：0
+logs：1
+[✔️]2020.05.09
 */
-function decimalToBinary(decNumber) {
-  const remStack = new Stack();
-  let number = decNumber;
+function decimalToBinary(num) {
+  const remStack = [];
+  let number = num;
   let rem;
-  let binaryString = "";
+  let result = "";
   while (number > 0) {
     rem = Math.floor(number % 2);
     remStack.push(rem);
     number = Math.floor(number / 2);
   }
-  while (!remStack.isEmpty()) {
-    binaryString += remStack.pop().toString();
+  while (remStack.length > 0) {
+    result += remStack.pop().toString();
   }
-  return binaryString;
+  return result;
 }
 
 //
