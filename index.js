@@ -1,6 +1,40 @@
 /* -------------------------- 数组、栈 ---------------------------*/
-// stack：先入后出
-// queue：先入先出
+
+/*
+【删除排序数组中的重复项】
+https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
+给定一个排序数组，你需要在 原地 删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+
+示例 1:
+给定数组 nums = [1,1,2], 
+函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
+你不需要考虑数组中超出新长度后面的元素。
+
+示例 2:
+给定 nums = [0,0,1,1,1,2,2,3,3,4],
+函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+你不需要考虑数组中超出新长度后面的元素。
+
+*/
+// 解法1：使用两个指针，如果相等就跳过。时间复杂度：O(n)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function (nums) {
+  let index = 1;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== nums[i + 1]) {
+      nums[index++] = nums[i + 1];
+    }
+  }
+  return index - 1;
+};
+
+//
+// -------divider-------
+//
 
 /*
 【下一个更大元素 I】
@@ -315,30 +349,6 @@ MyStack.prototype.empty = function () {
 //
 
 /*
-【数据流中的第K大元素】
-https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
-设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
-你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
-
-示例：
-int k = 3;
-int[] arr = [4,5,8,2];
-KthLargest kthLargest = new KthLargest(3, arr);
-kthLargest.add(3);   // returns 4
-kthLargest.add(5);   // returns 5
-kthLargest.add(10);  // returns 5
-kthLargest.add(9);   // returns 8
-kthLargest.add(4);   // returns 8
-*/
-// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
-// 这题也太难了吧。。。。。。因为js没有内置min-heap这个类型，所以需要先自己造一个小顶堆，小顶堆本质是棵树，所以我们树弄完了以后再回过头看这个问题。
-// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：k*logk
-
-//
-// -------divider-------
-//
-
-/*
 【滑动窗口最大值】
 https://leetcode-cn.com/problems/sliding-window-maximum/
 给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
@@ -380,6 +390,30 @@ var maxSlidingWindow = function (nums, k) {
 
 /* -------------------------- 队列、优先队列 ---------------------------*/
 // priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
+
+/*
+【数据流中的第K大元素】
+https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
+设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
+
+示例：
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+*/
+// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
+// 这题也太难了吧。。。。。。因为js没有内置min-heap这个类型，所以需要先自己造一个小顶堆，小顶堆本质是棵树，所以我们树弄完了以后再回过头看这个问题。
+// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：k*logk
+
+//
+// -------divider-------
+//
 
 /* -------------------------- 链表 ---------------------------*/
 /* 
