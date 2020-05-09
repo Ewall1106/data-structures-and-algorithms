@@ -50,13 +50,13 @@ var nextGreaterElement = function (nums1, nums2) {
   while (stack.length) {
     map.set(stack.shift(), -1);
   }
-  return nums1.map((num) => map.get(num));
+  return nums1.map((item) => map.get(item));
 };
 
 // 解法2：暴力破解法。
 var nextGreaterElement = function (nums1, nums2) {
-  return nums1.map((v) => {
-    let index = nums2.indexOf(v);
+  return nums1.map((item) => {
+    let index = nums2.indexOf(item);
     for (let i = index + 1; i < nums2.length; i++) {
       if (nums2[i] > nums2[index]) {
         return nums2[i];
