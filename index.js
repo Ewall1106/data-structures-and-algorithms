@@ -16,6 +16,8 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
 你不需要考虑数组中超出新长度后面的元素。
 
+logs：1
+[✔️]2020.05.09
 */
 // 解法1：使用两个指针，如果相等就跳过。时间复杂度：O(n)
 /**
@@ -363,6 +365,8 @@ https://leetcode-cn.com/problems/sliding-window-maximum/
  1  3  -1 [-3  5  3] 6  7       5
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
+
+logs：0
 */
 // 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N*O(logk)
 // 解法2：使用队列Queue。时间复杂度：O(n)
@@ -376,8 +380,9 @@ var maxSlidingWindow = function (nums, k) {
     ans = [];
   for (let i = 0; i < nums.length; i++) {
     if (i >= k && deque[0] <= i - k) deque.shift();
-    while (deque.length && nums[i] >= nums[deque[deque.length - 1]])
+    while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
       deque.pop();
+    }
     deque.push(i);
     if (i >= k - 1) ans.push(nums[deque[0]]);
   }
@@ -734,16 +739,15 @@ https://leetcode-cn.com/problems/valid-anagram/
 示例 2:
 输入: s = "rat", t = "car"
 输出: false
+
+logs：0
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
-
 // new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
-
 // fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
 // const array1 = [1, 2, 3, 4];
 // console.log(array1.fill(6)); output: [6, 6, 6, 6]
-
 // charCodeAt() 方法可返回指定位置的字符的 Unicode 编码
 /**
  * @param {string} s
@@ -862,6 +866,8 @@ https://leetcode-cn.com/problems/3sum/
   [-1, 0, 1],
   [-1, -1, 2]
 ]
+
+logs:0
 */
 
 // 解法1：暴力求解，三个for循环。时间复杂度：O(n^3)
@@ -900,6 +906,7 @@ var threeSum = function (nums) {
   let len = nums.length;
   if (!nums || len < 3) return res;
   nums.sort((a, b) => a - b);
+
   for (let i = 0; i < len; i++) {
     if (nums[i] > 0) break;
     if (i > 0 && nums[i] == nums[i - 1]) continue;
@@ -957,10 +964,12 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
      / \
     3   6
 输出: false
-
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
+
+logs：0
 */
+
 // 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
 /**
  * Definition for a binary tree node.
@@ -1035,6 +1044,8 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
 输出: 2
 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
+
+logs：0
 */
 
 //
@@ -1058,6 +1069,8 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
 输出: 5
 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
+
+logs：0
 */
 
 //
@@ -1070,6 +1083,8 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 【斐波那契数列】
 1、求1，1，2，3，5，8，....第n个数是多少？
 2、计算阶乘n! = 1 x 2 x 3 x ... x n
+
+logs：0
 */
 function fibonacci(n) {
   if (n <= 2) return 1;
@@ -1106,6 +1121,8 @@ https://leetcode-cn.com/problems/powx-n/
 说明:
 -100.0 < x < 100.0
 n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
+
+logs：0
 */
 
 // 解法1：暴力破解法，傻乘，如求2的10次方，就循环10次。时间复杂度O(n)
@@ -1142,6 +1159,8 @@ https://leetcode-cn.com/problems/majority-element/
 
 输入: [2,2,1,1,1,2,2]
 输出: 2
+
+logs：0
 */
 
 // 解法1：暴力破解。即枚举数组中的每个元素，再遍历一遍数组统计其出现次数，时间复杂度为O(N^2)
@@ -1206,6 +1225,8 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 输入: [7,6,4,3,1]
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+
+logs：0
 */
 // 解法1：暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
 // 解法2：贪心算法。时间复杂度：O(n)
@@ -1248,6 +1269,8 @@ https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
   [9,20],
   [15,7]
 ]
+
+logs：0
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -1301,7 +1324,10 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
     /  \
    15   7
 返回它的最大深度 3 。
+
+logs：0
 */
+
 // 解法1：DFS、递归。时间复杂度O(n)
 /**
  * Definition for a binary tree node.
@@ -1338,7 +1364,10 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
     /  \
    15   7
 返回它的最小深度  2.
+
+logs：0
 */
+
 // 解法1：DFS、分治。时间复杂度O(n)
 /**
  * Definition for a binary tree node.
@@ -1376,7 +1405,10 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()(())",
        "()()()"
      ]
+
+logs：0
 */
+
 // 解法1：递归、DFS。时间复杂度O(2^n)
 // https://time.geekbang.org/course/detail/130-67636
 /**
@@ -1403,6 +1435,8 @@ var generateParenthesis = function (n) {
 https://leetcode-cn.com/problems/n-queens/
 https://time.geekbang.org/course/detail/130-67638
 n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+logs：0
 */
 
 //
@@ -1428,6 +1462,8 @@ https://time.geekbang.org/course/detail/130-67641
 输出: 2
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
+
+logs：0
 */
 // 解法1：二分查找。
 
