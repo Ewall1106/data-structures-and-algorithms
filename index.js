@@ -30,7 +30,8 @@ nums1 = [1,2,3,0,0,0], m = 3
 nums2 = [2,5,6],       n = 3
 输出: [1,2,2,3,5,6]
 
-logs：0
+logs：1
+[✔️]2020.05.11
 */
 // 解法1：暴力解法、归并。把两个数字合并以后再排序，这个是利用了输入数组已经排好序的特性，时间复杂度时间复杂度 : O((n + m)log(n + m))、空间复杂度 : O(1)。
 /**
@@ -124,18 +125,19 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
 你不需要考虑数组中超出新长度后面的元素。
 
-logs：2
+logs：3
 [✔️]2020.05.09
 [✔️]2020.05.10
+[✔️]2020.05.11
 */
 
-// 解法1：使用两个指针，如果相等就跳过。时间复杂度：O(n)
+// 解法：使用两个指针，如果相等就跳过。时间复杂度：O(n)
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var removeDuplicates = function (nums) {
-  let index = 1;
+  let index = 1; // 这是一个指针，下面的 i 是一个指针
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== nums[i + 1]) {
       nums[index++] = nums[i + 1];
@@ -601,13 +603,12 @@ var swapPairs = function (head) {
   while (temp.next && temp.next.next) {
     let start = temp.next;
     let end = temp.next.next;
-    temp.next = end;
-    start.next = end.next;
-    end.next = start;
+    [temp.next, start.next, end.next] = [end, end.next, start];
     temp = start;
   }
   return pre.next;
 };
+
 // 递归：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(N)，递归过程使用的堆栈空间。
 var swapPairs = function (head) {
   if (!head) return null;
