@@ -1,15 +1,14 @@
 /*
 【目录】
-1、数组、栈
-2、队列、优先队列
-3、链表
-4、集合、字典、散列表
-5、树
-6、递归、分治
-7、贪心算法
-8、广度优先搜索、深度优先搜索
-9、动态规划
-10、二分搜索
+数组、栈
+队列、优先队列
+链表
+集合、字典、散列表
+树
+递归、分治
+广度优先搜索、深度优先搜索
+动态规划、贪心算法
+二分搜索
   ....
 */
 
@@ -463,7 +462,7 @@ MyStack.prototype.empty = function () {
 //
 
 /*
-【滑动窗口最大值】
+【滑动窗口最大值】【hard】
 https://leetcode-cn.com/problems/sliding-window-maximum/
 给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
 返回滑动窗口中的最大值。
@@ -480,7 +479,7 @@ https://leetcode-cn.com/problems/sliding-window-maximum/
 
 logs：0
 */
-// 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N*O(logk)
+// 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N * O(log k)
 // 解法2：使用队列Queue。时间复杂度：O(n)
 /**
  * @param {number[]} nums
@@ -851,58 +850,50 @@ https://leetcode-cn.com/problems/valid-anagram/
 输入: s = "rat", t = "car"
 输出: false
 
-logs：0
+logs：1
+[✔️]2020.05.12
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
 // new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
-// fill() 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
-// const array1 = [1, 2, 3, 4];
+// fill()方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
+// - const array1 = [1, 2, 3, 4];
 // console.log(array1.fill(6)); output: [6, 6, 6, 6]
-// charCodeAt() 方法可返回指定位置的字符的 Unicode 编码
+// charCodeAt()方法可返回指定位置的字符的 Unicode 编码，减掉97是因为小写a字母是从97开始编码，例如：
+// 'a'.charCodeAt() - 97 // 0
 /**
  * @param {string} s
  * @param {string} t
  * @return {boolean}
  */
-/**
- * 通过桶排序方式
- */
 var isAnagram = function (s, t) {
-  var arr1 = new Array(26).fill(0);
-  var arr2 = new Array(26).fill(0);
-  for (let i = 0; i < s.length; i++) {
-    var key = s[i].charCodeAt() - 97;
-    arr1[key] += 1;
+  if (s.length !== t.length) {
+    return false;
   }
-  for (let i = 0; i < t.length; i++) {
-    var key = t[i].charCodeAt() - 97;
-    arr2[key] += 1;
-  }
-
-  return arr1.join("") === arr2.join("");
+  return s.split("").sort().join("") === t.split("").sort().join("");
 };
 
-// 解法2：map，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n)
+// 解法2：hash，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n)
+// 首先判断两个字符串长度是否相等，不相等则直接返回 false
+// 若相等，则初始化 26 个字母哈希表，遍历字符串 s 和 t
+// s 负责在对应位置增加，t 负责在对应位置减少
+// 如果哈希表的值都为 0，则二者是字母异位词
 /**
  * @param {string} s
  * @param {string} t
  * @return {boolean}
  */
 var isAnagram = function (s, t) {
-  let visit = {};
+  if (s.length !== t.length) {
+    return false;
+  }
+  let hash = new Array(26).fill(0);
   for (let i = 0; i < s.length; i++) {
-    let c = s[i];
-    if (visit[c] === undefined) visit[c] = 1;
-    else visit[c]++;
+    hash[s[i].charCodeAt() - 97]++;
+    hash[t[i].charCodeAt() - 97]--;
   }
-  for (let i = 0; i < t.length; i++) {
-    let c = t[i];
-    if (visit[c] === undefined) return false;
-    else visit[c]--;
-  }
-  for (let key in visit) {
-    if (visit[key] != 0) {
+  for (let i = 0; i < 26; i++) {
+    if (hash[i] !== 0) {
       return false;
     }
   }
@@ -1310,56 +1301,6 @@ var majorityElement = function (nums) {
 // -------divider-------
 //
 
-/* -------------------------- 贪心算法 ---------------------------*/
-
-/*
-【买卖股票的最佳时机 II】
-https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
-给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
-设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
-注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
-
-示例 1:
-输入: [7,1,5,3,6,4]
-输出: 7
-解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
-     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
-
-示例 2:
-输入: [1,2,3,4,5]
-输出: 4
-解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
-     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
-     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
-
-示例 3:
-输入: [7,6,4,3,1]
-输出: 0
-解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
-
-logs：0
-*/
-// 解法1：暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
-// 解法2：贪心算法。时间复杂度：O(n)
-/**
- * @param {number[]} prices
- * @return {number}
- */
-var maxProfit = function (prices) {
-  var j = 0;
-  for (var i = 0; i < prices.length - 1; i++) {
-    if (prices[i] < prices[i + 1]) {
-      j = j + prices[i + 1] - prices[i];
-    }
-  }
-  return j;
-};
-// 解法3：动态规划。时间复杂度：O(n)
-
-//
-// -------divider-------
-//
-
 /* -------------------------- 广度优先搜索、深度优先搜索 ---------------------------*/
 
 /*
@@ -1671,7 +1612,55 @@ https://time.geekbang.org/course/detail/130-67646
 // -------divider-------
 //
 
-/* -------------------------- 动态规划 ---------------------------*/
+/* -------------------------- 动态规划、贪心算法 ---------------------------*/
+
+/*
+【买卖股票的最佳时机 II】
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
+给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+
+示例 1:
+输入: [7,1,5,3,6,4]
+输出: 7
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+
+示例 2:
+输入: [1,2,3,4,5]
+输出: 4
+解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+
+示例 3:
+输入: [7,6,4,3,1]
+输出: 0
+解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+
+logs：0
+*/
+// 解法1：暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
+// 解法2：贪心算法。时间复杂度：O(n)
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  var j = 0;
+  for (var i = 0; i < prices.length - 1; i++) {
+    if (prices[i] < prices[i + 1]) {
+      j = j + prices[i + 1] - prices[i];
+    }
+  }
+  return j;
+};
+// 解法3：动态规划。时间复杂度：O(n)
+
+//
+// -------divider-------
+//
 
 /*
 【最大子序和】
