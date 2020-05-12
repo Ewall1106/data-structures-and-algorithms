@@ -15,6 +15,101 @@
 /* -------------------------- 数组、栈 ---------------------------*/
 
 /*
+【旋转数组】
+给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
+https://leetcode-cn.com/problems/rotate-array/
+
+示例 1:
+输入: [1,2,3,4,5,6,7] 和 k = 3
+输出: [5,6,7,1,2,3,4]
+解释:
+向右旋转 1 步: [7,1,2,3,4,5,6]
+向右旋转 2 步: [6,7,1,2,3,4,5]
+向右旋转 3 步: [5,6,7,1,2,3,4]
+
+示例 2:
+输入: [-1,-100,3,99] 和 k = 2
+输出: [3,99,-1,-100]
+解释: 
+向右旋转 1 步: [99,-1,-100,3]
+向右旋转 2 步: [3,99,-1,-100]
+
+说明:
+尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
+要求使用空间复杂度为 O(1) 的 原地 算法。
+
+logs：1
+[✔️]2020.05.12
+*/
+
+// 解法1：暴力破解法。旋转 k 次，每次将数组旋转 1 个元素。时间复杂度：O(n*k) 。每个元素都被移动1步，移动k轮 。
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var rotate = function (nums, k) {
+  let temp, pre;
+  for (let i = 0; i < k; i++) {
+    pre = nums[nums.length - 1];
+    for (let j = 0; j < nums.length; j++) {
+      temp = nums[j];
+      nums[j] = pre;
+      pre = temp;
+    }
+  }
+};
+
+// 解法2：使用额外数组。时间复杂度O(n)、空间复杂度O(n)
+var rotate = function (nums, k) {
+  let arr = new Array(nums.length);
+  for (let i = 0; i < nums.length; i++) {
+    arr[(i + k) % nums.length] = nums[i]; // 在你本身的位置基础上往右移3位超过了边界2步，沿着从头再继续移吧
+  }
+  for (let i = 0; i < nums.length; i++) {
+    nums[i] = arr[i];
+  }
+};
+
+// 解法3：环装替代
+var rotate = function (nums, k) {
+  let n = nums.length;
+  // 定义一个计数器，因为每个元素都需要移动1次，所以当计数器等于数组长度时，即换位完成
+  let count = 0;
+  for (let i = 0; count < n; i++) {
+    // 定义当前指针指向开头
+    let currentIndex = i;
+    // 获取当前指针的数据
+    let pre = nums[i];
+    // 对移动位数取模，直接往后加会数组越界
+    k = k % n;
+    // 这里需要先执行再判断
+    do {
+      // 获取当前pre需要移去的位置,同样需要取模防止越界
+      let nextIndex = (currentIndex + k) % n;
+      // 缓存需要被换位置也就是当前nextIndex的数据,因为他的位置等下
+      // 要被他前面的兄弟也就是pre占了，把它缓存起来等下去占他后面兄弟的
+      // 位置依次类推
+      let temp = nums[nextIndex];
+      // pre要来占next的位置了
+      nums[nextIndex] = pre;
+      // 将被占位的老哥赋值给pre，用来去占下一个老哥的位置
+      pre = temp;
+      // 同时当前索引指向了之前next索引所在的位置
+      currentIndex = nextIndex;
+      // 每执行一次换位操作count++
+      count++;
+      // 当再次currentIndex = i注意是再次，说明已经换过一轮了
+      // 再按当前i去置换只会重复之前的换位，所以结束这一轮换位开始下一轮换位
+    } while (currentIndex != i);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
 【合并两个有序数组】
 https://leetcode-cn.com/problems/merge-sorted-array/
 给你两个【有序】整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
@@ -1613,6 +1708,77 @@ https://time.geekbang.org/course/detail/130-67646
 //
 
 /* -------------------------- 动态规划、贪心算法 ---------------------------*/
+/*
+【杨辉三角】
+https://leetcode-cn.com/problems/pascals-triangle/
+给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
+在杨辉三角中，每个数是它左上方和右上方的数的和。
+
+示例:
+输入: 5
+输出:
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+
+logs：0
+*/
+// 解法1：动态规划
+
+//
+// -------divider-------
+//
+
+/*
+【最大子序和】
+https://leetcode-cn.com/problems/maximum-subarray/
+给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+示例:
+输入: [-2,1,-3,4,-1,2,1,-5,4],
+输出: 6
+解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+
+进阶:
+如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。
+
+logs：0
+*/
+// 解法1：动态规划
+
+//
+// -------divider-------
+//
+
+/*
+【买卖股票的最佳时机】
+https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
+给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。
+注意：你不能在买入股票前卖出股票。
+
+示例 1:
+输入: [7,1,5,3,6,4]
+输出: 5
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+
+示例 2:
+输入: [7,6,4,3,1]
+输出: 0
+解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+
+logs：0
+*/
+// 解法1：动态规划
+
+//
+// -------divider-------
+//
 
 /*
 【买卖股票的最佳时机 II】
