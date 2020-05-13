@@ -4,7 +4,7 @@
 队列、优先队列
 链表
 集合、字典、散列表
-树
+树、二叉树、二叉搜索树
 递归、分治
 广度优先搜索、深度优先搜索
 动态规划、贪心算法
@@ -331,11 +331,13 @@ var nextGreaterElement = function (nums1, nums2) {
 //
 
 /*
-【十进制转二进制】
+【进制转换算法】
+实现十进制转二进制、任意进制转换
 
 logs：1
 [✔️]2020.05.09
 */
+// 十进制转二进制。要把十进制转化成二进制，我们可以将该十进制数除以 2（二进制是满二进一）并对商取整，直到结果是 0 为止。
 function decimalToBinary(num) {
   const remStack = [];
   let number = num;
@@ -350,6 +352,26 @@ function decimalToBinary(num) {
     result += remStack.pop().toString();
   }
   return result;
+}
+
+// 任意进制转换
+function baseConverter(number, base) {
+  const remStack = [];
+  const digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let rem,
+    baseString = "";
+  if (!(base >= 2 && base <= 36)) {
+    return "";
+  }
+  while (number > 0) {
+    rem = Math.floor(number % base);
+    remStack.push(rem);
+    number = Math.floor(number / base);
+  }
+  while (remStack.length) {
+    baseString += digits[remStack.pop()];
+  }
+  return baseString;
 }
 
 //
@@ -1148,11 +1170,178 @@ var threeSum = function (nums) {
 // -------divider-------
 //
 
-/* -------------------------- 树 ---------------------------*/
+/* -------------------------- 树、二叉树、二叉搜索树 ---------------------------*/
 // 二叉树遍历
 // 前序遍历（pre-order）：根-左-右
 // 中序遍历（in-order）：左-根-右
 // 后序遍历（post-order）：左-右-根
+
+/*
+【构建一颗二叉搜索树】
+实现insert、前序遍历、中序遍历、后续遍历等方法
+
+const tree = new BinarySearchTree();
+tree.insert(new Node(5));
+tree.insert(new Node(3));
+tree.insert(new Node(9));
+tree.insert(new Node(4));
+
+logs：1
+[✔️]2020.05.13
+*/
+class Node {
+  constructor(key) {
+    this.key = key; // 节点值
+    this.left = null; // 左侧子节点引用
+    this.right = null; // 右侧子节点引用
+  }
+}
+
+class BinarySearchTree {
+  constructor() {
+    this.root = null; // Node 类型的根节点
+  }
+
+  // insert：向树中插入一个新的键。
+  insert(newNode) {
+    const insertNode = (node, newNode) => {
+      if (node.key > newNode.key) {
+        if (node.left == null) {
+          node.left = newNode;
+        } else {
+          insertNode(node.left, newNode);
+        }
+      } else {
+        if (node.right == null) {
+          node.right = newNode;
+        } else {
+          insertNode(node.right, newNode);
+        }
+      }
+    };
+    if (this.root == null) {
+      this.root = newNode;
+    } else {
+      insertNode(this.root, newNode);
+    }
+  }
+
+  // inOrderTraverse：通过中序遍历方式遍历所有节点。
+  inOrderTraverse(callback) {
+    const inOrderTraverseNode = (node, callback) => {
+      if (node != null) {
+        inOrderTraverseNode(node.left, callback);
+        callback(node.key);
+        inOrderTraverseNode(node.right, callback);
+      }
+    };
+    inOrderTraverseNode(this.root, callback);
+  }
+
+  // preOrderTraverse：通过先序遍历方式遍历所有节点。
+  preOrderTraverse(callback) {
+    const preOrderTraverseNode = (node, callback) => {
+      if (node != null) {
+        callback(node.key);
+        preOrderTraverseNode(node.left, callback);
+        preOrderTraverseNode(node.right, callback);
+      }
+    };
+    preOrderTraverseNode(this.root, callback);
+  }
+
+  // postOrderTraverse：通过后序遍历方式遍历所有节点。
+  postOrderTraverse(callback) {
+    const postOrderTraverseNode = (node, callback) => {
+      if (node != null) {
+        postOrderTraverseNode(node.left, callback);
+        postOrderTraverseNode(node.right, callback);
+        callback(node.key);
+      }
+    };
+    postOrderTraverseNode(this.root, callback);
+  }
+
+  // min：返回树中最小的值/键。
+  min() {
+    const minNode = (node) => {
+      let current = node;
+      while (current != null && current.left != null) {
+        current = current.left;
+      }
+      return current;
+    };
+    return minNode(this.root);
+  }
+
+  // max：返回树中最大的值/键。
+  max() {
+    const maxNode = (node) => {
+      let current = node;
+      while (current != null && current.right != null) {
+        current = current.right;
+      }
+      return current;
+    };
+    return maxNode(this.root);
+  }
+
+  // search：在树中查找一个键。如果节点存在，则返回 true；如果不存在，则返回false。
+  search(key) {
+    const searchNode = (node, key) => {
+      if (node == null) {
+        return false;
+      }
+      if (node.key > key) {
+        return searchNode(node.left, key);
+      } else if (node.key < key) {
+        return searchNode(node.right, key);
+      } else {
+        return true;
+      }
+    };
+    return searchNode(this.root, key);
+  }
+
+  // remove(key)：从树中移除某个键。
+  remove(key) {
+    const removeNode = (node, key) => {
+      if (node == null) return null;
+
+      if (node.key > key) {
+        node.left = removeNode(node.left, key);
+        return node;
+      } else if (node.key < key) {
+        node.right = removeNode(node.right, key);
+        return node;
+      } else {
+        // 第一种情况：移除一个叶节点
+        if (node.left == null && node.right == null) {
+          node = null;
+          return node;
+        }
+        // 第二种情况：移除一个有左侧或右侧子节点的节点
+        if (node.left == null) {
+          node = node.right;
+          return node;
+        } else if (node.right == null) {
+          node = node.left;
+          return node;
+        }
+        // 第三种情况：有两个子节点的节点
+        const aux = this.minNode(node.right);
+        node.key = aux.key;
+        node.right = removeNode(node.right, aux.key);
+        return node;
+      }
+    };
+    this.root = removeNode(this.root, key);
+  }
+}
+
+//
+// -------divider-------
+//
 
 /* 
 【验证二叉搜索树】BinarySearchTree
