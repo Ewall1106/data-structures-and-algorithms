@@ -36,7 +36,7 @@ https://leetcode-cn.com/problems/rotate-array/
 
 说明:
 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
-要求使用空间复杂度为 O(1) 的 原地 算法。
+要求使用空间复杂度为 O(1) 的原地算法。
 
 logs：1
 [✔️]2020.05.12
@@ -64,15 +64,16 @@ var rotate = function (nums, k) {
 var rotate = function (nums, k) {
   let arr = new Array(nums.length);
   for (let i = 0; i < nums.length; i++) {
-    arr[(i + k) % nums.length] = nums[i]; // 在你本身的位置基础上往右移3位超过了边界2步，沿着从头再继续移吧
+    arr[(i + k) % nums.length] = nums[i]; // 假设i=5，在你本身的位置i基础上往右移3超过了边界2步，沿着从头再继续移
   }
   for (let i = 0; i < nums.length; i++) {
     nums[i] = arr[i];
   }
 };
 
-// 解法3：环装替代。时间复杂度O(n)、空间复杂度O(1)
+// 解法3：使用环状替换。时间复杂度O(n)、空间复杂度O(1)
 // https://leetcode-cn.com/problems/rotate-array/solution/xuan-zhuan-shu-zu-yuan-di-huan-wei-xiang-xi-tu-jie/
+// 为什么需要count来记录？当nums=[1,2,3,4]、k=2这种情况的时候，第二轮的时候3移动两步刚好移到了位置1，座位上没有同学。
 var rotate = function (nums, k) {
   let count = 0;
   k = k % nums.length;
