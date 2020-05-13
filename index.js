@@ -71,37 +71,53 @@ var rotate = function (nums, k) {
   }
 };
 
-// 解法3：环装替代
+// 解法3：环装替代。时间复杂度O(n)、空间复杂度O(1)
+// https://leetcode-cn.com/problems/rotate-array/solution/xuan-zhuan-shu-zu-yuan-di-huan-wei-xiang-xi-tu-jie/
 var rotate = function (nums, k) {
-  let n = nums.length;
-  // 定义一个计数器，因为每个元素都需要移动1次，所以当计数器等于数组长度时，即换位完成
   let count = 0;
-  for (let i = 0; count < n; i++) {
-    // 定义当前指针指向开头
-    let currentIndex = i;
-    // 获取当前指针的数据
-    let pre = nums[i];
-    // 对移动位数取模，直接往后加会数组越界
-    k = k % n;
-    // 这里需要先执行再判断
+  k = k % nums.length;
+  for (let start = 0; count < nums.length; start++) {
+    let current = start;
+    let prev = nums[start];
     do {
-      // 获取当前pre需要移去的位置,同样需要取模防止越界
-      let nextIndex = (currentIndex + k) % n;
-      // 缓存需要被换位置也就是当前nextIndex的数据,因为他的位置等下
-      // 要被他前面的兄弟也就是pre占了，把它缓存起来等下去占他后面兄弟的
-      // 位置依次类推
-      let temp = nums[nextIndex];
-      // pre要来占next的位置了
-      nums[nextIndex] = pre;
-      // 将被占位的老哥赋值给pre，用来去占下一个老哥的位置
-      pre = temp;
-      // 同时当前索引指向了之前next索引所在的位置
-      currentIndex = nextIndex;
-      // 每执行一次换位操作count++
+      let next = (current + k) % nums.length;
+      let temp = nums[next];
+      nums[next] = prev;
+      prev = temp;
+      current = next;
       count++;
-      // 当再次currentIndex = i注意是再次，说明已经换过一轮了
-      // 再按当前i去置换只会重复之前的换位，所以结束这一轮换位开始下一轮换位
-    } while (currentIndex != i);
+    } while (start != current);
+  }
+};
+
+// 解法4：中心反转。在这个方法中，我们首先将所有元素反转。然后反转前 k 个元素，再反转后面 n−k 个元素，就能得到想要的结果。时间复杂度O(n)、空间复杂度O(1)
+var rotate = function (nums, k) {
+  k %= nums.length;
+  reverse(0, nums.length - 1);
+  reverse(0, k - 1);
+  reverse(k, nums.length - 1);
+
+  function reverse(start, end) {
+    while (start < end) {
+      let temp = nums[start];
+      nums[start] = nums[end];
+      nums[end] = temp;
+      start++;
+      end--;
+    }
+  }
+};
+
+// 解法5：使用js的splice方法，将后面 k%n 个元素 从原数组删除出来并拼接到数组前面即为所求
+var rotate = function (nums, k) {
+  k = k % nums.length;
+  nums.splice(0, 0, ...nums.splice(nums.length - k));
+};
+
+// 解法6：使用push和pop操作
+var rotate = function (nums, k) {
+  for (var i = 0; i < k; i++) {
+    nums.unshift(nums.pop());
   }
 };
 
