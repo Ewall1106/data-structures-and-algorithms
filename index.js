@@ -40,6 +40,7 @@ https://leetcode-cn.com/problems/rotate-array/
 
 logs：1
 [✔️]2020.05.12
+[✔️]2020.05.13
 */
 
 // 解法1：暴力破解法。旋转 k 次，每次将数组旋转 1 个元素。时间复杂度：O(n*k) 。每个元素都被移动1步，移动k轮 。
@@ -49,7 +50,7 @@ logs：1
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var rotate = function (nums, k) {
-  let temp, pre;
+  let pre, temp;
   for (let i = 0; i < k; i++) {
     pre = nums[nums.length - 1];
     for (let j = 0; j < nums.length; j++) {
@@ -78,8 +79,8 @@ var rotate = function (nums, k) {
   let count = 0;
   k = k % nums.length;
   for (let start = 0; count < nums.length; start++) {
-    let current = start;
-    let prev = nums[start];
+    let prev = nums[start],
+      current = start;
     do {
       let next = (current + k) % nums.length;
       let temp = nums[next];
