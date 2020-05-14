@@ -336,44 +336,33 @@ var nextGreaterElement = function (nums1, nums2) {
 【进制转换算法】
 实现十进制转二进制、任意进制转换
 
-logs：1
+logs：2
 [✔️]2020.05.09
+[✔️]2020.05.14
 */
 // 十进制转二进制。要把十进制转化成二进制，我们可以将该十进制数除以 2（二进制是满二进一）并对商取整，直到结果是 0 为止。
-function decimalToBinary(num) {
+function decimalToBinary(number) {
   const remStack = [];
-  let number = num;
-  let rem;
-  let result = "";
   while (number > 0) {
-    rem = Math.floor(number % 2);
+    let rem = Math.floor(number % 2);
     remStack.push(rem);
     number = Math.floor(number / 2);
   }
-  while (remStack.length > 0) {
-    result += remStack.pop().toString();
-  }
-  return result;
+  return remStack.join("");
 }
 
 // 任意进制转换
 function baseConverter(number, base) {
+  if (base < 2 || base > 36) return "";
+
   const remStack = [];
   const digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let rem,
-    baseString = "";
-  if (!(base >= 2 && base <= 36)) {
-    return "";
-  }
   while (number > 0) {
-    rem = Math.floor(number % base);
-    remStack.push(rem);
+    let rem = Math.floor(number % base);
+    remStack.push(digits[rem]);
     number = Math.floor(number / base);
   }
-  while (remStack.length) {
-    baseString += digits[remStack.pop()];
-  }
-  return baseString;
+  return remStack.join("");
 }
 
 //
