@@ -79,16 +79,16 @@ var rotate = function (nums, k) {
   let count = 0;
   k = k % nums.length;
   for (let start = 0; count < nums.length; start++) {
-    let prev = nums[start],
-      current = start;
+    let currentIdx = start,
+      current = nums[start];
     do {
-      let next = (current + k) % nums.length;
-      let temp = nums[next];
-      nums[next] = prev;
-      prev = temp;
+      let nextIdx = (currentIdx + k) % nums.length;
+      let next = nums[nextIdx];
+      nums[nextIdx] = current;
       current = next;
+      currentIdx = nextIdx;
       count++;
-    } while (start != current);
+    } while (start != currentIdx);
   }
 };
 
