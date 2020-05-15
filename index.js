@@ -15,6 +15,75 @@
 /* -------------------------- 数组、栈 ---------------------------*/
 
 /*
+【存在重复元素】
+https://leetcode-cn.com/problems/contains-duplicate/
+给定一个整数数组，判断是否存在重复元素。
+如果任意一值在数组中出现至少两次，函数返回 true 。如果数组中每个元素都不相同，则返回 false 。
+
+示例 1:
+输入: [1,2,3,1]
+输出: true
+
+示例 2:
+输入: [1,2,3,4]
+输出: false
+
+示例 3:
+输入: [1,1,1,3,3,4,3,2,4,2]
+输出: true
+
+logs：1
+[✔️]2020.05.15
+*/
+
+// 解法1：对数组去重以后在比较length
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function (nums) {
+  return Array.from(new Set(nums)).length !== nums.length;
+};
+var containsDuplicate = function (nums) {
+  return new Set(nums).size !== nums.length;
+};
+
+// 解法2：暴力破解法。把每个元素都排查一遍。
+var containsDuplicate = function (nums) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums.indexOf(nums[i]) !== nums.lastIndexOf(nums[i])) {
+      return true;
+    }
+  }
+  return false;
+};
+
+// 解法3：使用排序。排序之后对比相邻元素，看是否重复。时间复杂度取决于排序，使用快排O(nlogn)
+var containsDuplicate = function (nums) {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] == nums[i + 1]) return true;
+  }
+  return false;
+};
+
+// 解法4：使用hash。空间换时间，时间复杂度O(n)、空间复杂度O(n)
+var containsDuplicate = function (nums) {
+  let set = new Set();
+  for (let i = 0; i < nums.length; i++) {
+    if (set.has(nums[i])) {
+      return true;
+    }
+    set.add(nums[i]);
+  }
+  return false;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【旋转数组】
 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
 https://leetcode-cn.com/problems/rotate-array/
@@ -118,7 +187,7 @@ var rotate = function (nums, k) {
 
 // 解法6：使用push和pop操作
 var rotate = function (nums, k) {
-  for (var i = 0; i < k; i++) {
+  for (let i = 0; i < k; i++) {
     nums.unshift(nums.pop());
   }
 };
