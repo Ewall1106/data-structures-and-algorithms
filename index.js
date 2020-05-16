@@ -29,8 +29,9 @@ https://leetcode-cn.com/problems/missing-number/
 说明:
 你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?
 
-logs：1
+logs：2
 [✔️]2020.05.15
+[✔️]2020.05.16
 */
 
 // 解法1：排序。排完序以后与数组下标比较。时间复杂度O(nlogn)
@@ -88,8 +89,9 @@ https://leetcode-cn.com/problems/contains-duplicate/
 输入: [1,1,1,3,3,4,3,2,4,2]
 输出: true
 
-logs：1
+logs：2
 [✔️]2020.05.15
+[✔️]2020.05.16
 */
 
 // 解法1：对数组去重以后在比较length
@@ -203,9 +205,9 @@ var rotate = function (nums, k) {
 var rotate = function (nums, k) {
   let count = 0;
   k = k % nums.length;
-  for (let start = 0; count < nums.length; start++) {
-    let currentIdx = start,
-      current = nums[start];
+  for (let i = 0; count < nums.length; i++) {
+    let currentIdx = i,
+      current = nums[i];
     do {
       let nextIdx = (currentIdx + k) % nums.length;
       let next = nums[nextIdx];
@@ -213,7 +215,7 @@ var rotate = function (nums, k) {
       current = next;
       currentIdx = nextIdx;
       count++;
-    } while (start != currentIdx);
+    } while (i != currentIdx);
   }
 };
 
@@ -243,6 +245,7 @@ var rotate = function (nums, k) {
 
 // 解法6：使用push和pop操作
 var rotate = function (nums, k) {
+  k = k % nums.length;
   for (let i = 0; i < k; i++) {
     nums.unshift(nums.pop());
   }
