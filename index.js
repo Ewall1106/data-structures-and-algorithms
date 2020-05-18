@@ -717,9 +717,181 @@ MyStack.prototype.empty = function () {
 // -------divider-------
 //
 
+/* -------------------------- 队列、优先队列 ---------------------------*/
+// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
+
+/*
+【实现js的二叉堆】
+对于给定位置n。
+  它的左侧子节点的位置是 2n + 1（如果位置可用）；
+  它的右侧子节点的位置是 2n + 2（如果位置可用）； 
+  它的父节点位置是 n / 2（如果位置可用）。
+
+log：0
+*/
+// 创建最小堆
+class MinHeap {
+  constructor() {
+    this.heap = [];
+  }
+
+  // 访问特定节点索引
+  getLeftIndex(index) {
+    return 2 * index + 1;
+  }
+  getRightIndex(index) {
+    return 2 * index + 2;
+  }
+  getParentIndex(index) {
+    if (index === 0) {
+      return undefined;
+    }
+    return Math.floor((index - 1) / 2);
+  }
+
+  // 大小
+  size() {
+    return this.heap.length;
+  }
+
+  // 判空
+  isEmpty() {
+    return this.size() === 0;
+  }
+
+  // 向堆中插入一个新的值。如果插入成功，它返回 true，否则返回false。
+  insert(value) {
+    const swap = (array, a, b) => {
+      const temp = array[a];
+      array[a] = array[b];
+      array[b] = temp;
+    };
+    const siftUp = (index) => {
+      let parentIndex = this.getParentIndex(index);
+      while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
+        swap(this.heap, parentIndex, index);
+        index = parentIndex;
+        parentIndex = this.getParentIndex(index);
+      }
+    };
+    if (value != null) {
+      this.heap.push(value);
+      siftUp(this.heap.length - 1);
+      return true;
+    }
+    return false;
+  }
+
+  // 返回最小值
+  findMini() {
+    return this.isEmpty() ? undefined : this.heap[0];
+  }
+
+  // 移除最小值并返回这个值
+  extract() {
+    if (this.isEmpty()) {
+      return undefined;
+    }
+    if (this.size() === 1) {
+      return this.heap.shift();
+    }
+    const swap = (array, a, b) => {
+      const temp = array[a];
+      array[a] = array[b];
+      array[b] = temp;
+    };
+    const siftDown = (index) => {
+      let tempIdx = index;
+      const left = this.getLeftIndex(index);
+      const right = this.getRightIndex(index);
+      const size = this.size();
+      if (left < size && this.heap[tempIdx] > this.heap[left]) {
+        tempIdx = left;
+      }
+      if (right < size && this.heap[tempIdx] > this.heap[right]) {
+        tempIdx = right;
+      }
+      if (index !== tempIdx) {
+        swap(this.heap, index, tempIdx);
+        siftDown(tempIdx);
+      }
+    };
+    // 存储到一个临时变量中以便在执行完下移操作后返回它。
+    const removedValue = this.heap.shift();
+    siftDown(0);
+    return removedValue;
+  }
+}
+
+const heap = new MinHeap();
+heap.insert(2);
+heap.insert(3);
+heap.insert(4);
+heap.insert(5);
+heap.insert(1);
+
+//
+// -------divider-------
+//
+
+/*
+【数据流中的第K大元素】
+https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
+设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
+
+示例：
+int k = 3;
+int[] arr = [4,5,8,2];
+KthLargest kthLargest = new KthLargest(3, arr);
+kthLargest.add(3);   // returns 4
+kthLargest.add(5);   // returns 5
+kthLargest.add(10);  // returns 5
+kthLargest.add(9);   // returns 8
+kthLargest.add(4);   // returns 8
+*/
+// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
+// 因为js没有内置min-heap这个api，所以需要先自己造一个小顶堆。
+
+// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：N*(k*logk)
+/**
+ * @param {number} k
+ * @param {number[]} nums
+ */
+var KthLargest = function (k, nums) {
+  this.k = k - 1;
+  this.nums = nums.sort((a, b) => b - a);
+};
+
+/**
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function (val) {
+  for (let i = 0, count = this.nums.length; i < count; ++i) {
+    if (val > this.nums[i]) {
+      this.nums.splice(i, 1, val, this.nums[i]);
+      return this.nums[this.k];
+    }
+  }
+  this.nums.push(val);
+  return this.nums[this.k];
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * var obj = new KthLargest(k, nums)
+ * var param_1 = obj.add(val)
+ */
+
+//
+// -------divider-------
+//
+
 /*
 【滑动窗口最大值】【hard】
 https://leetcode-cn.com/problems/sliding-window-maximum/
+https://time.geekbang.org/course/detail/100019701-41559
 给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
 返回滑动窗口中的最大值。
 
@@ -743,45 +915,22 @@ logs：0
  * @return {number[]}
  */
 var maxSlidingWindow = function (nums, k) {
-  let deque = [],
-    ans = [];
+  if (!nums.length) return [];
+  let deque = [];
+  let result = [];
+  
   for (let i = 0; i < nums.length; i++) {
     if (i >= k && deque[0] <= i - k) deque.shift();
     while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
       deque.pop();
     }
     deque.push(i);
-    if (i >= k - 1) ans.push(nums[deque[0]]);
+    if (i >= k - 1) {
+      result.push(nums[deque[0]]);
+    }
   }
-  return ans;
+  return result;
 };
-
-//
-// -------divider-------
-//
-
-/* -------------------------- 队列、优先队列 ---------------------------*/
-// priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
-
-/*
-【数据流中的第K大元素】
-https://leetcode-cn.com/problems/kth-largest-element-in-a-stream/
-设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
-你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
-
-示例：
-int k = 3;
-int[] arr = [4,5,8,2];
-KthLargest kthLargest = new KthLargest(3, arr);
-kthLargest.add(3);   // returns 4
-kthLargest.add(5);   // returns 5
-kthLargest.add(10);  // returns 5
-kthLargest.add(9);   // returns 8
-kthLargest.add(4);   // returns 8
-*/
-// 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
-// 这题也太难了吧。。。。。。因为js没有内置min-heap这个类型，所以需要先自己造一个小顶堆，小顶堆本质是棵树，所以我们树弄完了以后再回过头看这个问题。
-// 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：k*logk
 
 //
 // -------divider-------
