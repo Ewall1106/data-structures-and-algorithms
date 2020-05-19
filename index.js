@@ -29,9 +29,10 @@ https://leetcode-cn.com/problems/missing-number/
 说明:
 你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?
 
-logs：2
+logs：3
 [✔️]2020.05.15
 [✔️]2020.05.16
+[✔️]2020.05.19
 */
 
 // 解法1：排序。排完序以后与数组下标比较。时间复杂度O(nlogn)
@@ -89,9 +90,10 @@ https://leetcode-cn.com/problems/contains-duplicate/
 输入: [1,1,1,3,3,4,3,2,4,2]
 输出: true
 
-logs：2
+logs：3
 [✔️]2020.05.15
 [✔️]2020.05.16
+[✔️]2020.05.19
 */
 
 // 解法1：对数组去重以后在比较length
@@ -116,7 +118,7 @@ var containsDuplicate = function (nums) {
   return false;
 };
 
-// 解法3：使用排序。排序之后对比相邻元素，看是否重复。时间复杂度取决于排序，使用快排O(nlogn)
+// 解法3：使用排序。排序之后对比相邻元素，看是否重复。时间复杂度取决于排序效率：使用快排O(nlogn)
 var containsDuplicate = function (nums) {
   nums.sort((a, b) => a - b);
   for (let i = 0; i < nums.length - 1; i++) {
@@ -727,7 +729,7 @@ MyStack.prototype.empty = function () {
   它的右侧子节点的位置是 2n + 2（如果位置可用）； 
   它的父节点位置是 n / 2（如果位置可用）。
 
-log：0
+logs：0
 */
 // 创建最小堆
 class MinHeap {
@@ -1374,7 +1376,7 @@ https://leetcode-cn.com/problems/3sum/
   [-1, -1, 2]
 ]
 
-logs:0
+logs：0
 */
 
 // 解法1：暴力求解，三个for循环。时间复杂度：O(n^3)
