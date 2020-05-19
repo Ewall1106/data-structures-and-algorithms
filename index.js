@@ -8,7 +8,7 @@
 递归、分治
 广度优先搜索、深度优先搜索
 动态规划、贪心算法
-二分搜索
+排序、搜索算法
   ....
 */
 
@@ -918,7 +918,7 @@ var maxSlidingWindow = function (nums, k) {
   if (!nums.length) return [];
   let deque = [];
   let result = [];
-  
+
   for (let i = 0; i < nums.length; i++) {
     if (i >= k && deque[0] <= i - k) deque.shift();
     while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
@@ -2067,7 +2067,201 @@ logs：0
 // -------divider-------
 //
 
-/* -------------------------- 二分搜索 ---------------------------*/
+/* -------------------------- 排序、搜索算法 ---------------------------*/
+
+/*
+【冒泡排序】
+冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。时间复杂度O(n^2)
+
+logs：0
+*/
+function bubbleSort(array) {
+  const length = array.length;
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length - 1; j++) {
+      if (array[j] > array[j + 1]) {
+        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+      }
+    }
+  }
+  return array;
+}
+const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
+
+//
+// -------divider-------
+//
+
+/*
+【选择排序】
+选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。时间复杂度O(n^2)
+
+logs：0
+*/
+function selectionSort(array) {
+  let tempMin;
+  for (let i = 0; i < array.length - 1; i++) {
+    tempMin = i;
+    for (let j = i; j < array.length; j++) {
+      if (array[tempMin] > array[j]) {
+        tempMin = j;
+      }
+    }
+    if (i !== tempMin) {
+      [array[i], array[tempMin]] = [array[tempMin], array[i]];
+    }
+  }
+  return array;
+}
+const test = selectionSort([4, 4, 52, 13, 5, 8, 91, 1]);
+
+//
+// -------divider-------
+//
+
+/*
+【插入排序】
+就像是打扑克摸牌插牌一样。O(n^2)
+
+logs：0
+*/
+function insertionSort(array) {
+  let temp;
+  for (let i = 1; i < array.length; i++) {
+    let j = i;
+    temp = array[i];
+    while (j > 0 && temp < array[j - 1]) {
+      array[j] = array[j - 1];
+      j--;
+    }
+    array[j] = temp;
+  }
+  return array;
+}
+
+//
+// -------divider-------
+//
+
+/*
+【归并排序】
+先将原始数组分割直至只有一个元素的子数组，然后开始归并。归并过程也会完成排序，直至原始数组完全合并并完成排序。时间复杂度：O(nlog(n))
+
+logs：0
+*/
+function mergeSort(array) {
+  if (array.length <= 1) return array;
+  let middle = Math.floor(array.length / 2);
+  let left = array.slice(0, middle);
+  let right = array.slice(middle);
+  return merge(mergeSort(left), mergeSort(right));
+}
+
+function merge(left, right) {
+  let result = [];
+  while (left.length > 0 && right.length > 0) {
+    if (left[0] < right[0]) {
+      result.push(left.shift());
+    } else {
+      result.push(right.shift());
+    }
+  }
+  return result.concat(left, right);
+}
+const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
+
+//
+// -------divider-------
+//
+
+/*
+【快速排序】
+* 首先，从数组中选择一个值作为主元（pivot），也就是数组中间的那个值。
+* 创建两个指针（引用），左边一个指向数组第一个值，右边一个指向数组最后一个值。移动左指针直到我们找到一个比主元大的值，接着，移动右指针直到找到一个比主元小的值，然后交换它们，重复这个过程，直到左指针超过了右指针。这个过程将使得比主元小的值都排在主元 之前，而比主元大的值都排在主元之后。这一步叫作划分（partition）操作。
+* 接着，算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的 子数组）重复之前的两个步骤，直至数组已完全排序。
+* 时间复杂度O(nlogn)
+
+logs：0
+*/
+function quickSort(array) {
+  return quick(array, 0, array.length - 1);
+}
+
+function quick(array, left, right) {
+  let index;
+  if (array.length > 1) {
+    index = partition(array, left, right);
+    if (left < index - 1) {
+      quick(array, left, index - 1);
+    }
+    if (index < right) {
+      quick(array, index, right);
+    }
+  }
+  return array;
+}
+
+function partition(array, left, right) {
+  const pivot = array[Math.floor((right + left) / 2)];
+  let i = left;
+  let j = right;
+  while (i <= j) {
+    while (array[i] < pivot) {
+      i++;
+    }
+    while (array[j] > pivot) {
+      j--;
+    }
+    // 当左指针指向的元素比主元大且右指针指向的元素比主元小
+    // 并且此时左指针索引没有右指针索引大时，意思是左项比右项大（值比较），我们交换它们
+    if (i <= j) {
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+      i++;
+      j--;
+    }
+  }
+  return i;
+}
+
+//
+// -------divider-------
+//
+
+/*
+【二分搜索】
+* 先排序，然后选择数组的中间值。  
+* 如果选中值是待搜索值，那么算法执行完毕（值找到了）。 
+* 如果待搜索值比选中值要小，则返回步骤 1 并在选中值左边的子数组中寻找（较小）。 
+* 如果待搜索值比选中值要大，则返回步骤 1 并在选种值右边的子数组中寻找（较大）。
+* 时间复杂度：O(logn)
+
+logs：0
+*/
+// 迭代
+function binarySearch(array, value) {
+  const sortedArray = quickSort(array);
+  let low = 0;
+  let high = sortedArray.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const element = sortedArray[mid];
+    if (value > element) {
+      low = mid + 1;
+    } else if (value < element) {
+      high = mid - 1;
+    } else {
+      return mid;
+    }
+  }
+  return -1;
+}
+
+//
+// -------divider-------
+//
 
 /*
 【x的平方根】
@@ -2098,7 +2292,7 @@ logs：0
 /* -------------------------- 字典树 ---------------------------*/
 
 /*
-【实现 Trie (前缀树)】
+【实现 Trie (字典树)】
 https://leetcode-cn.com/problems/implement-trie-prefix-tree/
 https://time.geekbang.org/course/detail/130-67644
 实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。
