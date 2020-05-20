@@ -745,92 +745,85 @@ class MinHeap {
     return 2 * index + 2;
   }
   getParentIndex(index) {
-    if (index === 0) {
-      return undefined;
-    }
+    if (index === 0) return undefined;
     return Math.floor((index - 1) / 2);
   }
-
-  // 大小
+  // 返回最小值
+  findMini() {
+    return this.isEmpty() ? undefined : this.heap[0];
+  }
+  // 长度
   size() {
     return this.heap.length;
   }
-
   // 判空
   isEmpty() {
     return this.size() === 0;
   }
 
-  // 向堆中插入一个新的值。如果插入成功，它返回 true，否则返回false。
+  // 插入一个新的值。如果插入成功，它返回 true，否则返回false。时间复杂度 O(logn)
   insert(value) {
-    const swap = (array, a, b) => {
-      const temp = array[a];
-      array[a] = array[b];
-      array[b] = temp;
-    };
-    const siftUp = (index) => {
-      let parentIndex = this.getParentIndex(index);
-      while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
-        swap(this.heap, parentIndex, index);
-        index = parentIndex;
-        parentIndex = this.getParentIndex(index);
-      }
-    };
-    if (value != null) {
-      this.heap.push(value);
-      siftUp(this.heap.length - 1);
-      return true;
-    }
-    return false;
+    if (value == null) return false;
+    this.heap.push(value);
+    this.siftUp(this.heap.length - 1);
+    return true;
   }
 
-  // 返回最小值
-  findMini() {
-    return this.isEmpty() ? undefined : this.heap[0];
-  }
-
-  // 移除最小值并返回这个值
+  // 移除最小值并返回这个值。时间复杂度 O(logn)
   extract() {
-    if (this.isEmpty()) {
-      return undefined;
-    }
-    if (this.size() === 1) {
-      return this.heap.shift();
-    }
-    const swap = (array, a, b) => {
-      const temp = array[a];
-      array[a] = array[b];
-      array[b] = temp;
-    };
-    const siftDown = (index) => {
-      let tempIdx = index;
-      const left = this.getLeftIndex(index);
-      const right = this.getRightIndex(index);
-      const size = this.size();
-      if (left < size && this.heap[tempIdx] > this.heap[left]) {
-        tempIdx = left;
-      }
-      if (right < size && this.heap[tempIdx] > this.heap[right]) {
-        tempIdx = right;
-      }
-      if (index !== tempIdx) {
-        swap(this.heap, index, tempIdx);
-        siftDown(tempIdx);
-      }
-    };
-    // 存储到一个临时变量中以便在执行完下移操作后返回它。
-    const removedValue = this.heap.shift();
-    siftDown(0);
+    if (this.isEmpty()) return undefined;
+    if (this.size() === 1) return this.heap.shift();
+    // 避免'数组空洞'、交换首尾元素后再向下堆化
+    this.swap(this.heap, 0, this.heap.length - 1);
+    const removedValue = this.heap.pop();
+    this.siftDown(0);
     return removedValue;
+  }
+
+  // 堆化（从下往上）
+  siftUp(index) {
+    let parentIndex = this.getParentIndex(index);
+    while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
+      this.swap(this.heap, parentIndex, index);
+      index = parentIndex;
+      parentIndex = this.getParentIndex(index);
+    }
+  }
+
+  // 堆化（从上往下）
+  siftDown(index) {
+    let tempIndex = index;
+    const left = this.getLeftIndex(index);
+    const right = this.getRightIndex(index);
+    const size = this.size();
+    // --- 父节点-左子节点-右子节点中找出最大值的索引 ---
+    if (left < size && this.heap[tempIndex] > this.heap[left]) {
+      tempIndex = left;
+    }
+    if (right < size && this.heap[tempIndex] > this.heap[right]) {
+      tempIndex = right;
+    }
+    // --- /父节点-左子节点-右子节点中找出最大值的索引 ---
+    if (index !== tempIndex) {
+      this.swap(this.heap, index, tempIndex);
+      this.siftDown(tempIndex);
+    }
+  }
+
+  // 交换
+  swap(array, a, b) {
+    const temp = array[a];
+    array[a] = array[b];
+    array[b] = temp;
   }
 }
 
 const heap = new MinHeap();
-heap.insert(2);
-heap.insert(3);
-heap.insert(4);
-heap.insert(5);
 heap.insert(1);
+heap.insert(6);
+heap.insert(7);
+heap.insert(8);
+heap.insert(9);
 
 //
 // -------divider-------
@@ -1401,7 +1394,7 @@ const threeSum = (nums) => {
       }
     }
   }
-
+  // Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值。
   return Object.values(map);
 };
 
@@ -1418,7 +1411,7 @@ var threeSum = function (nums) {
 
   for (let i = 0; i < len; i++) {
     if (nums[i] > 0) break;
-    if (i > 0 && nums[i] == nums[i - 1]) continue;
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
     let l = i + 1,
       r = len - 1;
     while (l < r) {
@@ -2078,9 +2071,8 @@ logs：0
 logs：0
 */
 function bubbleSort(array) {
-  const length = array.length;
-  for (let i = 0; i < length; i++) {
-    for (let j = 0; j < length - 1; j++) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - 1; j++) {
       if (array[j] > array[j + 1]) {
         [array[j], array[j + 1]] = [array[j + 1], array[j]];
       }
