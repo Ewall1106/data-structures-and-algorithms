@@ -746,7 +746,7 @@ class MinHeap {
   }
   getParentIndex(index) {
     if (index === 0) return undefined;
-    return Math.floor((index - 1) / 2);
+    return Math.floor(index / 2);
   }
   // 返回最小值
   findMini() {
@@ -847,6 +847,134 @@ kthLargest.add(4);   // returns 8
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个api，所以需要先自己造一个小顶堆。
+class MinHeap {
+  constructor(arr) {
+    this.heap = [null, ...arr];
+    this.size = arr.length;
+    this.buildHeap();
+  }
+
+  get isEmpty() {
+    return this.size == 0;
+  }
+
+  add(e) {
+    if (this.size >= this.heap.length - 1) {
+      this.heap.push(e);
+    } else {
+      this.heap[this.size + 1] = e;
+    }
+    this.size++;
+    this.shiftUp(this.size);
+  }
+
+  pop() {
+    let result = this.heap[1];
+    if (this.size == 1) {
+      this.heap[1] = null;
+    } else {
+      this.heap[1] = this.heap[this.size];
+      if (this.size != 2) this.heapfy(1);
+    }
+
+    this.size--;
+
+    return result;
+  }
+
+  head() {
+    return this.heap[1];
+  }
+
+  shiftUp(i) {
+    if (i > this.size) throw new Error("invalid arguments");
+
+    while (i >> 1 > 0) {
+      if (this.heap[i >> 1] > this.heap[i]) {
+        this.heapfy(i >> 1);
+        i = i >> 1;
+      } else {
+        break;
+      }
+    }
+  }
+
+  buildHeap() {
+    for (let start = this.heap.length >> 1; start >= 1; start--) {
+      this.heapfy(start);
+    }
+  }
+
+  heapfy(i) {
+    while (i <= this.size >> 1) {
+      // all non-leaf nodes
+      let smallest = i;
+
+      let l = i << 1;
+      if (l <= this.size && this.heap[smallest] > this.heap[l]) {
+        smallest = l;
+      }
+
+      let r = l + 1;
+      if (r <= this.size && this.heap[smallest] > this.heap[r]) {
+        smallest = r;
+      }
+
+      if (i == smallest) {
+        break;
+      }
+      this.swap(i, smallest);
+
+      i = smallest;
+    }
+  }
+
+  swap(i, j) {
+    let tmp = this.heap[i];
+    this.heap[i] = this.heap[j];
+    this.heap[j] = tmp;
+  }
+
+  toString() {
+    return node(1);
+
+    function node(i) {
+      let l = i << 1;
+      let ll = l <= this.size ? node(l) : "()";
+      let lr = l + 1 <= this.size ? node(l + 1) : "()";
+      return `(${l} ${ll} ${lr})`;
+    }
+  }
+}
+
+var KthLargest = function (k, nums) {
+  this.minHeap = new MinHeap(nums.slice(0, k));
+
+  this.k = k;
+  for (let i = k; i <= nums.length - 1; i++) {
+    this.add(nums[i]);
+  }
+};
+
+/**
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function (val) {
+  if (this.minHeap.size >= this.k) {
+    if (val == this.minHeap.head()) return val;
+    else if (val > this.minHeap.head()) {
+      this.minHeap.pop();
+      this.minHeap.add(val);
+    }
+    // ignore less case
+  } else {
+    // heap not full, so we cant ingore less case
+    this.minHeap.add(val);
+  }
+
+  return this.minHeap.head();
+};
 
 // 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：N*(k*logk)
 /**
