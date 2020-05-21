@@ -1364,6 +1364,7 @@ var reverseKGroup = function (head, k) {
 /* 
 【有效的字母异位词】
 https://leetcode-cn.com/problems/valid-anagram/
+https://time.geekbang.org/course/detail/100019701-42702
 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
 说明:
 你可以假设字符串只包含小写字母。
@@ -1387,8 +1388,7 @@ logs：1
 // fill()方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
 // - const array1 = [1, 2, 3, 4];
 // console.log(array1.fill(6)); output: [6, 6, 6, 6]
-// charCodeAt()方法可返回指定位置的字符的 Unicode 编码，减掉97是因为小写a字母是从97开始编码，例如：
-// 'a'.charCodeAt() - 97 // 0
+// charCodeAt()方法可返回指定位置的字符的 Unicode 编码，减掉97是因为小写a字母是从97开始编码，例如：'a'.charCodeAt() - 97为0
 /**
  * @param {string} s
  * @param {string} t
@@ -1471,10 +1471,10 @@ var twoSum = function (nums, target) {
   let map = new Map();
   for (let i = 0; i < nums.length; i++) {
     let diff = target - nums[i];
-    if (map.has(diff)) {
-      return [map.get(diff), i];
-    } else {
+    if (!map.has(diff)) {
       map.set(nums[i], i);
+    } else {
+      return [map.get(diff), i];
     }
   }
 };
@@ -1486,6 +1486,7 @@ var twoSum = function (nums, target) {
 /* 
 【三数之和】
 https://leetcode-cn.com/problems/3sum/
+https://time.geekbang.org/course/detail/100019701-42705
 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 注意：答案中不可以包含重复的三元组。
 
@@ -1508,7 +1509,6 @@ logs：1
  */
 var threeSum = function (nums) {
   let map = {};
-
   for (let i = 0; i < nums.length; i++) {
     for (let j = i + 1; j < nums.length; j++) {
       for (let k = j + 1; k < nums.length; k++) {
@@ -1527,7 +1527,29 @@ var threeSum = function (nums) {
   return Object.values(map);
 };
 
-// 解法2：排序+双指针。时间复杂度O(n^2)
+// 解法2：loops+set，由于c = -(a+b)时满足条件，所以将a、b双层循环一下并将其放到set中。时间复杂度O(n^2)、空间复杂度O(n)
+var threeSum = function (nums) {
+  if (nums == null || nums.length < 3) return [];
+  nums.sort((a, b) => a - b);
+  let result = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+    let hash = new Map();
+    for (let j = i + 1; j < nums.length; j++) {
+      if (hash.has(nums[j])) {
+        if (hash.get(nums[j]) == 0) {
+          result.push([nums[i], nums[j], -nums[i] - nums[j]]);
+          hash.set(nums[j], 1); // 去重 [0,0,0,0]
+        }
+      } else {
+        hash.set(-nums[i] - nums[j], 0);
+      }
+    }
+  }
+  return result;
+};
+
+// 解法3：排序+双指针。时间复杂度O(n^2)、空间复杂度O(1)
 /**
  * @param {number[]} nums
  * @return {number[][]}
@@ -1561,6 +1583,30 @@ var threeSum = function (nums) {
   }
   return res;
 };
+
+//
+// -------divider-------
+//
+
+/* 
+【四数之和】
+https://leetcode-cn.com/problems/4sum/
+给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
+
+注意：
+答案中不可以包含重复的四元组。
+
+示例：
+给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。
+满足要求的四元组集合为：
+[
+  [-1,  0, 0, 1],
+  [-2, -1, 1, 2],
+  [-2,  0, 0, 2]
+]
+
+logs：0
+*/
 
 //
 // -------divider-------
