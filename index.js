@@ -746,7 +746,7 @@ class MinHeap {
   }
   getParentIndex(index) {
     if (index === 0) return undefined;
-    return Math.floor(index / 2);
+    return Math.floor(index - 1 / 2);
   }
   // 返回最小值
   findMini() {
