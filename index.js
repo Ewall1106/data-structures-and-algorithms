@@ -1497,15 +1497,16 @@ https://leetcode-cn.com/problems/3sum/
   [-1, -1, 2]
 ]
 
-logs：0
+logs：1
+[✔️]2020.05.21
 */
 
-// 解法1：暴力求解，三个for循环。时间复杂度：O(n^3)
+// 解法1：暴力求解（会超时），三个for循环。时间复杂度：O(n^3)
 /**
  * @param {number[]} nums
  * @return {number[][]}
  */
-const threeSum = (nums) => {
+var threeSum = function (nums) {
   let map = {};
 
   for (let i = 0; i < nums.length; i++) {
@@ -1526,7 +1527,7 @@ const threeSum = (nums) => {
   return Object.values(map);
 };
 
-// 解法2：使用set。排序+双指针。时间复杂度O(n^2)
+// 解法2：排序+双指针。时间复杂度O(n^2)
 /**
  * @param {number[]} nums
  * @return {number[][]}
@@ -1538,16 +1539,17 @@ var threeSum = function (nums) {
   nums.sort((a, b) => a - b);
 
   for (let i = 0; i < len; i++) {
-    if (nums[i] > 0) break;
-    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
-    let l = i + 1,
-      r = len - 1;
+    if (nums[i] > 0) break; // 如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 如果nums[i] == nums[i−1]，则说明该数字重复会导致结果重复，所以应该跳过
+    let l = i + 1;
+    let r = len - 1;
+
     while (l < r) {
       let sum = nums[i] + nums[l] + nums[r];
       if (sum == 0) {
         res.push([nums[i], nums[l], nums[r]]);
-        while (l < r && nums[l] == nums[l + 1]) l++;
-        while (l < r && nums[r] == nums[r - 1]) r--;
+        while (l < r && nums[l] == nums[l + 1]) l++; // 当 sum == 0 时，nums[L] == nums[L+1] 则会导致结果重复，应该跳过，L++
+        while (l < r && nums[r] == nums[r - 1]) r--; // 当 sum == 0 时，nums[R] == nums[R−1] 则会导致结果重复，应该跳过，R--
         l++;
         r--;
       } else if (sum < 0) {
