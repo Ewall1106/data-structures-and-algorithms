@@ -1607,10 +1607,11 @@ https://leetcode-cn.com/problems/4sum/
   [-2,  0, 0, 2]
 ]
 
-logs：0
+logs：1
+[✔️]2020.05.22
 */
 // 解法1：暴力求解。时间复杂度O(n^4)
-// 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)  waring！！！还没有AC
+// 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -1619,20 +1620,28 @@ logs：0
 var fourSum = function (nums, target) {
   let len = nums.length;
   if (len < 4) return [];
-  let result = [];
+  let result = {};
+
   for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
     for (let j = i + 1; j < nums.length - 1; j++) {
       let hash = new Map();
       for (let k = j + 1; k < nums.length; k++) {
         if (hash.has(nums[k])) {
-          if (hash.get(nums[k]) == 0) {
-            result.push([
+          // 剪枝
+          if (hash.get(nums[k]) === 0) {
+            let value = [
               nums[i],
               nums[j],
               nums[k],
               target - nums[i] - nums[j] - nums[k],
-            ]);
-            hash.set(nums[k], 1); // 去重 [0,0,0,0]
+            ].sort();
+            let key = value.join(",");
+            // 去重（这里去重性能有点低，需要找个更好的方案优化一下）
+            if (!Object.keys(result).includes(key)) {
+              result[key] = value;
+            }
+            hash.set(nums[k], 1); // 去重
           }
         } else {
           hash.set(target - nums[i] - nums[j] - nums[k], 0);
@@ -1640,7 +1649,7 @@ var fourSum = function (nums, target) {
       }
     }
   }
-  return result;
+  return Object.values(result);
 };
 
 // 解法3：排序+双指针。时间复杂度O(n^3)
