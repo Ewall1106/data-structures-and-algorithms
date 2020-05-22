@@ -2326,9 +2326,11 @@ logs：0
 
 /*
 【冒泡排序】
-冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。时间复杂度O(n^2)
+冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
+时间复杂度O(n^2)
 
-logs：0
+logs：1
+[✔️]2020.05.22
 */
 function bubbleSort(array) {
   for (let i = 0; i < array.length; i++) {
@@ -2348,9 +2350,11 @@ const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
 
 /*
 【选择排序】
-选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。时间复杂度O(n^2)
+选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。
+时间复杂度O(n^2)
 
-logs：0
+logs：1
+[✔️]2020.05.22
 */
 function selectionSort(array) {
   let tempMin;
@@ -2375,9 +2379,13 @@ const test = selectionSort([4, 4, 52, 13, 5, 8, 91, 1]);
 
 /*
 【插入排序】
-就像是打扑克摸牌插牌一样。O(n^2)
+就像是打扑克摸牌插牌一样。时间复杂度O(n^2)
+[1,2,3,【0,8,4,1】]
+        --------
+        一个个的抽出来插牌到已排好序的前面项中
 
-logs：0
+logs：1
+[✔️]2020.05.22
 */
 function insertionSort(array) {
   let temp;
@@ -2399,18 +2407,17 @@ function insertionSort(array) {
 
 /*
 【归并排序】
-先将原始数组分割直至只有一个元素的子数组，然后开始归并。归并过程也会完成排序，直至原始数组完全合并并完成排序。时间复杂度：O(nlog(n))
+先将原始数组分割直至只有一个元素的子数组，然后开始归并。归并过程也会完成排序，直至原始数组完全合并并完成排序。
+时间复杂度：O(nlog(n))
 
-logs：0
+logs：1
+[✔️]2020.05.22
 */
-function mergeSort(array) {
-  if (array.length <= 1) return array;
-  let middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle);
-  return merge(mergeSort(left), mergeSort(right));
-}
-
+/**
+ * @param {Array} left
+ * @param {Array} right
+ * @return {Array}
+ */
 function merge(left, right) {
   let result = [];
   while (left.length > 0 && right.length > 0) {
@@ -2422,6 +2429,18 @@ function merge(left, right) {
   }
   return result.concat(left, right);
 }
+
+/**
+ * @param {Array} array
+ */
+function mergeSort(array) {
+  if (array.length <= 1) return array;
+  let middle = Math.floor(array.length / 2);
+  let left = array.slice(0, middle);
+  let right = array.slice(middle);
+  return merge(mergeSort(left), mergeSort(right));
+}
+
 const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 
 //
