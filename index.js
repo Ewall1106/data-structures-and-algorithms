@@ -1618,13 +1618,12 @@ logs：1
  * @return {number[][]}
  */
 var fourSum = function (nums, target) {
-  let len = nums.length;
-  if (len < 4) return [];
+  if (!nums || nums.length < 4) return [];
   let result = {};
 
-  for (let i = 0; i < nums.length - 2; i++) {
+  for (let i = 0; i < nums.length; i++) {
     if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
-    for (let j = i + 1; j < nums.length - 1; j++) {
+    for (let j = i + 1; j < nums.length; j++) {
       let hash = new Map();
       for (let k = j + 1; k < nums.length; k++) {
         if (hash.has(nums[k])) {
