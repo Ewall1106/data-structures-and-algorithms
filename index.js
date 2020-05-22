@@ -1447,10 +1447,7 @@ logs：1
 [✔️]2020.05.07
 */
 
-// 解析：
-// 解法1：暴力破解法
-//   使用两个for循环，如果相加等于target值则return，
-//   时间复杂度为O(n^2)
+// 解法1：暴力破解法。使用两个for循环，如果相加等于target值则return，时间复杂度为O(n^2)
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -1530,8 +1527,10 @@ var threeSum = function (nums) {
 // 解法2：loops+set，由于c = -(a+b)时满足条件，所以将a、b双层循环一下并将其放到set中。时间复杂度O(n^2)、空间复杂度O(n)
 var threeSum = function (nums) {
   if (nums == null || nums.length < 3) return [];
-  nums.sort((a, b) => a - b);
   let result = [];
+
+  nums.sort((a, b) => a - b);
+
   for (let i = 0; i < nums.length; i++) {
     if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
     let hash = new Map();
@@ -1555,16 +1554,16 @@ var threeSum = function (nums) {
  * @return {number[][]}
  */
 var threeSum = function (nums) {
+  if (!nums || nums.length < 3) return [];
   let res = [];
-  let len = nums.length;
-  if (!nums || len < 3) return res;
+
   nums.sort((a, b) => a - b);
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < nums.length; i++) {
     if (nums[i] > 0) break; // 如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
     if (i > 0 && nums[i] == nums[i - 1]) continue; // 如果nums[i] == nums[i−1]，则说明该数字重复会导致结果重复，所以应该跳过
     let l = i + 1;
-    let r = len - 1;
+    let r = nums.length - 1;
 
     while (l < r) {
       let sum = nums[i] + nums[l] + nums[r];
@@ -1607,6 +1606,79 @@ https://leetcode-cn.com/problems/4sum/
 
 logs：0
 */
+// 解法1：暴力求解。时间复杂度O(n^4)
+// 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)  waring！！！还没有AC
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function (nums, target) {
+  let len = nums.length;
+  if (len < 4) return [];
+  let result = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    for (let j = i + 1; j < nums.length - 1; j++) {
+      let hash = new Map();
+      for (let k = j + 1; k < nums.length; k++) {
+        if (hash.has(nums[k])) {
+          if (hash.get(nums[k]) == 0) {
+            result.push([
+              nums[i],
+              nums[j],
+              nums[k],
+              target - nums[i] - nums[j] - nums[k],
+            ]);
+            hash.set(nums[k], 1); // 去重 [0,0,0,0]
+          }
+        } else {
+          hash.set(target - nums[i] - nums[j] - nums[k], 0);
+        }
+      }
+    }
+  }
+  return result;
+};
+
+// 解法3：排序+双指针。时间复杂度O(n^3)
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function (nums, target) {
+  if (!nums || nums.length < 4) return [];
+  let result = [];
+  let a, b;
+
+  nums.sort((a, b) => a - b);
+
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    for (let j = i + 1; j < nums.length; j++) {
+      if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+      a = nums[i];
+      b = nums[j];
+      let l = j + 1;
+      let r = nums.length - 1;
+      while (l < r) {
+        const sum = a + b + nums[l] + nums[r];
+        if (sum < target) {
+          l++;
+        } else if (sum > target) {
+          r--;
+        } else {
+          result.push([a, b, nums[l], nums[r]]);
+          while (l < r && nums[l] === nums[l + 1]) l++;
+          while (l < r && nums[r] === nums[r - 1]) r--;
+          l++;
+          r--;
+        }
+      }
+    }
+  }
+  return result;
+};
 
 //
 // -------divider-------
