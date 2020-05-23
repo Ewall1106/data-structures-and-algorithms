@@ -729,7 +729,8 @@ MyStack.prototype.empty = function () {
   它的右侧子节点的位置是 2n + 2（如果位置可用）； 
   它的父节点位置是 n / 2（如果位置可用）。
 
-logs：0
+logs：1
+[✔️]2020.05.23
 */
 // 创建最小堆
 class MinHeap {
