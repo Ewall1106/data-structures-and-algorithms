@@ -847,113 +847,100 @@ kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
-// 因为js没有内置min-heap这个api，所以需要先自己造一个小顶堆。
+// 因为js没有内置min-heap这个api，所以需要先自己造一个小顶堆。warning！！！没有AC
 class MinHeap {
-  constructor(arr) {
-    this.heap = [null, ...arr];
-    this.size = arr.length;
-    this.buildHeap();
+  constructor() {
+    this.heap = [];
   }
 
-  get isEmpty() {
-    return this.size == 0;
+  // 访问特定节点索引
+  getLeftIndex(index) {
+    return 2 * index + 1;
+  }
+  getRightIndex(index) {
+    return 2 * index + 2;
+  }
+  getParentIndex(index) {
+    if (index === 0) return undefined;
+    return Math.floor(index - 1 / 2);
+  }
+  // 返回最小值
+  findMini() {
+    return this.isEmpty() ? undefined : this.heap[0];
+  }
+  // 长度
+  size() {
+    return this.heap.length;
+  }
+  // 判空
+  isEmpty() {
+    return this.size() === 0;
   }
 
-  add(e) {
-    if (this.size >= this.heap.length - 1) {
-      this.heap.push(e);
-    } else {
-      this.heap[this.size + 1] = e;
-    }
-    this.size++;
-    this.shiftUp(this.size);
+  // 插入一个新的值。
+  insert(value) {
+    if (value == null) return false;
+    this.heap.push(value);
+    this.siftUp(this.heap.length - 1);
   }
 
-  pop() {
-    let result = this.heap[1];
-    if (this.size == 1) {
-      this.heap[1] = null;
-    } else {
-      this.heap[1] = this.heap[this.size];
-      if (this.size != 2) this.heapfy(1);
-    }
-
-    this.size--;
-
-    return result;
+  // 移除最小值并返回这个值。时间复杂度 O(logn)
+  extract() {
+    if (this.isEmpty()) return undefined;
+    if (this.size() === 1) return this.heap.shift();
+    // 避免'数组空洞'、交换首尾元素后再向下堆化
+    this.swap(this.heap, 0, this.heap.length - 1);
+    this.heap.pop();
+    this.siftDown(0);
   }
 
-  head() {
-    return this.heap[1];
-  }
-
-  shiftUp(i) {
-    if (i > this.size) throw new Error("invalid arguments");
-
-    while (i >> 1 > 0) {
-      if (this.heap[i >> 1] > this.heap[i]) {
-        this.heapfy(i >> 1);
-        i = i >> 1;
-      } else {
-        break;
-      }
-    }
-  }
-
-  buildHeap() {
-    for (let start = this.heap.length >> 1; start >= 1; start--) {
-      this.heapfy(start);
+  // 堆化（从下往上）
+  siftUp(index) {
+    let parentIndex = this.getParentIndex(index);
+    while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
+      this.swap(this.heap, parentIndex, index);
+      index = parentIndex;
+      parentIndex = this.getParentIndex(index);
     }
   }
 
-  heapfy(i) {
-    while (i <= this.size >> 1) {
-      // all non-leaf nodes
-      let smallest = i;
-
-      let l = i << 1;
-      if (l <= this.size && this.heap[smallest] > this.heap[l]) {
-        smallest = l;
-      }
-
-      let r = l + 1;
-      if (r <= this.size && this.heap[smallest] > this.heap[r]) {
-        smallest = r;
-      }
-
-      if (i == smallest) {
-        break;
-      }
-      this.swap(i, smallest);
-
-      i = smallest;
+  // 堆化（从上往下）
+  siftDown(index) {
+    let tempIndex = index;
+    const left = this.getLeftIndex(index);
+    const right = this.getRightIndex(index);
+    const size = this.size();
+    // --- 父节点-左子节点-右子节点中找出最大值的索引 ---
+    if (left < size && this.heap[tempIndex] > this.heap[left]) {
+      tempIndex = left;
+    }
+    if (right < size && this.heap[tempIndex] > this.heap[right]) {
+      tempIndex = right;
+    }
+    // --- /父节点-左子节点-右子节点中找出最大值的索引 ---
+    if (index !== tempIndex) {
+      this.swap(this.heap, index, tempIndex);
+      this.siftDown(tempIndex);
     }
   }
 
-  swap(i, j) {
-    let tmp = this.heap[i];
-    this.heap[i] = this.heap[j];
-    this.heap[j] = tmp;
-  }
-
-  toString() {
-    return node(1);
-
-    function node(i) {
-      let l = i << 1;
-      let ll = l <= this.size ? node(l) : "()";
-      let lr = l + 1 <= this.size ? node(l + 1) : "()";
-      return `(${l} ${ll} ${lr})`;
-    }
+  // 交换
+  swap(array, a, b) {
+    const temp = array[a];
+    array[a] = array[b];
+    array[b] = temp;
   }
 }
-
+/**
+ * @param {number} k
+ * @param {number[]} nums
+ */
 var KthLargest = function (k, nums) {
-  this.minHeap = new MinHeap(nums.slice(0, k));
-
   this.k = k;
-  for (let i = k; i <= nums.length - 1; i++) {
-    this.add(nums[i]);
+  nums.sort((a, b) => b - a);
+  this.minHeap = new MinHeap();
+  for (let i = 0; i < k; i++) {
+    this.minHeap.insert(nums[i]);
   }
 };
 
@@ -962,20 +949,22 @@ var KthLargest = function (k, nums) {
  * @return {number}
  */
 KthLargest.prototype.add = function (val) {
-  if (this.minHeap.size >= this.k) {
-    if (val == this.minHeap.head()) return val;
-    else if (val > this.minHeap.head()) {
-      this.minHeap.pop();
-      this.minHeap.add(val);
-    }
-    // ignore less case
+  if (this.minHeap.size() < this.k) {
+    this.minHeap.insert(val);
   } else {
-    // heap not full, so we cant ingore less case
-    this.minHeap.add(val);
+    if (val > this.minHeap.findMini()) {
+      this.minHeap.extract();
+      this.minHeap.insert(val);
+    }
   }
-
-  return this.minHeap.head();
+  return this.minHeap.findMini();
 };
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * var obj = new KthLargest(k, nums)
+ * var param_1 = obj.add(val)
+ */
 
 // 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：N*(k*logk)
 /**
@@ -1897,7 +1886,8 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 
-logs：0
+logs：1
+[✔️]2020.05.24
 */
 
 // 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
@@ -1913,19 +1903,22 @@ logs：0
  * @return {boolean}
  */
 var isValidBST = function (root) {
-  return helper(root, null, null);
+  let pre;
+  function helper(root) {
+    if (root == null) return true;
+    // left
+    let left = helper(root.left);
+    // current
+    let mid = pre >= root.val ? false : true;
+    pre = root.val;
+    // right
+    let right = helper(root.right);
+    return left && mid && right;
+  }
+  return helper(root);
 };
 
-function helper(root, low, high) {
-  if (root === null) return true;
-  if (low !== null && root.val <= low) return false;
-  if (high !== null && root.val >= high) return false;
-  if (!helper(root.left, low, root.val)) return false;
-  if (!helper(root.right, root.val, high)) return false;
-  return true;
-}
-
-// 解法2：使用递归。时间复杂度：O(n)
+// 解法2：使用递归。递归左子树，找到它的最小值与root判断；同理递归右子树找到它的最大值并与root判断。时间复杂度：O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -1937,20 +1930,13 @@ function helper(root, low, high) {
  * @param {TreeNode} root
  * @return {boolean}
  */
-var isValidBST = function (root) {
-  let preVal = null;
-  function isValid(root) {
-    if (root == null) return true;
-    if (isValid(root.left)) {
-      if (preVal != null && preVal >= root.val) {
-        return false;
-      }
-      preVal = root.val;
-      return isValid(root.right);
-    }
-    return false;
-  }
-  return isValid(root);
+var isValidBST = function (root, min, max) {
+  if (!root) return true;
+  if (root.val <= min || root.val >= max) return false;
+  return (
+    isValidBST(root.left, min, root.val) &&
+    isValidBST(root.right, root.val, max)
+  );
 };
 
 //
