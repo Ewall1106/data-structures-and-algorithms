@@ -2046,6 +2046,29 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 
 logs：0
 */
+// 解法1：递归。时间复杂度O(n)
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+  //如果当前结点root等于null，则直接返回null；如果 root等于p或者q，那返回p或者q
+  if (root == null || root == p || root == q) return root;
+  let left = lowestCommonAncestor(root.left, p, q); // 遍历左子树
+  let right = lowestCommonAncestor(root.right, p, q); // 遍历右子树
+  if (left == null) return right; // 若left为空，那最终结果只要看right
+  if (right == null) return left; // 若right为空，那最终结果只要看left
+  if (right && left) return root; // 如果left和right都非空，root是他们的最近公共祖先
+};
 
 //
 // -------divider-------
