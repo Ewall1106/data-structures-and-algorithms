@@ -1721,25 +1721,25 @@ class BinarySearchTree {
 
   // insert：向树中插入一个新的键。
   insert(newNode) {
-    const insertNode = (node, newNode) => {
-      if (node.key > newNode.key) {
-        if (node.left == null) {
-          node.left = newNode;
-        } else {
-          insertNode(node.left, newNode);
-        }
-      } else {
-        if (node.right == null) {
-          node.right = newNode;
-        } else {
-          insertNode(node.right, newNode);
-        }
-      }
-    };
     if (this.root == null) {
       this.root = newNode;
     } else {
-      insertNode(this.root, newNode);
+      this.insertNode(this.root, newNode);
+    }
+  }
+  insertNode(node, newNode) {
+    if (node.key > newNode.key) {
+      if (node.left == null) {
+        node.left = newNode;
+      } else {
+        this.insertNode(node.left, newNode);
+      }
+    } else {
+      if (node.right == null) {
+        node.right = newNode;
+      } else {
+        this.insertNode(node.right, newNode);
+      }
     }
   }
 
@@ -1960,6 +1960,7 @@ var isValidBST = function (root, min, max) {
 /*
 【二叉搜索树的最近公共祖先】
 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+https://time.geekbang.org/course/detail/100019701-42708
 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
@@ -1975,8 +1976,51 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 输出: 2
 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：0
+logs：1
+[✔️]2020.05.24
 */
+
+// 解法1：递归。时间复杂度O(n)
+// 从根节点开始遍历树
+// 如果节点 pp 和节点 qq 都在右子树上，那么以右孩子为根节点继续 1 的操作
+// 如果节点 pp 和节点 qq 都在左子树上，那么以左孩子为根节点继续 1 的操作
+// 如果条件 2 和条件 3 都不成立，这就意味着我们已经找到节 pp 和节点 qq 的 LCA 了
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+  if (p.val > root.val && q.val > root.val) {
+    return lowestCommonAncestor(root.right, p, q);
+  } else if (p.val < root.val && q.val < root.val) {
+    return lowestCommonAncestor(root.left, p, q);
+  } else {
+    return root;
+  }
+};
+
+// 解法2：迭代。跟使用递归的思路是一样的，写法不同而已。时间复杂度O(n)
+var lowestCommonAncestor = function (root, p, q) {
+  while (root != null) {
+    if (p.val > root.val && q.val > root.val) {
+      root = root.right;
+    } else if (p.val < root.val && q.val < root.val) {
+      root = root.left;
+    } else {
+      return root;
+    }
+  }
+  return null;
+};
 
 //
 // -------divider-------
