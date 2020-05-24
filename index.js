@@ -1705,6 +1705,7 @@ tree.insert(new Node(4));
 logs：1
 [✔️]2020.05.13
 */
+
 class Node {
   constructor(key) {
     this.key = key; // 节点值
@@ -1780,26 +1781,26 @@ class BinarySearchTree {
 
   // min：返回树中最小的值/键。
   min() {
-    const minNode = (node) => {
-      let current = node;
-      while (current != null && current.left != null) {
-        current = current.left;
-      }
-      return current;
-    };
-    return minNode(this.root);
+    return this.minNode(this.root);
+  }
+  minNode(node) {
+    let current = node;
+    while (current != null && current.left != null) {
+      current = current.left;
+    }
+    return current;
   }
 
   // max：返回树中最大的值/键。
   max() {
-    const maxNode = (node) => {
-      let current = node;
-      while (current != null && current.right != null) {
-        current = current.right;
-      }
-      return current;
-    };
-    return maxNode(this.root);
+    return this.maxNode(this.root);
+  }
+  maxNode(node) {
+    let current = node;
+    while (current != null && current.right != null) {
+      current = current.right;
+    }
+    return current;
   }
 
   // search：在树中查找一个键。如果节点存在，则返回 true；如果不存在，则返回false。
@@ -1822,7 +1823,7 @@ class BinarySearchTree {
   // remove(key)：从树中移除某个键。
   remove(key) {
     const removeNode = (node, key) => {
-      if (node == null) return null;
+      if (node == null) return null; // 终止条件
 
       if (node.key > key) {
         node.left = removeNode(node.left, key);
@@ -1836,7 +1837,7 @@ class BinarySearchTree {
           node = null;
           return node;
         }
-        // 第二种情况：移除一个有左侧或右侧子节点的节点
+        // 第二种情况：移除一个有左侧或右侧子节点的节点，我们需要跳过这个节点，直接将父节点指向它的指针指向子节点。
         if (node.left == null) {
           node = node.right;
           return node;
@@ -1845,15 +1846,28 @@ class BinarySearchTree {
           return node;
         }
         // 第三种情况：有两个子节点的节点
-        const aux = this.minNode(node.right);
-        node.key = aux.key;
-        node.right = removeNode(node.right, aux.key);
+        const temp = this.minNode(node.right); // 找到它右边子树中最小的节点
+        node.key = temp.key; // 用它右侧子树中最小节点的键去更新这个节点的值
+        node.right = removeNode(node.right, temp.key); // 这样在树中就有两个拥有相同键的节点了，移除这个值
         return node;
       }
     };
     this.root = removeNode(this.root, key);
   }
 }
+
+const tree = new BinarySearchTree();
+tree.insert(new Node(11));
+tree.insert(new Node(7));
+tree.insert(new Node(2));
+tree.insert(new Node(4));
+tree.insert(new Node(2));
+tree.insert(new Node(20));
+tree.remove(20);
+console.log(tree.min());
+console.log(tree.max());
+console.log(tree.search(11));
+tree.inOrderTraverse((value) => console.log(value));
 
 //
 // -------divider-------
