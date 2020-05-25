@@ -737,7 +737,6 @@ class MinHeap {
   constructor() {
     this.heap = [];
   }
-
   // 访问特定节点索引
   getLeftIndex(index) {
     return 2 * index + 1;
@@ -747,11 +746,7 @@ class MinHeap {
   }
   getParentIndex(index) {
     if (index === 0) return undefined;
-    return Math.floor(index - 1 / 2);
-  }
-  // 返回最小值
-  findMini() {
-    return this.isEmpty() ? undefined : this.heap[0];
+    return Math.floor((index - 1) / 2);
   }
   // 长度
   size() {
@@ -759,9 +754,16 @@ class MinHeap {
   }
   // 判空
   isEmpty() {
-    return this.size() === 0;
+    return this.size() <= 0;
   }
-
+  // 清空
+  clear() {
+    this.heap = [];
+  }
+  // 返回最小值
+  findMinimum() {
+    return this.isEmpty() ? undefined : this.heap[0];
+  }
   // 插入一个新的值。如果插入成功，它返回 true，否则返回false。时间复杂度 O(logn)
   insert(value) {
     if (value == null) return false;
@@ -769,28 +771,6 @@ class MinHeap {
     this.siftUp(this.heap.length - 1);
     return true;
   }
-
-  // 移除最小值并返回这个值。时间复杂度 O(logn)
-  extract() {
-    if (this.isEmpty()) return undefined;
-    if (this.size() === 1) return this.heap.shift();
-    // 避免'数组空洞'、交换首尾元素后再向下堆化
-    this.swap(this.heap, 0, this.heap.length - 1);
-    const removedValue = this.heap.pop();
-    this.siftDown(0);
-    return removedValue;
-  }
-
-  // 堆化（从下往上）
-  siftUp(index) {
-    let parentIndex = this.getParentIndex(index);
-    while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
-      this.swap(this.heap, parentIndex, index);
-      index = parentIndex;
-      parentIndex = this.getParentIndex(index);
-    }
-  }
-
   // 堆化（从上往下）
   siftDown(index) {
     let tempIndex = index;
@@ -810,12 +790,32 @@ class MinHeap {
       this.siftDown(tempIndex);
     }
   }
-
+  // 堆化（从下往上）
+  siftUp(index) {
+    let parent = this.getParentIndex(index);
+    while (index > 0 && this.heap[parent] > this.heap[index]) {
+      this.swap(this.heap, parent, index);
+      index = parent;
+      parent = this.getParentIndex(index);
+    }
+  }
+  // 移除最小值并返回这个值。时间复杂度 O(logn)
+  extract() {
+    if (this.isEmpty()) return undefined;
+    if (this.size() === 1) return this.heap.shift();
+    // 避免'数组空洞'、交换首尾元素后再向下堆化
+    this.swap(this.heap, 0, this.heap.length - 1);
+    const removedValue = this.heap.pop();
+    this.siftDown(0);
+    return removedValue;
+  }
+  // 返回数组
+  getAsArray() {
+    return this.heap;
+  }
   // 交换
   swap(array, a, b) {
-    const temp = array[a];
-    array[a] = array[b];
-    array[b] = temp;
+    [array[a], array[b]] = [array[b], array[a]];
   }
 }
 
@@ -847,12 +847,11 @@ kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
-// 因为js没有内置min-heap这个api，所以需要先自己造一个小顶堆。warning！！！没有AC
+// 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
 class MinHeap {
   constructor() {
     this.heap = [];
   }
-
   // 访问特定节点索引
   getLeftIndex(index) {
     return 2 * index + 1;
@@ -862,11 +861,7 @@ class MinHeap {
   }
   getParentIndex(index) {
     if (index === 0) return undefined;
-    return Math.floor(index - 1 / 2);
-  }
-  // 返回最小值
-  findMini() {
-    return this.isEmpty() ? undefined : this.heap[0];
+    return Math.floor((index - 1) / 2);
   }
   // 长度
   size() {
@@ -874,36 +869,23 @@ class MinHeap {
   }
   // 判空
   isEmpty() {
-    return this.size() === 0;
+    return this.size() <= 0;
   }
-
-  // 插入一个新的值。
+  // 清空
+  clear() {
+    this.heap = [];
+  }
+  // 返回最小值
+  findMinimum() {
+    return this.isEmpty() ? undefined : this.heap[0];
+  }
+  // 插入一个新的值。如果插入成功，它返回 true，否则返回false。时间复杂度 O(logn)
   insert(value) {
     if (value == null) return false;
     this.heap.push(value);
     this.siftUp(this.heap.length - 1);
+    return true;
   }
-
-  // 移除最小值并返回这个值。时间复杂度 O(logn)
-  extract() {
-    if (this.isEmpty()) return undefined;
-    if (this.size() === 1) return this.heap.shift();
-    // 避免'数组空洞'、交换首尾元素后再向下堆化
-    this.swap(this.heap, 0, this.heap.length - 1);
-    this.heap.pop();
-    this.siftDown(0);
-  }
-
-  // 堆化（从下往上）
-  siftUp(index) {
-    let parentIndex = this.getParentIndex(index);
-    while (index > 0 && this.heap[parentIndex] > this.heap[index]) {
-      this.swap(this.heap, parentIndex, index);
-      index = parentIndex;
-      parentIndex = this.getParentIndex(index);
-    }
-  }
-
   // 堆化（从上往下）
   siftDown(index) {
     let tempIndex = index;
@@ -923,48 +905,52 @@ class MinHeap {
       this.siftDown(tempIndex);
     }
   }
-
+  // 堆化（从下往上）
+  siftUp(index) {
+    let parent = this.getParentIndex(index);
+    while (index > 0 && this.heap[parent] > this.heap[index]) {
+      this.swap(this.heap, parent, index);
+      index = parent;
+      parent = this.getParentIndex(index);
+    }
+  }
+  // 移除最小值并返回这个值。时间复杂度 O(logn)
+  extract() {
+    if (this.isEmpty()) return undefined;
+    if (this.size() === 1) return this.heap.shift();
+    // 避免'数组空洞'、交换首尾元素后再向下堆化
+    this.swap(this.heap, 0, this.heap.length - 1);
+    const removedValue = this.heap.pop();
+    this.siftDown(0);
+    return removedValue;
+  }
+  // 返回数组
+  getAsArray() {
+    return this.heap;
+  }
   // 交换
   swap(array, a, b) {
-    const temp = array[a];
-    array[a] = array[b];
-    array[b] = temp;
+    [array[a], array[b]] = [array[b], array[a]];
   }
 }
-/**
- * @param {number} k
- * @param {number[]} nums
- */
 var KthLargest = function (k, nums) {
   this.k = k;
-  nums.sort((a, b) => b - a);
   this.minHeap = new MinHeap();
-  for (let i = 0; i < k; i++) {
-    this.minHeap.insert(nums[i]);
+  for (let i = 0; i < nums.length; i++) {
+    this.add(nums[i]);
   }
 };
-
-/**
- * @param {number} val
- * @return {number}
- */
 KthLargest.prototype.add = function (val) {
   if (this.minHeap.size() < this.k) {
     this.minHeap.insert(val);
   } else {
-    if (val > this.minHeap.findMini()) {
+    if (val > this.minHeap.findMinimum()) {
       this.minHeap.extract();
       this.minHeap.insert(val);
     }
   }
-  return this.minHeap.findMini();
+  return this.minHeap.findMinimum();
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * var obj = new KthLargest(k, nums)
- * var param_1 = obj.add(val)
- */
 
 // 解法2：使用一个数组，对前k项从大到小的排序，并对新add进来的数进行判断是塞进来还是丢弃。时间复杂度：N*(k*logk)
 /**
