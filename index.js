@@ -1184,7 +1184,7 @@ var mergeTwoLists = function (l1, l2) {
 var mergeTwoLists = function (l1, l2) {
   const prehead = new ListNode(-1);
   let prev = prehead;
-  while (l1 != null && l2 != null) {
+  while (l1 && l2) {
     if (l1.val <= l2.val) {
       prev.next = l1;
       l1 = l1.next;
@@ -1327,6 +1327,83 @@ var detectCycle = function (head) {
     head = head.next;
   }
   return null;
+};
+
+//
+// -------divider-------
+//
+
+/* 
+【删除链表的倒数第N个节点】
+https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
+给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+
+示例：
+给定一个链表: 1->2->3->4->5, 和 n = 2.
+当删除了倒数第二个节点后，链表变为 1->2->3->5.
+说明：
+给定的 n 保证是有效的。
+
+进阶：
+你能尝试使用一趟扫描实现吗？
+
+logs：1
+[✔️]2020.05.25
+*/
+
+// 解法1：两次遍历。时间复杂度O(n)
+var removeNthFromEnd = function (head, n) {
+  // 设置一个哑节点位于作为辅助。哑结点用来简化某些极端情况，例如列表中只含有一个结点、或需要删除列表的头部
+  const preHead = new ListNode(0); 
+  preHead.next = head;
+  let length = 0;
+  let temp = head;
+  // 第一次遍历，我们找出列表的长度length
+  while (temp != null) {
+    temp = temp.next;
+    length++;
+  }
+  // 找到废弃节点的位置并设置next跳过它
+  length = length - n;
+  temp = preHead;
+  while (length > 0) {
+    temp = temp.next;
+    length--;
+  }
+  temp.next = temp.next.next;
+  return preHead.next;
+};
+
+// 解法2：双指针。时间复杂度O(n)
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+var removeNthFromEnd = function (head, n) {
+  let preHead = new ListNode(0);
+  preHead.next = head;
+  let fast = preHead,
+    slow = preHead;
+  while (n != 0) {
+    // 快指针先走n步
+    fast = fast.next;
+    n--;
+  }
+  // 之后快慢指针共同向前移动，此时二者的距离为n，当 fast end 的位置恰好为倒数第n的那个节点
+  while (fast && fast.next) {
+    fast = fast.next;
+    slow = slow.next;
+  }
+  slow.next = slow.next.next;
+  return preHead.next;
 };
 
 //
