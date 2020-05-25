@@ -2044,7 +2044,8 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 输出: 5
 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：0
+logs：1
+[✔️]2020.05.25
 */
 // 解法1：递归。时间复杂度O(n)
 /**
