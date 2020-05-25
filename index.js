@@ -1354,7 +1354,7 @@ logs：1
 // 解法1：两次遍历。时间复杂度O(n)
 var removeNthFromEnd = function (head, n) {
   // 设置一个哑节点位于作为辅助。哑结点用来简化某些极端情况，例如列表中只含有一个结点、或需要删除列表的头部
-  const preHead = new ListNode(0); 
+  const preHead = new ListNode(0);
   preHead.next = head;
   let length = 0;
   let temp = head;
@@ -1397,7 +1397,7 @@ var removeNthFromEnd = function (head, n) {
     fast = fast.next;
     n--;
   }
-  // 之后快慢指针共同向前移动，此时二者的距离为n，当 fast end 的位置恰好为倒数第n的那个节点
+  // 之后快慢指针共同向前移动，此时二者的距离为n，当 fast 到达尾部时，end 的位置恰好为倒数第n的那个节点
   while (fast && fast.next) {
     fast = fast.next;
     slow = slow.next;
