@@ -845,6 +845,9 @@ kthLargest.add(5);   // returns 5
 kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
+
+logs：1
+[✔️]2020.05.26
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -967,9 +970,9 @@ var KthLargest = function (k, nums) {
  * @return {number}
  */
 KthLargest.prototype.add = function (val) {
-  for (let i = 0, count = this.nums.length; i < count; ++i) {
+  for (let i = 0; i < this.nums.length; i++) {
     if (val > this.nums[i]) {
-      this.nums.splice(i, 1, val, this.nums[i]);
+      this.nums.splice(i, 0, val);
       return this.nums[this.k];
     }
   }
