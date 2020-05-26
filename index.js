@@ -2287,6 +2287,7 @@ var lowestCommonAncestor = function (root, p, q) {
   （1）对于递归代码，这种试图想清楚整个递和归过程的做法，实际上是进入了一个思维误区。很多时候，我们理解起来比较吃力，主要原因就是自己给自己制造了这种理解障碍。那正确的思维方式应该是怎样的呢？
   （2）如果一个问题 A 可以分解为若干子问题 B、C、D，你可以假设子问题 B、C、D 已经解决，在此基础上思考如何解决问题 A。而且，你只需要思考问题 A 与子问题 B、C、D 两层之间的关系即可，不需要一层一层往下思考子问题与子子问题，子子问题与子子子问题之间的关系。屏蔽掉递归细节，这样子理解起来就简单多了。
   （3）因此，编写递归代码的关键是，只要遇到递归，我们就把它抽象成一个递推公式，不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。
+  （4）分治算法一般都是用递归来实现的。分治是一种解决问题的处理思想，递归是一种编程技巧。
 */
 
 /*
@@ -2693,11 +2694,31 @@ function insertionSort(array) {
 /*
 【归并排序】
 先将原始数组分割直至只有一个元素的子数组，然后开始归并。归并过程也会完成排序，直至原始数组完全合并并完成排序。
-时间复杂度：O(nlog(n))
+时间复杂度：O(nlogn)、空间复杂度O(n)
+正因为需要开辟新的内存空间，不是原地排序算法，所以应用并没有快排那么应用广泛。
 
-logs：1
+递推公式：从左至右的排好序 = 开始到中间的排好序 + 中间到末尾的排好序
+mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...right))
+
+终止条件：
+数组length<=1
+
+logs：2
 [✔️]2020.05.22
+[✔️]2020.05.26
 */
+
+/**
+ * @param {Array} array
+ */
+function mergeSort(array) {
+  if (array.length <= 1) return array;
+  let middle = Math.floor(array.length / 2);
+  let left = array.slice(0, middle);
+  let right = array.slice(middle);
+  return merge(mergeSort(left), mergeSort(right));
+}
+
 /**
  * @param {Array} left
  * @param {Array} right
@@ -2712,18 +2733,8 @@ function merge(left, right) {
       result.push(right.shift());
     }
   }
+  // 因为left、right都是排好序的，所以如果一个length为0了就只需要合并就行，不需要遍历shift()了
   return result.concat(left, right);
-}
-
-/**
- * @param {Array} array
- */
-function mergeSort(array) {
-  if (array.length <= 1) return array;
-  let middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle);
-  return merge(mergeSort(left), mergeSort(right));
 }
 
 const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
@@ -2735,11 +2746,12 @@ const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 /*
 【快速排序】
 * 首先，从数组中选择一个值作为主元（pivot），也就是数组中间的那个值。
-* 创建两个指针（引用），左边一个指向数组第一个值，右边一个指向数组最后一个值。移动左指针直到我们找到一个比主元大的值，接着，移动右指针直到找到一个比主元小的值，然后交换它们，重复这个过程，直到左指针超过了右指针。这个过程将使得比主元小的值都排在主元 之前，而比主元大的值都排在主元之后。这一步叫作划分（partition）操作。
-* 接着，算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的 子数组）重复之前的两个步骤，直至数组已完全排序。
+* 创建两个指针（引用），左边一个指向数组第一个值，右边一个指向数组最后一个值。移动左指针直到我们找到一个比主元大的值，接着，移动右指针直到找到一个比主元小的值，然后交换它们，重复这个过程，直到左指针超过了右指针。这个过程将使得比主元小的值都排在主元之前，而比主元大的值都排在主元之后。这一步叫作划分（partition）操作。
+* 接着，算法对划分后的小数组（较主元小的值组成的子数组，以及较主元大的值组成的子数组）重复之前的两个步骤，直至数组已完全排序。
 * 时间复杂度O(nlogn)
 
-logs：0
+logs：1
+[✔️]2020.05.26
 */
 function quickSort(array) {
   return quick(array, 0, array.length - 1);
@@ -2764,18 +2776,17 @@ function partition(array, left, right) {
   let i = left;
   let j = right;
   while (i <= j) {
+    // 移动左指针直到我们找到一个比主元大的值
     while (array[i] < pivot) {
       i++;
     }
+    // 移动右指针直到找到一个比主元小的值
     while (array[j] > pivot) {
       j--;
     }
-    // 当左指针指向的元素比主元大且右指针指向的元素比主元小
-    // 并且此时左指针索引没有右指针索引大时，意思是左项比右项大（值比较），我们交换它们
+    // 交换它们
     if (i <= j) {
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
+      [array[i], array[j]] = [array[j], array[i]];
       i++;
       j--;
     }
