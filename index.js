@@ -2768,9 +2768,11 @@ function quick(array, left, right) {
   if (array.length > 1) {
     index = partition(array, left, right);
     if (left < index - 1) {
+      // 较主元小的值组成的子数组重复划分排序操作
       quick(array, left, index - 1);
     }
     if (right > index) {
+      // 较主元大的值组成的子数组重复划分排序操作
       quick(array, index, right);
     }
   }
@@ -2781,6 +2783,7 @@ function partition(array, left, right) {
   const pivot = array[Math.floor((right + left) / 2)];
   let i = left;
   let j = right;
+  // 这个过程将使得比主元小的值都排在主元之前，而比主元大的值都排在主元之后
   while (i <= j) {
     // 移动左指针直到我们找到一个比主元大的值
     while (array[i] < pivot) {
