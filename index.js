@@ -2085,8 +2085,8 @@ tree.inOrderTraverse((value) => console.log(value));
 https://leetcode-cn.com/problems/validate-binary-search-tree/
 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
 假设一个二叉搜索树具有如下特征：
-节点的左子树只包含小于当前节点的数。
-节点的右子树只包含大于当前节点的数。
+节点的【左子树】只包含小于当前节点的数。
+节点的【右子树】只包含大于当前节点的数。
 所有左子树和右子树自身必须也是二叉搜索树。
 
 示例 1:
@@ -2107,8 +2107,9 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 
-logs：1
+logs：2
 [✔️]2020.05.24
+[✔️]2020.05.27
 */
 
 // 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
@@ -2124,12 +2125,12 @@ logs：1
  * @return {boolean}
  */
 var isValidBST = function (root) {
-  let pre;
+  let pre = -Infinity;
   function helper(root) {
     if (root == null) return true;
     // left
     let left = helper(root.left);
-    // current
+    // current：如果当前节点小于等于中序遍历的前一个节点，说明不满足BST，返回false
     let mid = pre >= root.val ? false : true;
     pre = root.val;
     // right
@@ -2139,7 +2140,7 @@ var isValidBST = function (root) {
   return helper(root);
 };
 
-// 解法2：使用递归。递归左子树，找到它的最小值与root判断；同理递归右子树找到它的最大值并与root判断。时间复杂度：O(n)
+// 解法2：使用递归。因为是二叉搜索树，左子树都要比root小，右子树都要比root大。所以递归左子树，找到它的最小值与root判断；同理递归右子树找到它的最大值并与root判断。时间复杂度：O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -2151,13 +2152,18 @@ var isValidBST = function (root) {
  * @param {TreeNode} root
  * @return {boolean}
  */
-var isValidBST = function (root, min, max) {
-  if (!root) return true;
-  if (root.val <= min || root.val >= max) return false;
-  return (
-    isValidBST(root.left, min, root.val) &&
-    isValidBST(root.right, root.val, max)
-  );
+var isValidBST = function (root) {
+  function helper(root, min, max) {
+    if (root == null) return true;
+    // 左子树：当前值比最大值要小
+    // 右子树：当前值比最小值要大
+    // 不满足上述条件则为false
+    if (root.val >= max || root.val <= min) return false;
+    return (
+      helper(root.left, min, root.val) && helper(root.right, root.val, max)
+    );
+  }
+  return helper(root, -Infinity, Infinity);
 };
 
 //
