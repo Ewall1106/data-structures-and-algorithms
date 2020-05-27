@@ -2189,9 +2189,10 @@ https://time.geekbang.org/course/detail/100019701-42708
 输出: 2
 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：2
+logs：3
 [✔️]2020.05.24
 [✔️]2020.05.25
+[✔️]2020.05.27
 */
 
 // 解法1：递归。时间复杂度O(n)
@@ -2213,6 +2214,7 @@ logs：2
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function (root, p, q) {
+  if (root == null) return null;
   if (p.val > root.val && q.val > root.val) {
     return lowestCommonAncestor(root.right, p, q);
   } else if (p.val < root.val && q.val < root.val) {
@@ -2258,10 +2260,11 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 输出: 5
 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：1
+logs：2
 [✔️]2020.05.25
+[✔️]2020.05.27
 */
-// 解法1：递归。时间复杂度O(n)
+// 解法1：递归。在当前节点的左子树和右子树中分别递归找p和q，如果存在那么就是公共祖先了。继续重复就可以找到最近公共祖先。时间复杂度O(n)。
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
