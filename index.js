@@ -1011,11 +1011,13 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：1
+logs：2
+[✔️]2020.05.28
 [✔️]2020.05.28
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
+  if (!nums.length) return [];
   if (k === 1) return nums;
   let result = [],
     deque = [];
@@ -1037,18 +1039,20 @@ var maxSlidingWindow = function (nums, k) {
  */
 var maxSlidingWindow = function (nums, k) {
   if (!nums.length) return [];
+  if (k === 1) return nums;
   let deque = []; // 维护位置索引
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
-    // 把滑动窗口之外的踢出
+    // i >= k：保证已经往右移了k位了
+    // deque[0] <= i - k：把滑动窗口之外的踢出
     if (i >= k && deque[0] <= i - k) deque.shift();
-    // 最大值永远是左边的值，对于进来的新值进行判断
+    // 最大值永远是【左边】的值，对于进来的新值进行判断
     while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
       deque.pop();
     }
     deque.push(i);
-    // 队列左侧是最大值,加入结果
+    // 队列左侧是最大值,放入结果
     if (i >= k - 1) {
       result.push(nums[deque[0]]);
     }
@@ -2847,19 +2851,20 @@ function partition(array, left, right) {
 * 如果选中值是待搜索值，那么算法执行完毕（值找到了）。 
 * 如果待搜索值比选中值要小，则返回步骤 1 并在选中值左边的子数组中寻找（较小）。 
 * 如果待搜索值比选中值要大，则返回步骤 1 并在选种值右边的子数组中寻找（较大）。
+
 * 时间复杂度：O(logn)
 
-logs：0
+logs：1
+[✔️]2020.05.28
 */
-// 迭代
 function binarySearch(array, value) {
-  const sortedArray = quickSort(array);
+  array.sort((a, b) => a - b);
   let low = 0;
-  let high = sortedArray.length - 1;
+  let high = array.length - 1;
 
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
-    const element = sortedArray[mid];
+    const element = array[mid];
     if (value > element) {
       low = mid + 1;
     } else if (value < element) {
