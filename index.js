@@ -1015,8 +1015,21 @@ logs：1
 [✔️]2020.05.28
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
+var maxSlidingWindow = function (nums, k) {
+  if (k === 1) return nums;
+  let result = [],
+    deque = [];
+  for (let i = 0; i < nums.length; i++) {
+    deque.push(nums[i]);
+    if (i >= k - 1) {
+      result.push(Math.max(...deque));
+      deque.shift();
+    }
+  }
+  return result;
+};
 
-// 解法2：使用双端队列Queue。时间复杂度：O(n)
+// 解法2：使用双端队列Queue。时间复杂度：O(n)、空间复杂度：O(n)
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -1024,13 +1037,13 @@ logs：1
  */
 var maxSlidingWindow = function (nums, k) {
   if (!nums.length) return [];
-  let deque = [];
+  let deque = []; // 维护位置索引
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
-    // 删除队列中小于窗口左边下标的元素
+    // 把滑动窗口之外的踢出
     if (i >= k && deque[0] <= i - k) deque.shift();
-    // 从队列右侧开始, 删除小于nums[i] 的元素
+    // 最大值永远是左边的值，对于进来的新值进行判断
     while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
       deque.pop();
     }
@@ -2692,8 +2705,9 @@ const test = selectionSort([4, 4, 52, 13, 5, 8, 91, 1]);
         --------
         一个个的抽出来插牌到已排好序的前面项中
 
-logs：1
+logs：2
 [✔️]2020.05.22
+[✔️]2020.05.28
 */
 function insertionSort(array) {
   let temp;
