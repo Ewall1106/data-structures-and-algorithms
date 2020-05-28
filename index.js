@@ -1000,6 +1000,8 @@ https://time.geekbang.org/course/detail/100019701-41559
 返回滑动窗口中的最大值。
 
 示例：
+输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+输出: [3,3,5,5,6,7] 
   滑动窗口的位置                最大值
 ---------------               -----
 [1  3  -1] -3  5  3  6  7       3
@@ -1009,10 +1011,12 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：0
+logs：1
+[✔️]2020.05.28
 */
-// 解法1：使用优先队列，大顶堆max-heap，时间复杂度：N * O(log k)
-// 解法2：使用队列Queue。时间复杂度：O(n)
+// 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
+
+// 解法2：使用双端队列Queue。时间复杂度：O(n)
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -1024,17 +1028,24 @@ var maxSlidingWindow = function (nums, k) {
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
+    // 删除队列中小于窗口左边下标的元素
     if (i >= k && deque[0] <= i - k) deque.shift();
+    // 从队列右侧开始, 删除小于nums[i] 的元素
     while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
       deque.pop();
     }
     deque.push(i);
+    // 队列左侧是最大值,加入结果
     if (i >= k - 1) {
       result.push(nums[deque[0]]);
     }
   }
   return result;
 };
+
+// 解法3：动态规划
+
+// 解法4：使用优先队列，大顶堆max-heap，时间复杂度O(Nlogk)
 
 //
 // -------divider-------
