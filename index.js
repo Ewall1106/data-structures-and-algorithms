@@ -1734,14 +1734,17 @@ logs：1
  * @return {number[][]}
  */
 var threeSum = function (nums) {
+  if (nums == null || nums.length < 3) return [];
+
   let map = {};
   for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
     for (let j = i + 1; j < nums.length; j++) {
       for (let k = j + 1; k < nums.length; k++) {
         if (nums[i] + nums[j] + nums[k] === 0) {
           let value = [nums[i], nums[j], nums[k]].sort();
           let key = value.join(",");
-
+          // 去重
           if (!Object.keys(map).includes(key)) {
             map[key] = value;
           }
@@ -1757,10 +1760,10 @@ var threeSum = function (nums) {
 var threeSum = function (nums) {
   if (nums == null || nums.length < 3) return [];
   let result = [];
-
   nums.sort((a, b) => a - b);
 
   for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > 0) break;
     if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
     let hash = new Map();
     for (let j = i + 1; j < nums.length; j++) {
@@ -1783,14 +1786,14 @@ var threeSum = function (nums) {
  * @return {number[][]}
  */
 var threeSum = function (nums) {
-  if (!nums || nums.length < 3) return [];
+  if (nums == null || nums.length < 3) return [];
   let res = [];
 
   nums.sort((a, b) => a - b);
 
   for (let i = 0; i < nums.length; i++) {
-    if (nums[i] > 0) break; // 如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
-    if (i > 0 && nums[i] == nums[i - 1]) continue; // 如果nums[i] == nums[i−1]，则说明该数字重复会导致结果重复，所以应该跳过
+    if (nums[i] > 0) break; // 因为已经排序好，如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
+    if (i > 0 && nums[i] == nums[i - 1]) continue;
     let l = i + 1;
     let r = nums.length - 1;
 
