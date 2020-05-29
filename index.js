@@ -2321,26 +2321,28 @@ var lowestCommonAncestor = function (root, p, q) {
 //
 
 /* -------------------------- 递归、分治 ---------------------------*/
+
 /* 
   Tips：
   （1）对于递归代码，这种试图想清楚整个递和归过程的做法，实际上是进入了一个思维误区。很多时候，我们理解起来比较吃力，主要原因就是自己给自己制造了这种理解障碍。那正确的思维方式应该是怎样的呢？
   （2）如果一个问题 A 可以分解为若干子问题 B、C、D，你可以假设子问题 B、C、D 已经解决，在此基础上思考如何解决问题 A。而且，你只需要思考问题 A 与子问题 B、C、D 两层之间的关系即可，不需要一层一层往下思考子问题与子子问题，子子问题与子子子问题之间的关系。屏蔽掉递归细节，这样子理解起来就简单多了。
   （3）因此，编写递归代码的关键是，只要遇到递归，我们就把它抽象成一个递推公式，不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。
   （4）分治算法一般都是用递归来实现的。分治是一种解决问题的处理思想，递归是一种编程技巧。
+
 */
 
 /*
 【斐波那契数列】
-1、求1，1，2，3，5，8，....第n个数是多少？
-2、计算阶乘n! = 1 x 2 x 3 x ... x n
 
 logs：0
 */
+// 1、求1，1，2，3，5，8，....第n个数是多少？
 function fibonacci(n) {
   if (n <= 2) return 1;
   return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
+// 2、计算阶乘n! = 1 x 2 x 3 x ... x n
 function fact(n) {
   if (n === 1) return 1;
   return n * fact(n - 1);
@@ -2353,6 +2355,7 @@ function fact(n) {
 /*
 【Pow(x, n)】
 https://leetcode-cn.com/problems/powx-n/
+https://time.geekbang.org/course/detail/130-42711
 实现 pow(x, n) ，即计算 x 的 n 次幂函数。
 
 示例 1:
@@ -2383,37 +2386,59 @@ logs：0
  * @return {number}
  */
 var myPow = function (x, n) {
-  if (n == 0) return 1;
+  if (n === 0) return 1;
+  if (n === 1) return x;
   if (n < 0) return 1 / myPow(x, -n);
-  if (n % 2) return x * myPow(x, n - 1);
-  return myPow(x * x, n / 2);
+  if (n % 2) return x * myPow(x, n - 1); // 奇数
+  return myPow(x * x, n / 2); // 偶数
 };
 
-// 解法3：非递归、位运算 https://time.geekbang.org/course/detail/130-42711
+// 解法3：迭代、位运算
+/**
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function (x, n) {
+  if (n === 0) return 1;
+  if (x === 0) return 0;
+  if (n < 0) {
+    x = 1 / x;
+    n = -n;
+  }
+  let pow = 1;
+  while (n) {
+    if (n & 1) pow *= x;
+    x *= x;
+    n >>>= 1;
+  }
+  return pow;
+};
 
 //
 // -------divider-------
 //
 
 /*
-多数元素、求众数
+【多数元素、求众数】
 https://leetcode-cn.com/problems/majority-element/
+https://time.geekbang.org/course/detail/100019701-42713
 给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
 
 示例 1:
-
 输入: [3,2,3]
 输出: 3
-示例 2:
 
+示例 2:
 输入: [2,2,1,1,1,2,2]
 输出: 2
 
-logs：0
+logs：1
+[✔️]2020.05.29
 */
 
-// 解法1：暴力破解。即枚举数组中的每个元素，再遍历一遍数组统计其出现次数，时间复杂度为O(N^2)
+// 解法1：暴力破解。即枚举数组中的每个元素，再遍历一遍数组统计其出现次数。时间复杂度为O(N^2)
 // 解法2：哈希表。我们使用哈希来存储每个元素以及出现的次数。对于哈希映射中的每个键值对，键表示一个元素，值表示该元素出现的次数。时间复杂度O(n)
 /**
  * @param {number[]} nums
@@ -2422,10 +2447,10 @@ logs：0
 var majorityElement = function (nums) {
   const map = {};
   for (let i = 0; i < nums.length; i++) {
-    let curr = nums[i];
-    map[curr] = map[curr] == null ? 1 : map[curr] + 1;
-    if (map[curr] > nums.length / 2) {
-      return curr;
+    let temp = nums[i];
+    map[temp] = map[temp] == null ? 1 : map[temp] + 1;
+    if (map[temp] > nums.length / 2) {
+      return temp;
     }
   }
 };
@@ -2443,7 +2468,19 @@ var majorityElement = function (nums) {
   return nums[Math.floor(nums.length / 2)];
 };
 
-// 解法4：分治。将数组递归层层一分为二，把左边众数的和右边众数依次作比较。时间复杂度：O(nlogn)。
+// 解法4：Boyer-Moore投票算法。时间复杂度O(n)
+// 根据题目要求，众数一定多于总数的一半，所以我们通过不断用众数抵消掉其他的非众数剩下来的那个数一定是众数。
+var majorityElement = function (nums) {
+  let count = 0;
+  let temp = null;
+  for (let i = 0; i < nums.length; i++) {
+    if (count === 0) temp = nums[i];
+    temp === nums[i] ? (count += 1) : (count -= 1);
+  }
+  return temp;
+};
+
+// 解法5：分治。将数组递归层层一分为二，把左边众数的和右边众数依次作比较。时间复杂度：O(nlogn)。
 
 //
 // -------divider-------
