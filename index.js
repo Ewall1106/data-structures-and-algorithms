@@ -275,9 +275,10 @@ nums1 = [1,2,3,0,0,0], m = 3
 nums2 = [2,5,6],       n = 3
 输出: [1,2,2,3,5,6]
 
-logs：2
+logs：3
 [✔️]2020.05.11
 [✔️]2020.05.14
+[✔️]2020.06.01
 */
 // 解法1：暴力解法、归并。把两个数字合并以后再排序，这个是利用了输入数组已经排好序的特性，时间复杂度时间复杂度 : O((n + m)log(n + m))、空间复杂度 : O(1)。
 /**
@@ -2394,7 +2395,7 @@ logs：0
 var myPow = function (x, n) {
   if (n === 0) return 1;
   if (n === 1) return x;
-  if (n < 0) return 1 / myPow(x, -n);
+  if (n < 0) return 1 / myPow(x, -n); // 负数
   if (n % 2) return x * myPow(x, n - 1); // 奇数
   return myPow(x * x, n / 2); // 偶数
 };
