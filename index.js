@@ -329,16 +329,16 @@ https://leetcode-cn.com/problems/plus-one/
 输出: [4,3,2,2]
 解释: 输入数组表示数字 4321。
 
-解析：
-1、末位无进位，则末位加一即可，因为末位无进位，前面也不可能产生进位，比如 45 => 46
-2、末位有进位，在中间位置进位停止，则需要找到进位的典型标志，即为当前位 %10后为 0，则前一位加 1，直到不为 0 为止，比如 499 => 500
-3、末位有进位，并且一直进位到最前方导致结果多出一位，对于这种情况，需要在第 2 种情况遍历结束的基础上，进行单独处理，比如 999 => 1000
-
-logs：2
+logs：3
 [✔️]2020.05.10
 [✔️]2020.05.11
+[✔️]2020.06.01
 */
 
+// 解析：
+// 1、末位无进位，则末位加一即可，因为末位无进位，前面也不可能产生进位，比如 45 => 46
+// 2、末位有进位，在中间位置进位停止，则需要找到进位的典型标志，即为当前位 %10后为 0，则前一位加 1，直到不为 0 为止，比如 499 => 500
+// 3、末位有进位，并且一直进位到最前方导致结果多出一位，对于这种情况，需要在第 2 种情况遍历结束的基础上，进行单独处理，比如 999 => 1000
 /**
  * @param {number[]} digits
  * @return {number[]}
@@ -400,7 +400,7 @@ var removeDuplicates = function (nums) {
 /*
 【下一个更大元素 I】
 https://leetcode-cn.com/problems/next-greater-element-i/
-给定两个 没有重复元素 的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
+给定两个没有重复元素的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
 nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出 -1 。
 
 示例 1:
@@ -422,9 +422,10 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 nums1和nums2中所有元素是唯一的。
 nums1和nums2 的数组大小都不超过1000。
 
-logs：2
+logs：3
 [✔️]2020.05.09
 [✔️]2020.05.14
+[✔️]2020.06.01
 */
 
 // 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。
@@ -438,11 +439,11 @@ logs：2
 var nextGreaterElement = function (nums1, nums2) {
   let stack = [];
   let map = new Map();
-  for (let num of nums2) {
-    while (stack.length && num > stack[0]) {
-      map.set(stack.shift(), num);
+  for (let i = 0; i < nums2.length; i++) {
+    while (stack.length && nums2[i] > stack[0]) {
+      map.set(stack.shift(), nums2[i]);
     }
-    stack.unshift(num);
+    stack.unshift(nums2[i]);
   }
   while (stack.length) {
     map.set(stack.shift(), -1);
