@@ -429,7 +429,7 @@ logs：3
 */
 
 // 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。
-// 时间复杂度：O(M+N)，其中 MM 和 NN 分别是数组 nums1 和 nums2 的长度。
+// 时间复杂度：O(M+N)，其中 M 和 N 分别是数组 nums1 和 nums2 的长度。
 
 /**
  * @param {number[]} nums1
@@ -1537,8 +1537,8 @@ var middleNode = function (head) {
  * @return {ListNode}
  */
 var reverseKGroup = function (head, k) {
-  let pre = null,
-    cur = head;
+  let pre = null;
+  let cur = head;
   let p = head;
   for (let i = 0; i < k; i++) {
     if (p == null) return head;
@@ -1561,7 +1561,7 @@ var reverseKGroup = function (head, k) {
   let cur = pre;
   function hasNode(head) {
     for (let i = 0; i < k; i++) {
-      if (!head) return false;
+      if (head == null) return false;
       head = head.next;
     }
     return true;
@@ -2396,9 +2396,13 @@ logs：0
 var myPow = function (x, n) {
   if (n === 0) return 1;
   if (n === 1) return x;
-  if (n < 0) return 1 / myPow(x, -n); // 负数
-  if (n % 2) return x * myPow(x, n - 1); // 奇数
-  return myPow(x * x, n / 2); // 偶数
+  if (n < 0) {
+    return 1 / myPow(x, -n); // 负数
+  } else if (n % 2) {
+    return x * myPow(x, n - 1); // 奇数
+  } else {
+    return myPow(x * x, n / 2); // 偶数
+  }
 };
 
 // 解法3：迭代、位运算
@@ -2839,8 +2843,9 @@ const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 归并排序的处理过程是由下到上的，先处理子问题，然后再合并。而快排正好相反，它的处理过程是由上到下的，先分区，然后再处理子问题。
 归并排序虽然是稳定的、时间复杂度为O(nlogn)的排序算法，但是它是非原地排序算法。
 
-logs：1
+logs：2
 [✔️]2020.05.26
+[✔️]2020.06.01
 */
 function quickSort(array) {
   return quick(array, 0, array.length - 1);
