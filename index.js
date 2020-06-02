@@ -473,9 +473,10 @@ var nextGreaterElement = function (nums1, nums2) {
 【进制转换算法】
 实现十进制转二进制、任意进制转换
 
-logs：2
+logs：3
 [✔️]2020.05.09
 [✔️]2020.05.14
+[✔️]2020.06.02
 */
 // 十进制转二进制。要把十进制转化成二进制，我们可以将该十进制数除以 2（二进制是满二进一）并对商取整，直到结果是 0 为止。
 function decimalToBinary(number) {
@@ -535,9 +536,10 @@ https://leetcode-cn.com/problems/valid-parentheses/
 输入: "{[]}"
 输出: true
 
-logs：2
+logs：3
 [✔️]2020.04.20
 [✔️]2020.05.08
+[✔️]2020.06.02
 */
 
 // 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
@@ -561,6 +563,7 @@ var isValid = function (s) {
   }
   return stack.length === 0;
 };
+
 // 解法2：消消乐，使用正则，把‘[]’、‘()’、‘{}’用replace两两消掉，循环后如果字符串为空则返回true，反之则为false。
 var isValid = function (s) {
   let length;
@@ -733,9 +736,10 @@ MyStack.prototype.empty = function () {
   它的右侧子节点的位置是 2n + 2（如果位置可用）； 
   它的父节点位置是 n / 2（如果位置可用）。
 
-logs：2
+logs：3
 [✔️]2020.05.23
 [✔️]2020.06.01
+[✔️]2020.06.02
 */
 // 创建最小堆
 class MinHeap {
@@ -776,25 +780,6 @@ class MinHeap {
     this.siftUp(this.heap.length - 1);
     return true;
   }
-  // 堆化（从上往下）
-  siftDown(index) {
-    let tempIndex = index;
-    const left = this.getLeftIndex(index);
-    const right = this.getRightIndex(index);
-    const size = this.size();
-    // --- 父节点-左子节点-右子节点中找出最大值的索引 ---
-    if (left < size && this.heap[tempIndex] > this.heap[left]) {
-      tempIndex = left;
-    }
-    if (right < size && this.heap[tempIndex] > this.heap[right]) {
-      tempIndex = right;
-    }
-    // --- /父节点-左子节点-右子节点中找出最大值的索引 ---
-    if (index !== tempIndex) {
-      this.swap(this.heap, index, tempIndex);
-      this.siftDown(tempIndex);
-    }
-  }
   // 堆化（从下往上）
   siftUp(index) {
     let parent = this.getParentIndex(index);
@@ -813,6 +798,25 @@ class MinHeap {
     const removedValue = this.heap.pop();
     this.siftDown(0);
     return removedValue;
+  }
+  // 堆化（从上往下）
+  siftDown(index) {
+    let tempIndex = index;
+    const left = this.getLeftIndex(index);
+    const right = this.getRightIndex(index);
+    const size = this.size();
+    // --- [父节点-左子节点-右子节点]中找出最大值的索引 ---
+    if (left < size && this.heap[tempIndex] > this.heap[left]) {
+      tempIndex = left;
+    }
+    if (right < size && this.heap[tempIndex] > this.heap[right]) {
+      tempIndex = right;
+    }
+    // --- /[父节点-左子节点-右子节点]中找出最大值的索引 ---
+    if (index !== tempIndex) {
+      this.swap(this.heap, index, tempIndex);
+      this.siftDown(tempIndex);
+    }
   }
   // 返回数组
   getAsArray() {
@@ -856,91 +860,6 @@ logs：1
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
-class MinHeap {
-  constructor() {
-    this.heap = [];
-  }
-  // 访问特定节点索引
-  getLeftIndex(index) {
-    return 2 * index + 1;
-  }
-  getRightIndex(index) {
-    return 2 * index + 2;
-  }
-  getParentIndex(index) {
-    if (index === 0) return undefined;
-    return Math.floor((index - 1) / 2);
-  }
-  // 长度
-  size() {
-    return this.heap.length;
-  }
-  // 判空
-  isEmpty() {
-    return this.size() <= 0;
-  }
-  // 清空
-  clear() {
-    this.heap = [];
-  }
-  // 返回最小值
-  findMinimum() {
-    return this.isEmpty() ? undefined : this.heap[0];
-  }
-  // 插入一个新的值。如果插入成功，它返回 true，否则返回false。时间复杂度 O(logn)
-  insert(value) {
-    if (value == null) return false;
-    this.heap.push(value);
-    this.siftUp(this.heap.length - 1);
-    return true;
-  }
-  // 堆化（从上往下）
-  siftDown(index) {
-    let tempIndex = index;
-    const left = this.getLeftIndex(index);
-    const right = this.getRightIndex(index);
-    const size = this.size();
-    // --- 父节点-左子节点-右子节点中找出最大值的索引 ---
-    if (left < size && this.heap[tempIndex] > this.heap[left]) {
-      tempIndex = left;
-    }
-    if (right < size && this.heap[tempIndex] > this.heap[right]) {
-      tempIndex = right;
-    }
-    // --- /父节点-左子节点-右子节点中找出最大值的索引 ---
-    if (index !== tempIndex) {
-      this.swap(this.heap, index, tempIndex);
-      this.siftDown(tempIndex);
-    }
-  }
-  // 堆化（从下往上）
-  siftUp(index) {
-    let parent = this.getParentIndex(index);
-    while (index > 0 && this.heap[parent] > this.heap[index]) {
-      this.swap(this.heap, parent, index);
-      index = parent;
-      parent = this.getParentIndex(index);
-    }
-  }
-  // 移除最小值并返回这个值。时间复杂度 O(logn)
-  extract() {
-    if (this.isEmpty()) return undefined;
-    if (this.size() === 1) return this.heap.shift();
-    // 避免'数组空洞'、交换首尾元素后再向下堆化
-    this.swap(this.heap, 0, this.heap.length - 1);
-    const removedValue = this.heap.pop();
-    this.siftDown(0);
-    return removedValue;
-  }
-  // 返回数组
-  getAsArray() {
-    return this.heap;
-  }
-  // 交换
-  swap(array, a, b) {
-    [array[a], array[b]] = [array[b], array[a]];
-  }
-}
 var KthLargest = function (k, nums) {
   this.k = k;
   this.minHeap = new MinHeap();
