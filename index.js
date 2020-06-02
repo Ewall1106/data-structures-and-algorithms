@@ -6,7 +6,7 @@
 集合、字典、散列表
 树、二叉树、二叉搜索树
 递归、分治
-广度优先搜索、深度优先搜索
+图、DFS、BFS
 动态规划、贪心算法
 排序、搜索算法
   ....
@@ -2417,7 +2417,80 @@ var majorityElement = function (nums) {
 // -------divider-------
 //
 
-/* -------------------------- 广度优先搜索、深度优先搜索 ---------------------------*/
+/* -------------------------- 图、DFS、BFS ---------------------------*/
+
+/*
+【构建图】
+
+logs：0
+*/
+
+// 使用邻接表的形式表示图
+class Graph {
+  constructor(isDirected = false) {
+    this.isDirected = isDirected;
+    this.vertices = [];
+    this.adjList = new Map();
+  }
+  addVertex(v) {
+    if (!this.vertices.includes(v)) {
+      this.vertices.push(v);
+      this.adjList.set(v, []);
+    }
+  }
+  addEdge(a, b) {
+    if (!this.adjList.get(a)) {
+      this.addVertex(a);
+    }
+    if (!this.adjList.get(b)) {
+      this.addVertex(b);
+    }
+    this.adjList.get(a).push(b);
+    if (this.isDirected !== true) {
+      // 无向图
+      this.adjList.get(b).push(a);
+    }
+  }
+  getVertices() {
+    return this.vertices;
+  }
+  getAdjList() {
+    return this.adjList;
+  }
+  toString() {
+    let s = "";
+    for (let i = 0; i < this.vertices.length; i++) {
+      s += `${this.vertices[i]} -> `;
+      const neighbors = this.adjList.get(this.vertices[i]);
+      for (let j = 0; j < neighbors.length; j++) {
+        s += `${neighbors[j]} `;
+      }
+      s += "\n";
+    }
+    return s;
+  }
+}
+
+const graph = new Graph();
+const myVertices = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+for (let i = 0; i < myVertices.length; i++) {
+  graph.addVertex(myVertices[i]);
+}
+graph.addEdge("A", "B");
+graph.addEdge("A", "C");
+graph.addEdge("A", "D");
+graph.addEdge("C", "D");
+graph.addEdge("C", "G");
+graph.addEdge("D", "G");
+graph.addEdge("D", "H");
+graph.addEdge("B", "E");
+graph.addEdge("B", "F");
+graph.addEdge("E", "I");
+console.log(graph.toString());
+
+//
+// -------divider-------
+//
 
 /*
 【二叉树的层序遍历】
@@ -3031,7 +3104,9 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
 
 logs：0
 */
-// 解法1：动态规划
+// 动态规划。O(n)
+// DFS。时间复杂度O(2^n)
+// 贪心算法。时间复杂度O(n)
 
 //
 // -------divider-------
