@@ -1091,11 +1091,12 @@ var swapPairs = function (head) {
   输入：1->2->4, 1->3->4
   输出：1->1->2->3->4->4
 
-  logs：1
+  logs：2
   [✔️]2020.05.25
+  [✔️]2020.06.02
 */
 
-// 解法1：递归。时间复杂度O(m+n)
+// Recursion。时间复杂度O(m+n)
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -1121,10 +1122,10 @@ var mergeTwoLists = function (l1, l2) {
   }
 };
 
-// 解法2：迭代。时间复杂度O(m+n)
+// Interation。时间复杂度O(m+n)
 var mergeTwoLists = function (l1, l2) {
   const prehead = new ListNode(-1);
-  let prev = prehead;
+  let prev = prehead; // 复制的是prehead这个对象，所以两者的next指针是一致的
   while (l1 && l2) {
     if (l1.val <= l2.val) {
       prev.next = l1;
@@ -1439,10 +1440,11 @@ var middleNode = function (head) {
   当 k = 2 时，应当返回: 2->1->4->3->5
   当 k = 3 时，应当返回: 3->2->1->4->5
 
-  logs：0
+  logs：1
+  [✔️]2020.06.03
 */
 
-// 解法1：递归
+// 解法1：递归。
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -1456,50 +1458,27 @@ var middleNode = function (head) {
  * @return {ListNode}
  */
 var reverseKGroup = function (head, k) {
-  let pre = null;
-  let cur = head;
-  let p = head;
-  for (let i = 0; i < k; i++) {
-    if (p == null) return head;
-    p = p.next;
-  }
-  for (let i = 0; i < k; i++) {
-    let next = cur.next;
-    cur.next = pre;
-    pre = cur;
-    cur = next;
-  }
-  head.next = reverseKGroup(cur, k);
-  return pre;
-};
+  if (head == null || head.next === null) return head;
 
-// 解法2：迭代
-var reverseKGroup = function (head, k) {
-  let pre = new ListNode(-1);
-  pre.next = head;
-  let cur = pre;
-  function hasNode(head) {
-    for (let i = 0; i < k; i++) {
-      if (head == null) return false;
-      head = head.next;
-    }
-    return true;
+  let prev = null;
+  let curr = head;
+  let pHead = head;
+
+  // 判断下一组反转是否满足条件
+  for (let i = 0; i < k; i++) {
+    if (pHead == null) return head;
+    pHead = pHead.next;
   }
-  while (hasNode(cur.next)) {
-    let head = cur.next;
-    let end = cur.next.next;
-    let temp = cur.next;
-    for (let i = 0; i < k - 1; i++) {
-      let next = end.next;
-      end.next = temp;
-      temp = end;
-      end = next;
-    }
-    head.next = end;
-    cur.next = temp;
-    cur = head;
+
+  // 局部反转
+  for (let i = 0; i < k; i++) {
+    let next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
   }
-  return pre.next;
+  head.next = reverseKGroup(curr, k);
+  return prev;
 };
 
 //
@@ -2457,22 +2436,10 @@ class Graph {
   getAdjList() {
     return this.adjList;
   }
-  toString() {
-    let s = "";
-    for (let i = 0; i < this.vertices.length; i++) {
-      s += `${this.vertices[i]} -> `;
-      const neighbors = this.adjList.get(this.vertices[i]);
-      for (let j = 0; j < neighbors.length; j++) {
-        s += `${neighbors[j]} `;
-      }
-      s += "\n";
-    }
-    return s;
-  }
 }
 
 const graph = new Graph();
-const myVertices = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+const myVertices = ["A", "B", "C", "D", "E"];
 for (let i = 0; i < myVertices.length; i++) {
   graph.addVertex(myVertices[i]);
 }
@@ -2481,12 +2448,7 @@ graph.addEdge("A", "C");
 graph.addEdge("A", "D");
 graph.addEdge("C", "D");
 graph.addEdge("C", "G");
-graph.addEdge("D", "G");
-graph.addEdge("D", "H");
-graph.addEdge("B", "E");
-graph.addEdge("B", "F");
-graph.addEdge("E", "I");
-console.log(graph.toString());
+console.log(graph.adjList);
 
 //
 // -------divider-------
