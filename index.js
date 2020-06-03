@@ -175,7 +175,7 @@ logs：3
 [✔️]2020.05.16
 */
 
-// 解法1：暴力破解法。旋转 k 次，每次将数组旋转 1 个元素。时间复杂度：O(n*k) 。每个元素都被移动1步，移动k轮 。
+// 解法1：暴力破解法。旋转 k 次，每次将数组旋转 1 个元素。时间复杂度：O(n*k) 。每个元素都被移动n步，移动k轮 。
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -191,6 +191,7 @@ var rotate = function (nums, k) {
       pre = temp;
     }
   }
+  return nums;
 };
 
 // 解法2：使用额外数组。时间复杂度O(n)、空间复杂度O(n)
@@ -579,153 +580,6 @@ var isValid = function (s) {
 // -------divider-------
 //
 
-/*
-【用栈实现队列】
-https://leetcode-cn.com/problems/implement-queue-using-stacks
-使用栈实现队列的下列操作：
-  push(x) -- 将一个元素放入队列的尾部。
-  pop() -- 从队列首部移除元素。
-  peek() -- 返回队列首部的元素。
-  empty() -- 返回队列是否为空。
-
-示例:
-MyQueue queue = new MyQueue();
-queue.push(1);
-queue.push(2);  
-queue.peek();  // 返回 1
-queue.pop();   // 返回 1
-queue.empty(); // 返回 false
-
-logs：1
-[✔️]2020.04.21
-*/
-
-// 解法1：使用两个stack，一个是输入栈、一个是输出栈。对于push的操作全部推入到第一个栈中，对于peek和pop的操作如果第二个栈中有值的话那么就正常pop，如果没值的话就把第一个栈中的元素逐个pop出来push到第二个栈中，然后在pop。（思想上要记得栈是且只能是先入后出的）
-// 解法2：js本身数据就有这些方法实现stack，只是思想上太符合
-
-/**
- * Initialize your data structure here.
- */
-let MyQueue = function () {
-  this.queue = [];
-};
-
-/**
- * Push element x to the back of queue.
- * @param {number} x
- * @return {void}
- */
-MyQueue.prototype.push = function (element) {
-  this.queue.push(element);
-};
-
-/**
- * Removes the element from in front of queue and returns that element.
- * @return {number}
- */
-MyQueue.prototype.pop = function () {
-  return (flag = this.queue.shift());
-};
-
-/**
- * Get the front element.
- * @return {number}
- */
-MyQueue.prototype.peek = function () {
-  return (done = this.queue[0]);
-};
-
-/**
- * Returns whether the queue is empty.
- * @return {boolean}
- */
-MyQueue.prototype.empty = function () {
-  return this.queue.length === 0;
-};
-
-/**
- * Your MyQueue object will be instantiated and called as such:
- * var obj = new MyQueue()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.peek()
- * var param_4 = obj.empty()
- */
-
-//
-// -------divider-------
-//
-
-/*
-【用队列实现栈】
-https://leetcode-cn.com/problems/implement-stack-using-queues
-使用队列实现栈的下列操作：
-  push(x) -- 元素 x 入栈
-  pop() -- 移除栈顶元素
-  top() -- 获取栈顶元素
-  empty() -- 返回栈是否为空
-
-logs：1
-[✔️]2020.04.21
-*/
-
-// 解法1：使用两个[]
-// 解法2：使用js语言array特性
-/**
- * Initialize your data structure here.
- */
-let MyStack = function () {
-  this.stack = [];
-};
-
-/**
- * Push element x onto stack.
- * @param {number} x
- * @return {void}
- */
-MyStack.prototype.push = function (x) {
-  return this.stack.push(x);
-};
-
-/**
- * Removes the element on top of the stack and returns that element.
- * @return {number}
- */
-MyStack.prototype.pop = function () {
-  if (!this.empty()) {
-    return this.stack.pop();
-  }
-};
-
-/**
- * Get the top element.
- * @return {number}
- */
-MyStack.prototype.top = function () {
-  return this.stack[this.stack.length - 1];
-};
-
-/**
- * Returns whether the stack is empty.
- * @return {boolean}
- */
-MyStack.prototype.empty = function () {
-  return this.stack.length == 0;
-};
-
-/**
- * Your MyStack object will be instantiated and called as such:
- * var obj = new MyStack()
- * obj.push(x)
- * var param_2 = obj.pop()
- * var param_3 = obj.top()
- * var param_4 = obj.empty()
- */
-
-//
-// -------divider-------
-//
-
 /* -------------------------- 队列、优先队列 ---------------------------*/
 // priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
 
@@ -855,8 +709,9 @@ kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 
-logs：1
+logs：2
 [✔️]2020.05.26
+[✔️]2020.06.02
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -885,7 +740,7 @@ KthLargest.prototype.add = function (val) {
  * @param {number[]} nums
  */
 var KthLargest = function (k, nums) {
-  this.k = k - 1;
+  this.k = k;
   this.nums = nums.sort((a, b) => b - a);
 };
 
@@ -897,11 +752,11 @@ KthLargest.prototype.add = function (val) {
   for (let i = 0; i < this.nums.length; i++) {
     if (val > this.nums[i]) {
       this.nums.splice(i, 0, val);
-      return this.nums[this.k];
+      return this.nums[this.k - 1];
     }
   }
   this.nums.push(val);
-  return this.nums[this.k];
+  return this.nums[this.k - 1];
 };
 
 /**
@@ -1000,37 +855,39 @@ var maxSlidingWindow = function (nums, k) {
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：5
+  logs：6
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
   [✔️]2020.05.07
+  [✔️]2020.06.02
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
-  let pre = null;
+  if (head == null || head.next == null) return head;
+  let prev = null;
   while (head) {
     let next = head.next;
-    head.next = pre;
-    pre = head;
+    head.next = prev;
+    prev = head;
     head = next;
   }
-  return pre;
+  return prev;
 };
 var reverseList = function (head) {
-  let pre = null;
+  if (head == null || head.next == null) return head;
+  let prev = null;
   while (head) {
-    [head.next, pre, head] = [pre, head, head.next];
+    [head.next, prev, head] = [prev, head, head.next];
   }
-  return pre;
+  return prev;
 };
 
-// 递归解法：时间复杂度：O(n)、空间复杂度：O(n)
+// 递归解法：时间复杂度：O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
-  // 递归
   function reverse(curr, prev) {
-    if (curr === null) return prev;
+    if (curr == null) return prev;
     let next = curr.next;
     curr.next = prev;
     return reverse(next, curr);
@@ -1085,7 +942,7 @@ var swapPairs = function (head) {
 /* 
   【合并两个有序链表】
   https://leetcode-cn.com/problems/merge-two-sorted-lists/
-  将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+  将两个【升序】链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
 
   示例：
   输入：1->2->4, 1->3->4
@@ -2425,8 +2282,8 @@ class Graph {
       this.addVertex(b);
     }
     this.adjList.get(a).push(b);
-    if (this.isDirected !== true) {
-      // 无向图
+    // 无向图
+    if (!this.isDirected) {
       this.adjList.get(b).push(a);
     }
   }
