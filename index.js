@@ -709,9 +709,10 @@ kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 
-logs：2
+logs：3
 [✔️]2020.05.26
 [✔️]2020.06.02
+[✔️]2020.06.04
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -788,16 +789,17 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：2
+logs：3
 [✔️]2020.05.28
 [✔️]2020.05.28
+[✔️]2020.06.04
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
   if (!nums.length) return [];
   if (k === 1) return nums;
-  let result = [],
-    deque = [];
+  let result = [];
+  let deque = [];
   for (let i = 0; i < nums.length; i++) {
     deque.push(nums[i]);
     if (i >= k - 1) {
@@ -2736,6 +2738,18 @@ function binarySearch(array, value) {
   }
   return -1;
 }
+
+//
+// -------divider-------
+//
+
+/*
+【二分搜索的变形】
+https://time.geekbang.org/column/article/42733
+
+logs：1
+[✔️]2020.05.28
+*/
 
 //
 // -------divider-------
