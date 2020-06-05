@@ -169,10 +169,11 @@ https://leetcode-cn.com/problems/rotate-array/
 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
 要求使用空间复杂度为 O(1) 的原地算法。
 
-logs：3
+logs：4
 [✔️]2020.05.12
 [✔️]2020.05.14
 [✔️]2020.05.16
+[✔️]2020.06.05
 */
 
 // 解法1：暴力破解法。旋转 k 次，每次将数组旋转 1 个元素。时间复杂度：O(n*k) 。每个元素都被移动n步，移动k轮 。
@@ -209,11 +210,11 @@ var rotate = function (nums, k) {
 // https://leetcode-cn.com/problems/rotate-array/solution/xuan-zhuan-shu-zu-yuan-di-huan-wei-xiang-xi-tu-jie/
 // 为什么需要count来记录？当nums=[1,2,3,4]、k=2这种情况的时候，第二轮的时候3移动两步刚好移到了位置1，座位上没有同学。
 var rotate = function (nums, k) {
-  let count = 0;
+  let count = 0; // 记录交换位置的次数，num.length个同学一共需要换num.length次
   k = k % nums.length;
   for (let i = 0; count < nums.length; i++) {
-    let currentIdx = i,
-      current = nums[i];
+    let currentIdx = i;
+    let current = nums[i];
     do {
       let nextIdx = (currentIdx + k) % nums.length;
       let next = nums[nextIdx];
@@ -950,9 +951,10 @@ var swapPairs = function (head) {
   输入：1->2->4, 1->3->4
   输出：1->1->2->3->4->4
 
-  logs：2
+  logs：3
   [✔️]2020.05.25
   [✔️]2020.06.02
+  [✔️]2020.06.04
 */
 
 // Recursion。时间复杂度O(m+n)
