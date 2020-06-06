@@ -2747,12 +2747,129 @@ function binarySearch(array, value) {
 //
 
 /*
-【二分搜索的变形】
+【二分搜索的变形①】
+查找【第一个】值等于给定值的元素
 https://time.geekbang.org/column/article/42733
 
-logs：1
-[✔️]2020.05.28
+logs：0
 */
+
+function binarySearch1(array, value) {
+  array.sort((a, b) => a - b);
+  let low = 0;
+  let high = array.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (value > array[mid]) {
+      low = mid + 1;
+    } else if (value < array[mid]) {
+      high = mid - 1;
+    } else {
+      // 如果 mid 等于 0，那这个元素已经是数组的第一个元素，那它肯定是我们要找的；
+      // 如果 mid 不等于 0，但 array[mid]的前一个元素 array[mid-1]不等于 value，那也说明 array[mid]就是我们要找的第一个值等于给定值的元素。(因为是排好序的，所以会相连)
+      if (mid == 0 || array[mid - 1] != value) return mid;
+      else high = mid - 1;
+    }
+  }
+  return -1;
+}
+const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
+
+//
+// -------divider-------
+//
+
+/*
+【二分搜索的变形②】
+查找【最后一个】值等于给定值的元素
+https://time.geekbang.org/column/article/42733
+
+logs：0
+*/
+
+function binarySearch2(array, value) {
+  array.sort((a, b) => a - b);
+  let low = 0;
+  let high = array.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (value > array[mid]) {
+      low = mid + 1;
+    } else if (value < array[mid]) {
+      high = mid - 1;
+    } else {
+      // 如果 array[mid]这个元素已经是数组中的最后一个元素了，那它肯定是我们要找的；
+      // 如果 array[mid]的后一个元素 array[mid+1]不等于 value，那也说明 array[mid]就是我们要找的最后一个值等于给定值的元素。
+      if (mid == array.length - 1 || array[mid + 1] != value) return mid;
+      else low = mid + 1;
+    }
+  }
+  return -1;
+}
+const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
+
+//
+// -------divider-------
+//
+
+/*
+【二分搜索的变形③】
+查找第一个大于等于给定值的元素
+https://time.geekbang.org/column/article/42733
+
+logs：0
+*/
+
+function binarySearch3(array, value) {
+  array.sort((a, b) => a - b);
+  let low = 0;
+  let high = array.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (value > array[mid]) {
+      low = mid + 1;
+    } else {
+      // 如果 array[mid]前面已经没有元素，或者前面一个元素小于要查找的值 value，那 a[mid]就是我们要找的元素
+      if (mid == 0 || array[mid - 1] < value) return mid;
+      else high = mid - 1;
+    }
+  }
+  return -1;
+}
+const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
+
+//
+// -------divider-------
+//
+
+/*
+【二分搜索的变形④】
+查找最后一个小于等于给定值的元素
+https://time.geekbang.org/column/article/42733
+
+logs：0
+*/
+
+function binarySearch4(array, value) {
+  array.sort((a, b) => a - b);
+  let low = 0;
+  let high = array.length - 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    if (value >= array[mid]) {
+      if (mid == array.length - 1 || array[mid + 1] > value) return mid;
+      else low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+  return -1;
+}
+const test = binarySearch4([1, 3, 5, 7, 9], 4); // 2
 
 //
 // -------divider-------
