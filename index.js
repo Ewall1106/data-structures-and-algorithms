@@ -1714,7 +1714,6 @@ tree.insert(new Node(4));
 logs：1
 [✔️]2020.05.13
 */
-
 class Node {
   constructor(key) {
     this.key = key; // 节点值
@@ -1722,7 +1721,6 @@ class Node {
     this.right = null; // 右侧子节点引用
   }
 }
-
 class BinarySearchTree {
   constructor() {
     this.root = null; // Node 类型的根节点
@@ -1730,62 +1728,55 @@ class BinarySearchTree {
 
   // insert：向树中插入一个新的键。
   insert(newNode) {
-    if (this.root == null) {
-      this.root = newNode;
-    } else {
-      this.insertNode(this.root, newNode);
-    }
-  }
-  insertNode(node, newNode) {
-    if (node.key > newNode.key) {
-      if (node.left == null) {
-        node.left = newNode;
+    this.root == null ? (this.root = newNode) : insertNode(this.root, newNode);
+
+    function insertNode(node, newNode) {
+      if (node.key > newNode.key) {
+        node.left == null
+          ? (node.left = newNode)
+          : insertNode(node.left, newNode);
       } else {
-        this.insertNode(node.left, newNode);
-      }
-    } else {
-      if (node.right == null) {
-        node.right = newNode;
-      } else {
-        this.insertNode(node.right, newNode);
+        node.right == null
+          ? (node.right = newNode)
+          : insertNode(node.right, newNode);
       }
     }
   }
 
   // inOrderTraverse：通过中序遍历方式遍历所有节点。
   inOrderTraverse(callback) {
-    const inOrderTraverseNode = (node, callback) => {
-      if (node != null) {
-        inOrderTraverseNode(node.left, callback);
-        callback(node.key);
-        inOrderTraverseNode(node.right, callback);
-      }
-    };
     inOrderTraverseNode(this.root, callback);
+
+    function inOrderTraverseNode(node, callback) {
+      if (node == null) return node; // recurision end
+      inOrderTraverseNode(node.left, callback);
+      callback(node.key);
+      inOrderTraverseNode(node.right, callback);
+    }
   }
 
   // preOrderTraverse：通过先序遍历方式遍历所有节点。
   preOrderTraverse(callback) {
-    const preOrderTraverseNode = (node, callback) => {
-      if (node != null) {
-        callback(node.key);
-        preOrderTraverseNode(node.left, callback);
-        preOrderTraverseNode(node.right, callback);
-      }
-    };
     preOrderTraverseNode(this.root, callback);
+
+    function preOrderTraverseNode(node, callback) {
+      if (node == null) return node;
+      callback(node.key);
+      preOrderTraverseNode(node.left, callback);
+      preOrderTraverseNode(node.right, callback);
+    }
   }
 
   // postOrderTraverse：通过后序遍历方式遍历所有节点。
   postOrderTraverse(callback) {
-    const postOrderTraverseNode = (node, callback) => {
-      if (node != null) {
-        postOrderTraverseNode(node.left, callback);
-        postOrderTraverseNode(node.right, callback);
-        callback(node.key);
-      }
-    };
     postOrderTraverseNode(this.root, callback);
+
+    function postOrderTraverseNode(node, callback) {
+      if (node != null) return node;
+      postOrderTraverseNode(node.left, callback);
+      postOrderTraverseNode(node.right, callback);
+      callback(node.key);
+    }
   }
 
   // min：返回树中最小的值/键。
@@ -1814,10 +1805,9 @@ class BinarySearchTree {
 
   // search：在树中查找一个键。如果节点存在，则返回 true；如果不存在，则返回false。
   search(key) {
-    const searchNode = (node, key) => {
-      if (node == null) {
-        return false;
-      }
+    function searchNode(node, key) {
+      if (node == null) return false;
+
       if (node.key > key) {
         return searchNode(node.left, key);
       } else if (node.key < key) {
@@ -1825,13 +1815,15 @@ class BinarySearchTree {
       } else {
         return true;
       }
-    };
+    }
     return searchNode(this.root, key);
   }
 
   // remove(key)：从树中移除某个键。
   remove(key) {
-    const removeNode = (node, key) => {
+    this.root = removeNode(this.root, key);
+
+    function removeNode(node, key) {
       if (node == null) return null; // 终止条件
 
       if (node.key > key) {
@@ -1860,8 +1852,7 @@ class BinarySearchTree {
         node.right = removeNode(node.right, temp.key); // 这样在树中就有两个拥有相同键的节点了，移除这个值
         return node;
       }
-    };
-    this.root = removeNode(this.root, key);
+    }
   }
 }
 
