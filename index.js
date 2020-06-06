@@ -1703,16 +1703,18 @@ var fourSum = function (nums, target) {
 
 /*
 【构建一颗二叉搜索树】
-实现insert、前序遍历、中序遍历、后续遍历等方法
+时间复杂度：
+  insert O(logn)
+  search O(logn)
+  delete O(logn)
 
 const tree = new BinarySearchTree();
 tree.insert(new Node(5));
 tree.insert(new Node(3));
-tree.insert(new Node(9));
-tree.insert(new Node(4));
 
-logs：1
+logs：2
 [✔️]2020.05.13
+[✔️]2020.05.14
 */
 class Node {
   constructor(key) {
@@ -1743,39 +1745,39 @@ class BinarySearchTree {
     }
   }
 
-  // inOrderTraverse：通过中序遍历方式遍历所有节点。
-  inOrderTraverse(callback) {
-    inOrderTraverseNode(this.root, callback);
+  // 中序遍历
+  inOrderTraverse(cb) {
+    inOrderTraverseNode(this.root, cb);
 
-    function inOrderTraverseNode(node, callback) {
+    function inOrderTraverseNode(node, cb) {
       if (node == null) return node; // recurision end
-      inOrderTraverseNode(node.left, callback);
-      callback(node.key);
-      inOrderTraverseNode(node.right, callback);
+      inOrderTraverseNode(node.left, cb);
+      cb(node.key);
+      inOrderTraverseNode(node.right, cb);
     }
   }
 
-  // preOrderTraverse：通过先序遍历方式遍历所有节点。
-  preOrderTraverse(callback) {
-    preOrderTraverseNode(this.root, callback);
+  // 前序遍历
+  preOrderTraverse(cb) {
+    preOrderTraverseNode(this.root, cb);
 
-    function preOrderTraverseNode(node, callback) {
+    function preOrderTraverseNode(node, cb) {
       if (node == null) return node;
-      callback(node.key);
-      preOrderTraverseNode(node.left, callback);
-      preOrderTraverseNode(node.right, callback);
+      cb(node.key);
+      preOrderTraverseNode(node.left, cb);
+      preOrderTraverseNode(node.right, cb);
     }
   }
 
-  // postOrderTraverse：通过后序遍历方式遍历所有节点。
-  postOrderTraverse(callback) {
-    postOrderTraverseNode(this.root, callback);
+  // 后序遍历
+  postOrderTraverse(cb) {
+    postOrderTraverseNode(this.root, cb);
 
-    function postOrderTraverseNode(node, callback) {
+    function postOrderTraverseNode(node, cb) {
       if (node != null) return node;
-      postOrderTraverseNode(node.left, callback);
-      postOrderTraverseNode(node.right, callback);
-      callback(node.key);
+      postOrderTraverseNode(node.left, cb);
+      postOrderTraverseNode(node.right, cb);
+      cb(node.key);
     }
   }
 
@@ -2512,9 +2514,10 @@ logs：0
 元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
 时间复杂度O(n^2)
 
-logs：2
+logs：3
 [✔️]2020.05.22
 [✔️]2020.05.25
+[✔️]2020.06.06
 */
 function bubbleSort(array) {
   for (let i = 0; i < array.length; i++) {
@@ -2537,9 +2540,10 @@ const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
 选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。
 时间复杂度O(n^2)
 
-logs：2
+logs：3
 [✔️]2020.05.22
 [✔️]2020.05.25
+[✔️]2020.06.06
 */
 function selectionSort(array) {
   let tempMin;
