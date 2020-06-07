@@ -921,6 +921,7 @@ var reverseList = function (head) {
 */
 
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
+// 这个图解好：https://leetcode-cn.com/problems/swap-nodes-in-pairs/solution/bi-jiao-zhi-jie-gao-xiao-de-zuo-fa-han-tu-jie-by-w/
 var swapPairs = function (head) {
   let pre = new ListNode(null);
   pre.next = head;
@@ -928,7 +929,9 @@ var swapPairs = function (head) {
   while (temp.next && temp.next.next) {
     let start = temp.next;
     let end = temp.next.next;
-    [temp.next, start.next, end.next] = [end, end.next, start];
+    temp.next = end;
+    start.next = end.next;
+    end.next = start;
     temp = start;
   }
   return pre.next;
