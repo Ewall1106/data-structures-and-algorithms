@@ -916,8 +916,9 @@ var reverseList = function (head) {
   示例：
   给定 1->2->3->4, 你应该返回 2->1->4->3.
 
-  logs：1
+  logs：2
   [✔️]2020.04.20
+  [✔️]2020.06.08
 */
 
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
@@ -942,8 +943,8 @@ var swapPairs = function (head) {
   if (!head) return null;
   if (!head.next) return head;
   let temp = head.next;
-  head.next = swapPairs(temp.next);
-  temp.next = head;
+  head.next = swapPairs(temp.next); // 假设是ABCDEF,递归将A指向C，C指向E
+  temp.next = head; // 再把B指向A、D指向C、F指向E
   return temp;
 };
 
@@ -960,10 +961,11 @@ var swapPairs = function (head) {
   输入：1->2->4, 1->3->4
   输出：1->1->2->3->4->4
 
-  logs：3
+  logs：4
   [✔️]2020.05.25
   [✔️]2020.06.02
   [✔️]2020.06.04
+  [✔️]2020.06.08
 */
 
 // Recursion。时间复杂度O(m+n)
@@ -980,8 +982,8 @@ var swapPairs = function (head) {
  * @return {ListNode}
  */
 var mergeTwoLists = function (l1, l2) {
-  if (l1 === null) return l2;
-  if (l2 === null) return l1;
+  if (!l1) return l2;
+  if (!l2) return l1;
   if (l1.val < l2.val) {
     // 如果 l1 的 val 值更小，则将 l1.next 与排序好的链表头相接
     l1.next = mergeTwoLists(l1.next, l2);
@@ -994,7 +996,7 @@ var mergeTwoLists = function (l1, l2) {
 
 // Interation。时间复杂度O(m+n)
 var mergeTwoLists = function (l1, l2) {
-  const prehead = new ListNode(-1);
+  const prehead = new ListNode(null);
   let prev = prehead; // 复制的是prehead这个对象，所以两者的next指针是一致的
   while (l1 && l2) {
     if (l1.val <= l2.val) {
@@ -1034,11 +1036,12 @@ var mergeTwoLists = function (l1, l2) {
   输出：false
   解释：链表中没有环。
 
-  logs：4
+  logs：5
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
   [✔️]2020.05.06
+  [✔️]2020.06.08
 */
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
@@ -1063,16 +1066,14 @@ var hasCycle = function (head) {
   }
   return false;
 };
+
 // 解法3：快慢指针，块指针走2步，慢指针走1步，如果有有环，那么两个指针会相遇。时间复杂度：O(n)、空间复杂度：O(1)
 var hasCycle = function (head) {
-  let slow = head,
-    fast = head;
+  let slow = (fast = head);
   while (slow && fast && fast.next) {
     slow = slow.next;
     fast = fast.next.next;
-    if (slow === fast) {
-      return true;
-    }
+    if (slow === fast) return true;
   }
   return false;
 };
@@ -1100,9 +1101,10 @@ var hasCycle = function (head) {
   输出：no cycle
   解释：链表中没有环。
 
-  logs：2
+  logs：3
   [✔️]2020.04.20
   [✔️]2020.04.29
+  [✔️]2020.06.08
 */
 
 // 解法1：迭代，给每个经过的元素添加flag标识。时间复杂度：O(n)，空间复杂度O(1)
