@@ -1180,6 +1180,7 @@ var detectCycle = function (head) {
   }
   return null;
 };
+
 // 解法2：hash。时间复杂度：O(n)，空间复杂度O(n)
 var detectCycle = function (head) {
   let hash = new Set();
@@ -1200,7 +1201,7 @@ var detectCycle = function (head) {
 /* 
 【删除链表的倒数第N个节点】
 https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
-给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+给定一个链表，删除链表的【倒数】第 n 个节点，并且返回链表的头结点。
 
 示例：
 给定一个链表: 1->2->3->4->5, 和 n = 2.
@@ -1211,23 +1212,24 @@ https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 进阶：
 你能尝试使用一趟扫描实现吗？
 
-logs：1
+logs：2
 [✔️]2020.05.25
+[✔️]2020.06.08
 */
 
 // 解法1：两次遍历。时间复杂度O(n)
 var removeNthFromEnd = function (head, n) {
   // 设置一个哑节点位于作为辅助。哑结点用来简化某些极端情况，例如列表中只含有一个结点、或需要删除列表的头部
-  const preHead = new ListNode(0);
+  const preHead = new ListNode(null);
   preHead.next = head;
   let length = 0;
   let temp = head;
   // 第一次遍历，我们找出列表的长度length
-  while (temp != null) {
+  while (temp) {
     temp = temp.next;
     length++;
   }
-  // 找到废弃节点的位置并设置next跳过它
+  // 第二次遍历，找到废弃节点的位置并设置next跳过它
   length = length - n;
   temp = preHead;
   while (length > 0) {
@@ -1252,13 +1254,11 @@ var removeNthFromEnd = function (head, n) {
  * @return {ListNode}
  */
 var removeNthFromEnd = function (head, n) {
-  let preHead = new ListNode(0);
+  let preHead = new ListNode(null);
   preHead.next = head;
-  let fast = preHead,
-    slow = preHead;
+  let fast = (slow = preHead);
   while (n != 0) {
-    // 快指针先走n步
-    fast = fast.next;
+    fast = fast.next; // 快指针先走n步
     n--;
   }
   // 之后快慢指针共同向前移动，此时二者的距离为n，当 fast 到达尾部时，end 的位置恰好为倒数第n的那个节点
@@ -1292,8 +1292,9 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
 输出：此列表中的结点 4 (序列化形式：[4,5,6])
 由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
 
-logs：1
+logs：2
 [✔️]2020.05.25
+[✔️]2020.06.08
 */
 
 // 解法1：使用数组。时间复杂度：O(n)、空间复杂度O(n)
@@ -1310,7 +1311,7 @@ logs：1
  */
 var middleNode = function (head) {
   let result = [];
-  while (head != null) {
+  while (head) {
     result.push(head);
     head = head.next;
   }
@@ -1323,7 +1324,7 @@ var middleNode = function (head) {
   let temp = head;
   let i = 0;
   let j = 0;
-  while (temp != null) {
+  while (temp) {
     temp = temp.next;
     i++;
   }
@@ -1335,7 +1336,7 @@ var middleNode = function (head) {
   return temp;
 };
 
-// 解法3：快慢指针。时间复杂度O(n)
+// 解法3：双指针。时间复杂度O(n)
 // 用两个指针 slow 与 fast 一起遍历链表。slow 一次走一步，fast 一次走两步。那么当 fast 到达链表的末尾时，slow 必然位于中间。
 var middleNode = function (head) {
   let slow = (fast = head);
