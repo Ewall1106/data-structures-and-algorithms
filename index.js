@@ -403,6 +403,56 @@ var removeDuplicates = function (nums) {
 //
 
 /*
+【数组去重】
+
+logs：1
+[✔️]2020.06.08
+*/
+
+// 解法1：使用set。
+var uniqueArray = function (nums) {
+  return Array.from(new Set([...nums]));
+};
+
+// 解法2：暴力破解法。时间复杂度O(n^2)、空间复杂度O(n)
+var uniqueArray = function (nums) {
+  let result = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (result.indexOf(nums[i]) === -1) result.push(nums[i]);
+  }
+  return result;
+};
+
+// 解法3：使用map，时间换空间。时间复杂度O(n)、空间复杂度O(n)
+var uniqueArray = function (nums) {
+  let hash = new Map();
+  let result = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (!hash.has(nums[i])) {
+      result.push(nums[i]);
+      hash.set(nums[i], 0);
+    }
+  }
+  return result;
+};
+
+// 解法4：排序后去重。时间复杂度O(n)、空间复杂度O(1)
+var uniqueArray = function (nums) {
+  nums.sort((a, b) => a - b);
+  let index = 1; // 这是一个指针，下面的 i 是一个指针，从第2项开始
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== nums[i + 1]) {
+      nums[index++] = nums[i + 1];
+    }
+  }
+  return nums.slice(0, index - 1);
+};
+
+//
+// -------divider-------
+//
+
+/*
 【下一个更大元素 I】
 https://leetcode-cn.com/problems/next-greater-element-i/
 给定两个没有重复元素的数组 nums1 和 nums2 ，其中nums1 是 nums2 的子集。找到 nums1 中每个元素在 nums2 中的下一个比其大的值。
