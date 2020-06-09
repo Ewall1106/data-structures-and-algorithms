@@ -389,7 +389,7 @@ logs：4
  * @return {number}
  */
 var removeDuplicates = function (nums) {
-  let index = 1; // 这是一个指针，下面的 i 是一个指针，从第2项开始
+  let index = 1; // 这是一个指针，下面的 i 也是一个指针
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== nums[i + 1]) {
       nums[index++] = nums[i + 1];
@@ -405,8 +405,9 @@ var removeDuplicates = function (nums) {
 /*
 【数组去重】
 
-logs：1
+logs：2
 [✔️]2020.06.08
+[✔️]2020.06.09
 */
 
 // 解法1：使用set。
@@ -439,7 +440,7 @@ var uniqueArray = function (nums) {
 // 解法4：排序后去重。时间复杂度O(n)、空间复杂度O(1)
 var uniqueArray = function (nums) {
   nums.sort((a, b) => a - b);
-  let index = 1; // 这是一个指针，下面的 i 是一个指针，从第2项开始
+  let index = 1; // 这是一个指针，下面的 i 也是一个指针
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== nums[i + 1]) {
       nums[index++] = nums[i + 1];
@@ -1212,9 +1213,10 @@ https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 进阶：
 你能尝试使用一趟扫描实现吗？
 
-logs：2
+logs：3
 [✔️]2020.05.25
 [✔️]2020.06.08
+[✔️]2020.06.09
 */
 
 // 解法1：两次遍历。时间复杂度O(n)
@@ -1292,9 +1294,10 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
 输出：此列表中的结点 4 (序列化形式：[4,5,6])
 由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
 
-logs：2
+logs：3
 [✔️]2020.05.25
 [✔️]2020.06.08
+[✔️]2020.06.09
 */
 
 // 解法1：使用数组。时间复杂度：O(n)、空间复杂度O(n)
@@ -1322,8 +1325,7 @@ var middleNode = function (head) {
 // 两次遍历，第一次遍历时，我们统计链表中的元素个数 N；第二次遍历时，我们遍历到第 N/2 个元素。
 var middleNode = function (head) {
   let temp = head;
-  let i = 0;
-  let j = 0;
+  let i = (j = 0);
   while (temp) {
     temp = temp.next;
     i++;
@@ -1336,7 +1338,7 @@ var middleNode = function (head) {
   return temp;
 };
 
-// 解法3：双指针。时间复杂度O(n)
+// 解法3：双指针。时间复杂度O(n)、空间复杂度O(1)
 // 用两个指针 slow 与 fast 一起遍历链表。slow 一次走一步，fast 一次走两步。那么当 fast 到达链表的末尾时，slow 必然位于中间。
 var middleNode = function (head) {
   let slow = (fast = head);
@@ -1363,8 +1365,9 @@ var middleNode = function (head) {
   当 k = 2 时，应当返回: 2->1->4->3->5
   当 k = 3 时，应当返回: 3->2->1->4->5
 
-  logs：1
+  logs：2
   [✔️]2020.06.03
+  [✔️]2020.06.09
 */
 
 // 解法1：递归。
@@ -1381,16 +1384,15 @@ var middleNode = function (head) {
  * @return {ListNode}
  */
 var reverseKGroup = function (head, k) {
-  if (head == null || head.next === null) return head;
+  if (head == null || head.next == null) return head; // 递归终止条件
 
   let prev = null;
-  let curr = head;
-  let pHead = head;
+  let curr = (temp = head);
 
   // 判断下一组反转是否满足条件
   for (let i = 0; i < k; i++) {
-    if (pHead == null) return head;
-    pHead = pHead.next;
+    if (temp == null) return head;
+    temp = temp.next;
   }
 
   // 局部反转
@@ -1400,6 +1402,7 @@ var reverseKGroup = function (head, k) {
     prev = curr;
     curr = next;
   }
+
   head.next = reverseKGroup(curr, k);
   return prev;
 };
