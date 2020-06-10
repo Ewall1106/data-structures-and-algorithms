@@ -1495,6 +1495,7 @@ logs：3
 [✔️]2020.05.07
 [✔️]2020.05.22
 [✔️]2020.05.29
+[✔️]2020.06.10
 */
 
 // 解法1：暴力破解法。使用两个for循环，如果相加等于target值则return，时间复杂度为O(n^2)
@@ -1517,6 +1518,8 @@ var twoSum = function (nums, target) {
 
 // 解法2：用哈希表，时间复杂度为O(n)
 var twoSum = function (nums, target) {
+  if (nums == null || nums.length < 2) return [];
+
   let map = new Map();
   for (let i = 0; i < nums.length; i++) {
     let diff = target - nums[i];
@@ -1547,10 +1550,11 @@ https://time.geekbang.org/course/detail/100019701-42705
   [-1, -1, 2]
 ]
 
-logs：3
+logs：4
 [✔️]2020.05.21
 [✔️]2020.05.29
 [✔️]2020.06.01
+[✔️]2020.06.10
 */
 
 // 解法1：暴力求解（会超时），三个for循环。时间复杂度：O(n^3)
@@ -1588,7 +1592,7 @@ var threeSum = function (nums) {
   nums.sort((a, b) => a - b);
 
   for (let i = 0; i < nums.length; i++) {
-    if (nums[i] > 0) break;
+    if (nums[i] > 0) break; // 因为已经排序好，如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
     if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
     let hash = new Map();
     for (let j = i + 1; j < nums.length; j++) {
