@@ -1431,32 +1431,31 @@ https://time.geekbang.org/course/detail/100019701-42702
 输入: s = "rat", t = "car"
 输出: false
 
-logs：1
+logs：2
 [✔️]2020.05.12
+[✔️]2020.06.10
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
-// new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
-// fill()方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
-// - const array1 = [1, 2, 3, 4];
-// console.log(array1.fill(6)); output: [6, 6, 6, 6]
-// charCodeAt()方法可返回指定位置的字符的 Unicode 编码，减掉97是因为小写a字母是从97开始编码，例如：'a'.charCodeAt() - 97为0
+// 首先判断两个字符串长度是否相等，不相等则直接返回 false
+// 若相等，则初始化 26 个字母哈希表，遍历字符串 s 和 t
+// s 负责在对应位置增加，t 负责在对应位置减少
 /**
  * @param {string} s
  * @param {string} t
  * @return {boolean}
  */
 var isAnagram = function (s, t) {
-  if (s.length !== t.length) {
-    return false;
-  }
+  if (s.length !== t.length) return false;
   return s.split("").sort().join("") === t.split("").sort().join("");
 };
 
 // 解法2：hash，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n)
-// 首先判断两个字符串长度是否相等，不相等则直接返回 false
-// 若相等，则初始化 26 个字母哈希表，遍历字符串 s 和 t
-// s 负责在对应位置增加，t 负责在对应位置减少
+// new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
+// fill()方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
+// const array1 = [1, 2, 3, 4];
+// array1.fill(6) -> output: [6, 6, 6, 6]
+// charCodeAt()方法可返回指定位置的字符的 Unicode 编码，减掉97是因为小写a字母是从97开始编码：'a'.charCodeAt() -> 97
 // 如果哈希表的值都为 0，则二者是字母异位词
 /**
  * @param {string} s
@@ -1464,18 +1463,15 @@ var isAnagram = function (s, t) {
  * @return {boolean}
  */
 var isAnagram = function (s, t) {
-  if (s.length !== t.length) {
-    return false;
-  }
-  let hash = new Array(26).fill(0);
+  if (s.length !== t.length) return false;
+
+  let arr = new Array(26).fill(0);
   for (let i = 0; i < s.length; i++) {
-    hash[s[i].charCodeAt() - 97]++;
-    hash[t[i].charCodeAt() - 97]--;
+    arr[s[i].charCodeAt() - 97]++;
+    arr[t[i].charCodeAt() - 97]--;
   }
   for (let i = 0; i < 26; i++) {
-    if (hash[i] !== 0) {
-      return false;
-    }
+    if (arr[i] !== 0) return false;
   }
   return true;
 };
