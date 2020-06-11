@@ -1665,8 +1665,9 @@ https://leetcode-cn.com/problems/4sum/
   [-2,  0, 0, 2]
 ]
 
-logs：1
+logs：2
 [✔️]2020.05.22
+[✔️]2020.06.11
 */
 // 解法1：暴力求解。时间复杂度O(n^4)
 // 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
@@ -1724,6 +1725,7 @@ var fourSum = function (nums, target) {
   nums.sort((a, b) => a - b);
 
   for (let i = 0; i < nums.length; i++) {
+    // if (nums[i] > 0) break; 这里不加这个剪枝是因为题目并没有跟前面一样说target是0
     if (i > 0 && nums[i] === nums[i - 1]) continue;
     for (let j = i + 1; j < nums.length; j++) {
       if (j > i + 1 && nums[j] === nums[j - 1]) continue;
