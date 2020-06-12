@@ -1961,9 +1961,10 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 
-logs：2
+logs：3
 [✔️]2020.05.24
 [✔️]2020.05.27
+[✔️]2020.06.12
 */
 
 // 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
@@ -1979,18 +1980,20 @@ logs：2
  * @return {boolean}
  */
 var isValidBST = function (root) {
-  let pre = -Infinity;
+  let prev = -Infinity;
+
   function helper(root) {
     if (root == null) return true;
     // left
     let left = helper(root.left);
     // current：如果当前节点小于等于中序遍历的前一个节点，说明不满足BST，返回false
-    let mid = pre >= root.val ? false : true;
-    pre = root.val;
+    let mid = root.val <= prev ? false : true;
+    prev = root.val;
     // right
     let right = helper(root.right);
     return left && mid && right;
   }
+
   return helper(root);
 };
 
@@ -2013,10 +2016,11 @@ var isValidBST = function (root) {
     // 右子树：当前值比最小值要大
     // 不满足上述条件则为false
     if (root.val >= max || root.val <= min) return false;
-    return (
-      helper(root.left, min, root.val) && helper(root.right, root.val, max)
-    );
+    let left = helper(root.left, min, root.val);
+    let right = helper(root.right, root.val, max);
+    return left && right;
   }
+
   return helper(root, -Infinity, Infinity);
 };
 
