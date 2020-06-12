@@ -1773,9 +1773,10 @@ const tree = new BinarySearchTree();
 tree.insert(new Node(5));
 tree.insert(new Node(3));
 
-logs：2
+logs：3
 [✔️]2020.05.13
 [✔️]2020.05.14
+[✔️]2020.06.12
 */
 class Node {
   constructor(key) {
@@ -1791,53 +1792,51 @@ class BinarySearchTree {
 
   // insert：向树中插入一个新的键。
   insert(newNode) {
-    this.root == null ? (this.root = newNode) : insertNode(this.root, newNode);
+    this.root == null ? (this.root = newNode) : helper(this.root, newNode);
 
-    function insertNode(node, newNode) {
+    function helper(node, newNode) {
       if (node.key > newNode.key) {
-        node.left == null
-          ? (node.left = newNode)
-          : insertNode(node.left, newNode);
+        node.left == null ? (node.left = newNode) : helper(node.left, newNode);
       } else {
         node.right == null
           ? (node.right = newNode)
-          : insertNode(node.right, newNode);
+          : helper(node.right, newNode);
       }
     }
   }
 
   // 中序遍历
   inOrderTraverse(cb) {
-    inOrderTraverseNode(this.root, cb);
+    helper(this.root, cb);
 
-    function inOrderTraverseNode(node, cb) {
+    function helper(node, cb) {
       if (node == null) return node; // recurision end
-      inOrderTraverseNode(node.left, cb);
+      helper(node.left, cb);
       cb(node.key);
-      inOrderTraverseNode(node.right, cb);
+      helper(node.right, cb);
     }
   }
 
   // 前序遍历
   preOrderTraverse(cb) {
-    preOrderTraverseNode(this.root, cb);
+    helper(this.root, cb);
 
-    function preOrderTraverseNode(node, cb) {
+    function helper(node, cb) {
       if (node == null) return node;
       cb(node.key);
-      preOrderTraverseNode(node.left, cb);
-      preOrderTraverseNode(node.right, cb);
+      helper(node.left, cb);
+      helper(node.right, cb);
     }
   }
 
   // 后序遍历
   postOrderTraverse(cb) {
-    postOrderTraverseNode(this.root, cb);
+    helper(this.root, cb);
 
-    function postOrderTraverseNode(node, cb) {
+    function helper(node, cb) {
       if (node != null) return node;
-      postOrderTraverseNode(node.left, cb);
-      postOrderTraverseNode(node.right, cb);
+      helper(node.left, cb);
+      helper(node.right, cb);
       cb(node.key);
     }
   }
@@ -1868,18 +1867,17 @@ class BinarySearchTree {
 
   // search：在树中查找一个键。如果节点存在，则返回 true；如果不存在，则返回false。
   search(key) {
-    function searchNode(node, key) {
+    function helper(node, key) {
       if (node == null) return false;
-
       if (node.key > key) {
-        return searchNode(node.left, key);
+        return helper(node.left, key);
       } else if (node.key < key) {
-        return searchNode(node.right, key);
+        return helper(node.right, key);
       } else {
         return true;
       }
     }
-    return searchNode(this.root, key);
+    return helper(this.root, key);
   }
 
   // remove(key)：从树中移除某个键。
@@ -1887,8 +1885,7 @@ class BinarySearchTree {
     this.root = removeNode(this.root, key);
 
     function removeNode(node, key) {
-      if (node == null) return null; // 终止条件
-
+      if (node == null) return node;
       if (node.key > key) {
         node.left = removeNode(node.left, key);
         return node;
@@ -1926,8 +1923,9 @@ tree.insert(new Node(2));
 tree.insert(new Node(4));
 tree.insert(new Node(2));
 tree.insert(new Node(20));
-tree.remove(20);
 console.log(tree.min());
+console.log(tree.max());
+tree.remove(20);
 console.log(tree.max());
 console.log(tree.search(11));
 tree.inOrderTraverse((value) => console.log(value));
