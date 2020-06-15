@@ -2333,10 +2333,9 @@ logs：0
 
 // 使用邻接表的形式表示图
 class Graph {
-  constructor(isDirected = false) {
-    this.isDirected = isDirected;
-    this.vertices = [];
-    this.adjList = new Map();
+  constructor() {
+    this.vertices = []; // 记录顶点
+    this.adjList = new Map(); // 记录边
   }
   addVertex(v) {
     if (!this.vertices.includes(v)) {
@@ -2352,10 +2351,7 @@ class Graph {
       this.addVertex(b);
     }
     this.adjList.get(a).push(b);
-    // 无向图
-    if (!this.isDirected) {
-      this.adjList.get(b).push(a);
-    }
+    this.adjList.get(b).push(a);
   }
   getVertices() {
     return this.vertices;
@@ -2400,9 +2396,10 @@ https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
   [15,7]
 ]
 
-logs：0
+logs：1
+[✔️]2020.06.15
 */
-// 解法1：BFS。时间复杂度O(n)
+// 解法：BFS。时间复杂度O(n)、空间复杂度O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -2414,23 +2411,24 @@ logs：0
  * @param {TreeNode} root
  * @return {number[][]}
  */
+
 var levelOrder = function (root) {
   if (root == null) return [];
-  let queue = [],
-    result = [];
+  let queue = [];
+  let result = [];
   queue.push(root);
 
   // let visited = new Set() visited.add(root) 图的遍历之类的需要将已遍历过的节点记录下来
 
   while (queue.length !== 0) {
-    let tmp = [];
+    let temp = [];
     for (let i = 0, len = queue.length; i < len; i++) {
       let node = queue.shift();
-      tmp.push(node.val);
+      temp.push(node.val);
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
-    result.push(tmp);
+    result.push(temp);
   }
   return result;
 };
