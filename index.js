@@ -2719,9 +2719,10 @@ const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 归并排序的处理过程是由下到上的，先处理子问题，然后再合并。而快排正好相反，它的处理过程是由上到下的，先分区，然后再处理子问题。
 归并排序虽然是稳定的、时间复杂度为O(nlogn)的排序算法，但是它是非原地排序算法。
 
-logs：2
+logs：3
 [✔️]2020.05.26
 [✔️]2020.06.01
+[✔️]2020.06.15
 */
 function quickSort(array) {
   return quick(array, 0, array.length - 1);
@@ -2757,7 +2758,7 @@ function partition(array, left, right) {
   return i;
 }
 
-console.log(quickSort([4, 4, 52, 13, 5, 8, 91, 1]));
+console.log(quick([4, 4, 52, 13, 5, 8, 91, 1]));
 
 //
 // -------divider-------
@@ -2772,8 +2773,9 @@ console.log(quickSort([4, 4, 52, 13, 5, 8, 91, 1]));
 
 * 时间复杂度：O(logn)
 
-logs：1
+logs：2
 [✔️]2020.05.28
+[✔️]2020.06.15
 */
 function binarySearch(array, value) {
   array.sort((a, b) => a - b);
@@ -2782,10 +2784,9 @@ function binarySearch(array, value) {
 
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
-    const element = array[mid];
-    if (value > element) {
+    if (value > array[mid]) {
       low = mid + 1;
-    } else if (value < element) {
+    } else if (value < array[mid]) {
       high = mid - 1;
     } else {
       return mid;
