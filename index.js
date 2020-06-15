@@ -2679,14 +2679,12 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：2
+logs：3
 [✔️]2020.05.22
 [✔️]2020.05.26
+[✔️]2020.06.15
 */
 
-/**
- * @param {Array} array
- */
 function mergeSort(array) {
   if (array.length <= 1) return array;
   let middle = Math.floor(array.length / 2);
@@ -2695,19 +2693,10 @@ function mergeSort(array) {
   return merge(mergeSort(left), mergeSort(right));
 }
 
-/**
- * @param {Array} left
- * @param {Array} right
- * @return {Array}
- */
 function merge(left, right) {
   let result = [];
   while (left.length > 0 && right.length > 0) {
-    if (left[0] < right[0]) {
-      result.push(left.shift());
-    } else {
-      result.push(right.shift());
-    }
+    left[0] < right[0] ? result.push(left.shift()) : result.push(right.shift());
   }
   // 因为left、right都是排好序的，所以如果一个length为0了就只需要合并就行，不需要遍历shift()了
   return result.concat(left, right);
@@ -2739,18 +2728,12 @@ function quickSort(array) {
 }
 
 function quick(array, left, right) {
-  let index;
-  if (array.length > 1) {
-    index = partition(array, left, right);
-    if (left < index - 1) {
-      // 较主元小的值组成的子数组重复划分排序操作
-      quick(array, left, index - 1);
-    }
-    if (right > index) {
-      // 较主元大的值组成的子数组重复划分排序操作
-      quick(array, index, right);
-    }
-  }
+  if (array.length <= 1) return array;
+  let index = partition(array, left, right);
+  // 较主元小的值组成的子数组重复划分排序操作
+  if (left < index - 1) quick(array, left, index - 1);
+  // 较主元大的值组成的子数组重复划分排序操作
+  if (right > index) quick(array, index, right);
   return array;
 }
 
@@ -2761,13 +2744,9 @@ function partition(array, left, right) {
   // 这个过程将使得比主元小的值都排在主元之前，而比主元大的值都排在主元之后
   while (i <= j) {
     // 移动左指针直到我们找到一个比主元大的值
-    while (array[i] < pivot) {
-      i++;
-    }
+    while (array[i] < pivot) i++;
     // 移动右指针直到找到一个比主元小的值
-    while (array[j] > pivot) {
-      j--;
-    }
+    while (array[j] > pivot) j--;
     // 交换它们
     if (i <= j) {
       [array[i], array[j]] = [array[j], array[i]];
@@ -2777,6 +2756,8 @@ function partition(array, left, right) {
   }
   return i;
 }
+
+console.log(quickSort([4, 4, 52, 13, 5, 8, 91, 1]));
 
 //
 // -------divider-------
