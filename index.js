@@ -29,14 +29,15 @@ https://leetcode-cn.com/problems/missing-number/
 说明:
 你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?
 
-logs：4
+logs：5
 [✔️]2020.05.15
 [✔️]2020.05.16
 [✔️]2020.05.19
 [✔️]2020.05.26
+[✔️]2020.06.16
 */
 
-// 解法1：排序。排完序以后与数组下标比较。时间复杂度O(nlogn)
+// 解法1：排序。排完序以后与数组下标比较。时间复杂度O(n)
 /**
  * @param {number[]} nums
  * @return {number}
@@ -44,9 +45,7 @@ logs：4
 var missingNumber = function (nums) {
   nums.sort((a, b) => a - b);
   for (let i = 0; i < nums.length; i++) {
-    if (i != nums[i]) {
-      return i;
-    }
+    if (i != nums[i]) return i;
   }
   return nums.length;
 };
@@ -77,7 +76,7 @@ var missingNumber = function (nums) {
 【存在重复元素】
 https://leetcode-cn.com/problems/contains-duplicate/
 给定一个整数数组，判断是否存在重复元素。
-如果任意一值在数组中出现至少两次，函数返回 true 。如果数组中每个元素都不相同，则返回 false 。
+如果任意一值在数组中出现至少两次，函数返回 true。如果数组中每个元素都不相同，则返回 false 。
 
 示例 1:
 输入: [1,2,3,1]
@@ -91,11 +90,12 @@ https://leetcode-cn.com/problems/contains-duplicate/
 输入: [1,1,1,3,3,4,3,2,4,2]
 输出: true
 
-logs：4
+logs：5
 [✔️]2020.05.15
 [✔️]2020.05.16
 [✔️]2020.05.19
 [✔️]2020.05.26
+[✔️]2020.06.16
 */
 
 // 解法1：对数组去重以后在比较length
@@ -169,11 +169,12 @@ https://leetcode-cn.com/problems/rotate-array/
 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
 要求使用空间复杂度为 O(1) 的原地算法。
 
-logs：4
+logs：5
 [✔️]2020.05.12
 [✔️]2020.05.14
 [✔️]2020.05.16
 [✔️]2020.06.05
+[✔️]2020.06.15
 */
 
 // 解法1：暴力破解法。旋转 k 次，每次将数组旋转 1 个元素。时间复杂度：O(n*k) 。每个元素都被移动n步，移动k轮 。
@@ -201,9 +202,11 @@ var rotate = function (nums, k) {
   for (let i = 0; i < nums.length; i++) {
     arr[(i + k) % nums.length] = nums[i]; // 假设i=5，在你本身的位置i基础上往右移3超过了边界2步，沿着从头再继续移
   }
+  // 根据题目要求需要去改变原数组
   for (let i = 0; i < nums.length; i++) {
     nums[i] = arr[i];
   }
+  return nums;
 };
 
 // 解法3：使用环状替换。时间复杂度O(n)、空间复杂度O(1)
@@ -211,7 +214,6 @@ var rotate = function (nums, k) {
 // 为什么需要count来记录？当nums=[1,2,3,4]、k=2这种情况的时候，第二轮的时候3移动两步刚好移到了位置1，座位上没有同学。
 var rotate = function (nums, k) {
   let count = 0; // 记录交换位置的次数，num.length个同学一共需要换num.length次
-  k = k % nums.length;
   for (let i = 0; count < nums.length; i++) {
     let currentIdx = i;
     let current = nums[i];
@@ -224,6 +226,7 @@ var rotate = function (nums, k) {
       count++;
     } while (i != currentIdx);
   }
+  return nums;
 };
 
 // 解法4：中心反转。在这个方法中，我们首先将所有元素反转。然后反转前 k 个元素，再反转后面 n−k 个元素，就能得到想要的结果。时间复杂度O(n)、空间复杂度O(1)
@@ -2536,7 +2539,8 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：0
+logs：1
+[✔️]2020.06.16
 */
 
 // 解法1：递归、DFS。时间复杂度O(2^n)
