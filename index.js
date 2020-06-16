@@ -2329,7 +2329,7 @@ var majorityElement = function (nums) {
 /* -------------------------- 图、DFS、BFS ---------------------------*/
 
 /*
-【构建图】
+【构建图、DFS、BFS】
 
 logs：0
 */
@@ -2376,6 +2376,35 @@ graph.addEdge("C", "D");
 graph.addEdge("C", "G");
 console.log(graph.adjList);
 
+// DFS写法
+// https://time.geekbang.org/course/detail/100019701-42717
+visited = new Set();
+function dfs(node, visited) {
+  visited.add(node);
+  // process current node here
+  for (next_node in node.children()) {
+    if (!visited.has(next_node)) dfs(next_node, visited);
+  }
+}
+
+// BFS写法
+function BFS(graph, start, end) {
+  visited = new Set();
+  queue = [];
+  queue.push(start);
+  visited.add(start);
+
+  while (queue) {
+    node = queue.pop();
+    visited.add(node);
+
+    process(node);
+
+    nodes = generate_related_nodes(node); // node的相邻节点
+    queue.push(nodes);
+  }
+}
+
 //
 // -------divider-------
 //
@@ -2383,7 +2412,8 @@ console.log(graph.adjList);
 /*
 【二叉树的层序遍历】
 https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
-给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
+https://time.geekbang.org/course/detail/100019701-67634
+给你一个二叉树，请你返回其按 层序遍历 得到的节点值。（即逐层地，从左到右访问所有节点）。
 
 示例：
 二叉树：[3,9,20,null,null,15,7],
@@ -2402,7 +2432,7 @@ https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
 logs：1
 [✔️]2020.06.15
 */
-// 解法：BFS。时间复杂度O(n)、空间复杂度O(n)
+// 解法1：BFS。时间复杂度O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -2434,6 +2464,23 @@ var levelOrder = function (root) {
     result.push(temp);
   }
   return result;
+};
+
+// 解法2：DFS。时间复杂度O(n)
+var levelOrder = function (root) {
+  if (!root) return [];
+  let result = [];
+  dfs(root, 0);
+  return result;
+
+  function dfs(node, level) {
+    if (!node) return;
+    if (result.length < level + 1) result.push([]);
+
+    result[level].push(node.val);
+    dfs(node.left, level + 1);
+    dfs(node.right, level + 1);
+  }
 };
 
 //
