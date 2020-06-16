@@ -2413,7 +2413,7 @@ logs：1
  */
 
 var levelOrder = function (root) {
-  if (root == null) return [];
+  if (!root) return [];
   let queue = [];
   let result = [];
   queue.push(root);
@@ -2453,7 +2453,8 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：0
+logs：1
+[✔️]2020.06.15
 */
 
 // 解法1：DFS、递归。时间复杂度O(n)
@@ -2493,10 +2494,11 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
    15   7
 返回它的最小深度  2.
 
-logs：0
+logs：1
+[✔️]2020.06.16
 */
 
-// 解法1：DFS、分治。时间复杂度O(n)
+// 解法1：DFS。时间复杂度O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -2509,9 +2511,9 @@ logs：0
  * @return {number}
  */
 var minDepth = function (root) {
-  if (root == null) return 0;
-  if (root.left == null) return minDepth(root.right) + 1;
-  if (root.right == null) return minDepth(root.left) + 1;
+  if (!root) return 0;
+  if (!root.left) return minDepth(root.right) + 1;
+  if (!root.right) return minDepth(root.left) + 1;
   return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
 };
 
@@ -2522,7 +2524,7 @@ var minDepth = function (root) {
 /*
 【括号生成】
 https://leetcode-cn.com/problems/generate-parentheses/
-数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且有效的括号组合。
 示例：
 
 输入：n = 3
@@ -2545,11 +2547,11 @@ logs：0
  */
 var generateParenthesis = function (n) {
   let res = [];
-  let dfs = (s, left, right) => {
+  function dfs(s, left, right) {
     if (left == n && right == n) return res.push(s);
     if (left < n) dfs(`${s}(`, left + 1, right);
     if (left > right && right < n) dfs(`${s})`, left, right + 1);
-  };
+  }
   dfs("", 0, 0);
   return res;
 };
