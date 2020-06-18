@@ -538,17 +538,18 @@ var nextGreaterElement = function (nums1, nums2) {
 【进制转换算法】
 实现十进制转二进制、任意进制转换
 
-logs：4
+logs：5
 [✔️]2020.05.09
 [✔️]2020.05.14
 [✔️]2020.06.02
 [✔️]2020.06.06
+[✔️]2020.06.17
 */
 // 十进制转二进制。要把十进制转化成二进制，我们可以将该十进制数除以 2（二进制是满二进一）并对商取整，直到结果是 0 为止。
 function decimalToBinary(number) {
   const remStack = [];
   while (number > 0) {
-    let rem = Math.floor(number % 2);
+    let rem = number % 2;
     remStack.push(rem);
     number = Math.floor(number / 2);
   }
@@ -562,7 +563,7 @@ function baseConverter(number, base) {
   const remStack = [];
   const digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   while (number > 0) {
-    let rem = Math.floor(number % base);
+    let rem = number % base;
     remStack.push(digits[rem]);
     number = Math.floor(number / base);
   }
@@ -602,11 +603,12 @@ https://leetcode-cn.com/problems/valid-parentheses/
 输入: "{[]}"
 输出: true
 
-logs：4
+logs：5
 [✔️]2020.04.20
 [✔️]2020.05.08
 [✔️]2020.06.02
 [✔️]2020.06.06
+[✔️]2020.06.17
 */
 
 // 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
@@ -656,10 +658,11 @@ var isValid = function (s) {
   它的右侧子节点的位置是 2n + 2（如果位置可用）； 
   它的父节点位置是 n / 2（如果位置可用）。
 
-logs：3
+logs：4
 [✔️]2020.05.23
 [✔️]2020.06.01
 [✔️]2020.06.02
+[✔️]2020.06.18
 */
 // 创建最小堆
 class MinHeap {
