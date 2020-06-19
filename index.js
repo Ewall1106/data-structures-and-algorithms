@@ -778,10 +778,11 @@ kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 
-logs：3
+logs：4
 [✔️]2020.05.26
 [✔️]2020.06.02
 [✔️]2020.06.04
+[✔️]2020.06.18
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -858,10 +859,11 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：3
+logs：4
 [✔️]2020.05.28
 [✔️]2020.05.28
 [✔️]2020.06.04
+[✔️]2020.06.19
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
@@ -911,6 +913,15 @@ var maxSlidingWindow = function (nums, k) {
 // 解法3：动态规划
 
 // 解法4：使用优先队列，大顶堆max-heap，时间复杂度O(Nlogk)
+// var maxSlidingWindow = function (nums, k) {
+//   this.maxHeap = new MaxHeap();
+//   for (let i = 0; i < nums.length; i++) {
+//     if (i < k) {
+//       this.maxHeap.insert(nums[i]);
+//     } else {
+//     }
+//   }
+// };
 
 //
 // -------divider-------
