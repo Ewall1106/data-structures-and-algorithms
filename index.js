@@ -2451,8 +2451,9 @@ https://time.geekbang.org/course/detail/100019701-67634
   [15,7]
 ]
 
-logs：1
+logs：2
 [✔️]2020.06.15
+[✔️]2020.06.20
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -2525,8 +2526,9 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：1
+logs：2
 [✔️]2020.06.15
+[✔️]2020.06.20
 */
 
 // 解法1：DFS、递归。时间复杂度O(n)
@@ -2543,7 +2545,9 @@ logs：1
  */
 var maxDepth = function (root) {
   if (!root) return 0;
-  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+  if (!root.left) return maxDepth(root.right) + 1;
+  if (!root.right) return maxDepth(root.left) + 1;
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };
 
 //
@@ -2566,8 +2570,9 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
    15   7
 返回它的最小深度  2.
 
-logs：1
+logs：2
 [✔️]2020.06.16
+[✔️]2020.06.20
 */
 
 // 解法1：DFS。时间复杂度O(n)
@@ -2608,11 +2613,12 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：1
+logs：2
 [✔️]2020.06.16
+[✔️]2020.06.20
 */
 
-// 解法1：递归、DFS。时间复杂度O(2^n)
+// 解法1：DFS。时间复杂度O(2^n)
 // https://time.geekbang.org/course/detail/130-67636
 /**
  * @param {number} n
