@@ -2853,9 +2853,10 @@ console.log(quick([4, 4, 52, 13, 5, 8, 91, 1]));
 
 * 时间复杂度：O(logn)
 
-logs：2
+logs：3
 [✔️]2020.05.28
 [✔️]2020.06.15
+[✔️]2020.06.21
 */
 function binarySearch(array, value) {
   array.sort((a, b) => a - b);
