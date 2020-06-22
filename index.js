@@ -2190,7 +2190,8 @@ var lowestCommonAncestor = function (root, p, q) {
 /*
 【斐波那契数列】
 
-logs：0
+logs：1
+[✔️]2020.06.22
 */
 // 1、求1，1，2，3，5，8，....第n个数是多少？
 function fibonacci(n) {
@@ -2349,13 +2350,6 @@ var majorityElement = function (nums) {
 //
 
 /* -------------------------- 图、DFS、BFS ---------------------------*/
-
-/*
-【构建图、DFS、BFS】
-
-logs：0
-*/
-
 // 使用邻接表的形式表示图
 class Graph {
   constructor() {
@@ -2451,9 +2445,10 @@ https://time.geekbang.org/course/detail/100019701-67634
   [15,7]
 ]
 
-logs：2
+logs：3
 [✔️]2020.06.15
 [✔️]2020.06.20
+[✔️]2020.06.22
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -2467,7 +2462,6 @@ logs：2
  * @param {TreeNode} root
  * @return {number[][]}
  */
-
 var levelOrder = function (root) {
   if (!root) return [];
   let queue = [];
@@ -2476,7 +2470,7 @@ var levelOrder = function (root) {
 
   // let visited = new Set() visited.add(root) 图的遍历之类的需要将已遍历过的节点记录下来
 
-  while (queue.length !== 0) {
+  while (queue.length) {
     let temp = [];
     for (let i = 0, len = queue.length; i < len; i++) {
       let node = queue.shift();
@@ -2499,7 +2493,6 @@ var levelOrder = function (root) {
   function dfs(node, level) {
     if (!node) return;
     if (result.length < level + 1) result.push([]);
-
     result[level].push(node.val);
     dfs(node.left, level + 1);
     dfs(node.right, level + 1);
@@ -2885,7 +2878,8 @@ function binarySearch(array, value) {
 查找【第一个】值等于给定值的元素
 https://time.geekbang.org/column/article/42733
 
-logs：0
+logs：1
+[✔️]2020.06.21
 */
 
 function binarySearch1(array, value) {
@@ -2909,7 +2903,6 @@ function binarySearch1(array, value) {
   return -1;
 }
 const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
-
 //
 // -------divider-------
 //
@@ -2919,7 +2912,8 @@ const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 查找【最后一个】值等于给定值的元素
 https://time.geekbang.org/column/article/42733
 
-logs：0
+logs：1
+[✔️]2020.06.22
 */
 
 function binarySearch2(array, value) {
@@ -2953,7 +2947,8 @@ const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 查找第一个大于等于给定值的元素
 https://time.geekbang.org/column/article/42733
 
-logs：0
+logs：1
+[✔️]2020.06.22
 */
 
 function binarySearch3(array, value) {
@@ -2984,7 +2979,8 @@ const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
 查找最后一个小于等于给定值的元素
 https://time.geekbang.org/column/article/42733
 
-logs：0
+logs：1
+[✔️]2020.06.22
 */
 
 function binarySearch4(array, value) {
@@ -3003,7 +2999,7 @@ function binarySearch4(array, value) {
   }
   return -1;
 }
-const test = binarySearch4([1, 3, 5, 7, 9], 4); // 2
+const test = binarySearch4([1, 3, 5, 7, 9], 4); // 1
 
 //
 // -------divider-------
