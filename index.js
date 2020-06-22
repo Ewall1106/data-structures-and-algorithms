@@ -2519,9 +2519,10 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：2
+logs：3
 [✔️]2020.06.15
 [✔️]2020.06.20
+[✔️]2020.06.22
 */
 
 // 解法1：DFS、递归。时间复杂度O(n)
@@ -2563,9 +2564,10 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
    15   7
 返回它的最小深度  2.
 
-logs：2
+logs：3
 [✔️]2020.06.16
 [✔️]2020.06.20
+[✔️]2020.06.22
 */
 
 // 解法1：DFS。时间复杂度O(n)
@@ -2606,9 +2608,10 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：2
+logs：3
 [✔️]2020.06.16
 [✔️]2020.06.20
+[✔️]2020.06.22
 */
 
 // 解法1：DFS。时间复杂度O(2^n)
@@ -2756,6 +2759,7 @@ logs：3
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
+[✔️]2020.06.22
 */
 
 function mergeSort(array) {
