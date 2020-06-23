@@ -1183,6 +1183,7 @@ var hasCycle = function (head) {
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.06.08
+  [✔️]2020.06.22
 */
 
 // 解法1：迭代，给每个经过的元素添加flag标识。时间复杂度：O(n)，空间复杂度O(1)
@@ -1240,10 +1241,11 @@ https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 进阶：
 你能尝试使用一趟扫描实现吗？
 
-logs：3
+logs：4
 [✔️]2020.05.25
 [✔️]2020.06.08
 [✔️]2020.06.09
+[✔️]2020.06.23
 */
 
 // 解法1：两次遍历。时间复杂度O(n)
@@ -1252,8 +1254,8 @@ var removeNthFromEnd = function (head, n) {
   const preHead = new ListNode(null);
   preHead.next = head;
   let length = 0;
-  let temp = head;
   // 第一次遍历，我们找出列表的长度length
+  let temp = head;
   while (temp) {
     temp = temp.next;
     length++;
