@@ -2641,19 +2641,6 @@ var generateParenthesis = function (n) {
 // -------divider-------
 //
 
-/*
-【N皇后】困难
-https://leetcode-cn.com/problems/n-queens/
-https://time.geekbang.org/course/detail/130-67638
-n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
-
-logs：0
-*/
-
-//
-// -------divider-------
-//
-
 /* -------------------------- 排序、搜索算法 ---------------------------*/
 
 /*
@@ -3156,6 +3143,31 @@ https://leetcode-cn.com/problems/pascals-triangle/
 logs：0
 */
 // 解法1：动态规划
+
+//
+// -------divider-------
+//
+
+/*
+【N皇后】困难
+https://leetcode-cn.com/problems/n-queens/
+https://time.geekbang.org/course/detail/130-67638
+n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+logs：0
+*/
+
+//
+// -------divider-------
+//
+
+/*
+【N皇后②】困难
+https://leetcode-cn.com/problems/n-queens-ii/
+n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+logs：0
+*/
 
 //
 // -------divider-------
