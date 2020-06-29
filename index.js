@@ -991,7 +991,7 @@ var reverseList = function (head) {
   示例：
   给定 1->2->3->4, 你应该返回 2->1->4->3.
 
-  logs：2
+  logs：3
   [✔️]2020.04.20
   [✔️]2020.06.08
   [✔️]2020.06.19
@@ -1395,7 +1395,7 @@ var middleNode = function (head) {
   当 k = 2 时，应当返回: 2->1->4->3->5
   当 k = 3 时，应当返回: 3->2->1->4->5
 
-  logs：2
+  logs：3
   [✔️]2020.06.03
   [✔️]2020.06.09
   [✔️]2020.06.24
@@ -1462,9 +1462,10 @@ https://time.geekbang.org/course/detail/100019701-42702
 输入: s = "rat", t = "car"
 输出: false
 
-logs：2
+logs：3
 [✔️]2020.05.12
 [✔️]2020.06.10
+[✔️]2020.06.29
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
@@ -1495,8 +1496,8 @@ var isAnagram = function (s, t) {
  */
 var isAnagram = function (s, t) {
   if (s.length !== t.length) return false;
-
   let arr = new Array(26).fill(0);
+
   for (let i = 0; i < s.length; i++) {
     arr[s[i].charCodeAt() - 97]++;
     arr[t[i].charCodeAt() - 97]--;
@@ -2455,7 +2456,7 @@ https://time.geekbang.org/course/detail/100019701-67634
   [15,7]
 ]
 
-logs：3
+logs：4
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -2530,10 +2531,11 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：3
+logs：4
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
+[✔️]2020.06.29
 */
 
 // 解法1：DFS、递归。时间复杂度O(n)
@@ -2575,10 +2577,11 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
    15   7
 返回它的最小深度  2.
 
-logs：3
+logs：4
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
+[✔️]2020.06.29
 */
 
 // 解法1：DFS。时间复杂度O(n)
@@ -2619,10 +2622,11 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：3
+logs：4
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
+[✔️]2020.06.29
 */
 
 // 解法1：DFS。时间复杂度O(2^n)
@@ -2753,7 +2757,7 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：3
+logs：5
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
