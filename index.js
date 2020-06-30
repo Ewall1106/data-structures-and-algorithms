@@ -991,10 +991,11 @@ var reverseList = function (head) {
   示例：
   给定 1->2->3->4, 你应该返回 2->1->4->3.
 
-  logs：3
+  logs：4
   [✔️]2020.04.20
   [✔️]2020.06.08
   [✔️]2020.06.19
+  [✔️]2020.06.29
 */
 
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
@@ -1395,10 +1396,11 @@ var middleNode = function (head) {
   当 k = 2 时，应当返回: 2->1->4->3->5
   当 k = 3 时，应当返回: 3->2->1->4->5
 
-  logs：3
+  logs：4
   [✔️]2020.06.03
   [✔️]2020.06.09
   [✔️]2020.06.24
+  [✔️]2020.06.30
 */
 
 // 解法1：递归。
@@ -1418,7 +1420,7 @@ var reverseKGroup = function (head, k) {
   if (head == null || head.next == null) return head; // 递归终止条件
 
   let prev = null;
-  let curr = (temp = head);
+  let temp = head;
 
   // 判断下一组反转是否满足条件
   for (let i = 0; i < k; i++) {
@@ -1427,14 +1429,15 @@ var reverseKGroup = function (head, k) {
   }
 
   // 局部反转
+  temp = head;
   for (let i = 0; i < k; i++) {
-    let next = curr.next;
-    curr.next = prev;
-    prev = curr;
-    curr = next;
+    let next = temp.next;
+    temp.next = prev;
+    prev = temp;
+    temp = next;
   }
 
-  head.next = reverseKGroup(curr, k);
+  head.next = reverseKGroup(temp, k);
   return prev;
 };
 
@@ -1462,10 +1465,11 @@ https://time.geekbang.org/course/detail/100019701-42702
 输入: s = "rat", t = "car"
 输出: false
 
-logs：3
+logs：4
 [✔️]2020.05.12
 [✔️]2020.06.10
 [✔️]2020.06.29
+[✔️]2020.06.30
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(nlog(n))
@@ -1485,8 +1489,8 @@ var isAnagram = function (s, t) {
 // 解法2：hash，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n)
 // new Array(arrayLength)：一个范围在 0 到 232-1 之间的整数，此时将返回一个 length 的值等于 arrayLength 的数组对象（言外之意就是该数组此时并没有包含任何实际的元素，不能理所当然地认为它包含 arrayLength 个值为 undefined 的元素）。如果传入的参数不是有效值，则会抛出 RangeError 异常。
 // fill()方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。例如：
-// const array1 = [1, 2, 3, 4];
-// array1.fill(6) -> output: [6, 6, 6, 6]
+// const array = [1, 2, 3, 4];
+// array.fill(6) -> output: [6, 6, 6, 6]
 // charCodeAt()方法可返回指定位置的字符的 Unicode 编码，减掉97是因为小写a字母是从97开始编码：'a'.charCodeAt() -> 97
 // 如果哈希表的值都为 0，则二者是字母异位词
 /**
@@ -2856,10 +2860,11 @@ console.log(quick([4, 4, 52, 13, 5, 8, 91, 1]));
 
 * 时间复杂度：O(logn)
 
-logs：3
+logs：4
 [✔️]2020.05.28
 [✔️]2020.06.15
 [✔️]2020.06.21
+[✔️]2020.06.30
 */
 function binarySearch(array, value) {
   array.sort((a, b) => a - b);
