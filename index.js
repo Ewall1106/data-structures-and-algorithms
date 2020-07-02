@@ -661,7 +661,7 @@ var isValid = function (s) {
   它的右侧子节点的位置是 2n + 2（如果位置可用）； 
   它的父节点位置是 n / 2（如果位置可用）。
 
-logs：4
+logs：5
 [✔️]2020.05.23
 [✔️]2020.06.01
 [✔️]2020.06.02
@@ -729,9 +729,9 @@ class MinHeap {
   // 堆化（从上往下）
   siftDown(index) {
     let tempIndex = index;
-    const left = this.getLeftIndex(index);
-    const right = this.getRightIndex(index);
-    const size = this.size();
+    let left = this.getLeftIndex(index);
+    let right = this.getRightIndex(index);
+    let size = this.size();
     // --- [父节点-左子节点-右子节点]中找出最大值的索引 ---
     if (left < size && this.heap[tempIndex] > this.heap[left]) {
       tempIndex = left;
@@ -782,11 +782,12 @@ kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 
-logs：4
+logs：5
 [✔️]2020.05.26
 [✔️]2020.06.02
 [✔️]2020.06.04
 [✔️]2020.06.18
+[✔️]2020.07.02
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：log2^k
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -894,7 +895,7 @@ var maxSlidingWindow = function (nums, k) {
 var maxSlidingWindow = function (nums, k) {
   if (!nums.length) return [];
   if (k === 1) return nums;
-  let deque = []; // 维护位置索引
+  let deque = []; // 维护位置index索引
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
