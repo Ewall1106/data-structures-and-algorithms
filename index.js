@@ -2337,7 +2337,7 @@ var majorityElement = function (nums) {
   }
 };
 
-// 解法3：排序。如果将数组 nums 中的所有元素按照单调递增或单调递减的顺序排序，那么下标为[n/2]的元素（下标从 0 开始）一定是众数。时间复杂度：O(nlogn)。
+// 解法3：排序。如果将数组 nums 中的所有元素按照单调递增或单调递减的顺序排序，那么下标为[n/2]的元素（下标从 0 开始）一定是众数。时间复杂度���O(nlogn)。
 // Math.floor向下舍入。如Math.floor(5.9)—>5，floor地板
 // Math.ceil向上舍入。ceil天花板
 // Math.round四舍五入。
@@ -2731,11 +2731,12 @@ const test = selectionSort([4, 4, 52, 13, 5, 8, 91, 1]);
         --------
         一个个的抽出来插牌到已排好序的前面项中
 
-logs：4
+logs：5
 [✔️]2020.05.22
 [✔️]2020.05.28
 [✔️]2020.06.15
 [✔️]2020.06.19
+[✔️]2020.07.06
 */
 function insertionSort(array) {
   let temp;
@@ -2768,12 +2769,13 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：5
+logs：6
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
 [✔️]2020.06.22
 [✔️]2020.06.23
+[✔️]2020.07.06
 */
 
 function mergeSort(array) {
@@ -2812,11 +2814,12 @@ const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 归并排序的处理过程是由下到上的，先处理子问题，然后再合并。而快排正好相反，它的处理过程是由上到下的，先分区，然后再处理子问题。
 归并排序虽然是稳定的、时间复杂度为O(nlogn)的排序算法，但是它是非原地排序算法。
 
-logs：4
+logs：5
 [✔️]2020.05.26
 [✔️]2020.06.01
 [✔️]2020.06.15
 [✔️]2020.06.23
+[✔️]2020.07.06
 */
 function quickSort(array) {
   return quick(array, 0, array.length - 1);
