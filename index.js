@@ -2666,12 +2666,13 @@ var generateParenthesis = function (n) {
 元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
 时间复杂度O(n^2)
 
-logs：5
+logs：6
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
 [✔️]2020.06.15
 [✔️]2020.06.30
+[✔️]2020.07.07
 */
 function bubbleSort(array) {
   for (let i = 0; i < array.length; i++) {
@@ -2694,7 +2695,7 @@ const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
 选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。
 时间复杂度O(n^2)
 
-logs：5
+logs：6
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
@@ -2731,12 +2732,13 @@ const test = selectionSort([4, 4, 52, 13, 5, 8, 91, 1]);
         --------
         一个个的抽出来插牌到已排好序的前面项中
 
-logs：5
+logs：6
 [✔️]2020.05.22
 [✔️]2020.05.28
 [✔️]2020.06.15
 [✔️]2020.06.19
 [✔️]2020.07.06
+[✔️]2020.07.07
 */
 function insertionSort(array) {
   let temp;
@@ -2814,12 +2816,13 @@ const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 归并排序的处理过程是由下到上的，先处理子问题，然后再合并。而快排正好相反，它的处理过程是由上到下的，先分区，然后再处理子问题。
 归并排序虽然是稳定的、时间复杂度为O(nlogn)的排序算法，但是它是非原地排序算法。
 
-logs：5
+logs：6
 [✔️]2020.05.26
 [✔️]2020.06.01
 [✔️]2020.06.15
 [✔️]2020.06.23
 [✔️]2020.07.06
+[✔️]2020.07.07
 */
 function quickSort(array) {
   return quick(array, 0, array.length - 1);
@@ -2831,7 +2834,7 @@ function quick(array, left, right) {
   // 较主元小的值组成的子数组重复划分排序操作
   if (left < index - 1) quick(array, left, index - 1);
   // 较主元大的值组成的子数组重复划分排序操作
-  if (right > index) quick(array, index, right);
+  if (index < right) quick(array, index, right);
   return array;
 }
 
