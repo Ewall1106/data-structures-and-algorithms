@@ -1818,11 +1818,12 @@ const tree = new BinarySearchTree();
 tree.insert(new Node(5));
 tree.insert(new Node(3));
 
-logs：4
+logs：5
 [✔️]2020.05.13
 [✔️]2020.05.14
 [✔️]2020.06.12
 [✔️]2020.06.28
+[✔️]2020.07.13
 */
 class Node {
   constructor(key) {
