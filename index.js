@@ -338,12 +338,13 @@ https://leetcode-cn.com/problems/plus-one/
 输出: [4,3,2,2]
 解释: 输入数组表示数字 4321。
 
-logs：5
+logs：6
 [✔️]2020.05.10
 [✔️]2020.05.11
 [✔️]2020.06.01
 [✔️]2020.06.05
 [✔️]2020.06.17
+[✔️]2020.07.20
 */
 
 // 解析：
@@ -389,6 +390,7 @@ logs：5
 [✔️]2020.05.11
 [✔️]2020.06.05
 [✔️]2020.06.17
+[✔️]2020.07.20
 */
 
 // 解法：使用两个指针，如果相等就跳过。时间复杂度：O(n)
@@ -1739,12 +1741,7 @@ var fourSum = function (nums, target) {
         if (hash.has(nums[k])) {
           // 剪枝
           if (hash.get(nums[k]) === 0) {
-            let value = [
-              nums[i],
-              nums[j],
-              nums[k],
-              target - nums[i] - nums[j] - nums[k],
-            ].sort();
+            let value = [nums[i], nums[j], nums[k], target - nums[i] - nums[j] - nums[k]].sort();
             let key = value.join(",");
             // 去重（这里去重性能有点低，需要找个更好的方案优化一下）
             if (!Object.keys(result).includes(key)) {
@@ -1850,9 +1847,7 @@ class BinarySearchTree {
       if (node.key > newNode.key) {
         node.left == null ? (node.left = newNode) : helper(node.left, newNode);
       } else {
-        node.right == null
-          ? (node.right = newNode)
-          : helper(node.right, newNode);
+        node.right == null ? (node.right = newNode) : helper(node.right, newNode);
       }
     }
   }
