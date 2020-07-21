@@ -417,12 +417,13 @@ var removeDuplicates = function (nums) {
 /*
 【数组去重】
 
-logs：5
+logs：6
 [✔️]2020.06.08
 [✔️]2020.06.09
 [✔️]2020.06.17
 [✔️]2020.06.23
 [✔️]2020.07.01
+[✔️]2020.07.21
 */
 
 // 解法1：使用set。
@@ -565,7 +566,7 @@ function decimalToBinary(number) {
   return remStack.join("");
 }
 
-// 任意进制转换
+// 十进制转其它任意进制
 function baseConverter(number, base) {
   if (base < 2 || base > 36) return "";
 
@@ -612,12 +613,13 @@ https://leetcode-cn.com/problems/valid-parentheses/
 输入: "{[]}"
 输出: true
 
-logs：5
+logs：6
 [✔️]2020.04.20
 [✔️]2020.05.08
 [✔️]2020.06.02
 [✔️]2020.06.06
 [✔️]2020.06.17
+[✔️]2020.06.21
 */
 
 // 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
