@@ -876,12 +876,13 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：5
+logs：6
 [✔️]2020.05.28
 [✔️]2020.05.28
 [✔️]2020.06.04
 [✔️]2020.06.19
 [✔️]2020.07.03
+[✔️]2020.07.23
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
@@ -966,7 +967,7 @@ var maxSlidingWindow = function (nums, k) {
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
   if (head == null || head.next == null) return head;
-  let prev = null;
+  let prev = new ListNode(null);
   while (head) {
     let next = head.next;
     head.next = prev;
@@ -977,7 +978,7 @@ var reverseList = function (head) {
 };
 var reverseList = function (head) {
   if (head == null || head.next == null) return head;
-  let prev = null;
+  let prev = new ListNode(null);
   while (head) {
     [head.next, prev, head] = [prev, head, head.next];
   }
@@ -1007,12 +1008,13 @@ var reverseList = function (head) {
   示例：
   给定 1->2->3->4, 你应该返回 2->1->4->3.
 
-  logs：5
+  logs：6
   [✔️]2020.04.20
   [✔️]2020.06.08
   [✔️]2020.06.19
   [✔️]2020.06.29
   [✔️]2020.07.10
+  [✔️]2020.07.23
 */
 
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
