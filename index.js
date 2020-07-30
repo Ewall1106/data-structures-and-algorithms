@@ -1838,12 +1838,13 @@ const tree = new BinarySearchTree();
 tree.insert(new Node(5));
 tree.insert(new Node(3));
 
-logs：5
+logs：6
 [✔️]2020.05.13
 [✔️]2020.05.14
 [✔️]2020.06.12
 [✔️]2020.06.28
 [✔️]2020.07.13
+[✔️]2020.07.30
 */
 class Node {
   constructor(key) {
@@ -1899,7 +1900,7 @@ class BinarySearchTree {
     helper(this.root, cb);
 
     function helper(node, cb) {
-      if (node != null) return node;
+      if (node == null) return node;
       helper(node.left, cb);
       helper(node.right, cb);
       cb(node.key);
