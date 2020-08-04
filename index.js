@@ -2579,12 +2579,13 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：5
+logs：6
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
 [✔️]2020.06.29
 [✔️]2020.07.16
+[✔️]2020.08.03
 */
 
 // 解法1：DFS、递归。时间复杂度O(n)
@@ -2673,12 +2674,13 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：5
+logs：6
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
 [✔️]2020.06.29
 [✔️]2020.07.17
+[✔️]2020.08.04
 */
 
 // 解法1：DFS。时间复杂度O(2^n)
@@ -2948,7 +2950,7 @@ function binarySearch(array, value) {
 
 /*
 【二分搜索的变形①】
-查找【第一个】值等于给定值的元素
+查找【第一个】值等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
 logs：2
@@ -2983,7 +2985,7 @@ const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 
 /*
 【二分搜索的变形②】
-查找【最后一个】值等于给定值的元素
+查找【最后一个】值等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
 logs：2
@@ -3019,7 +3021,7 @@ const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 
 /*
 【二分搜索的变形③】
-查找第一个大于等于给定值的元素
+查找第一个大于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
 logs：2
@@ -3052,7 +3054,7 @@ const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
 
 /*
 【二分搜索的变形④】
-查找最后一个小于等于给定值的元素
+查找最后一个小于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
 logs：1
@@ -3076,6 +3078,7 @@ function binarySearch4(array, value) {
   return -1;
 }
 const test = binarySearch4([1, 3, 5, 7, 9], 4); // 1
+console.log(test)
 
 //
 // -------divider-------
