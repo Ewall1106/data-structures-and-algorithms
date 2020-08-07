@@ -344,13 +344,14 @@ https://leetcode-cn.com/problems/plus-one/
 输出: [4,3,2,2]
 解释: 输入数组表示数字 4321。
 
-logs：6
+logs：7
 [✔️]2020.05.10
 [✔️]2020.05.11
 [✔️]2020.06.01
 [✔️]2020.06.05
 [✔️]2020.06.17
 [✔️]2020.07.20
+[✔️]2020.08.06
 */
 
 // 解析：
@@ -2717,13 +2718,14 @@ var generateParenthesis = function (n) {
 元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
 时间复杂度O(n^2)
 
-logs：6
+logs：7
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
 [✔️]2020.06.15
 [✔️]2020.06.30
 [✔️]2020.07.07
+[✔️]2020.08.06
 */
 function bubbleSort(array) {
   for (let i = 0; i < array.length; i++) {
@@ -2746,27 +2748,27 @@ const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
 选择排序算法是一种原址比较排序算法。选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。
 时间复杂度O(n^2)
 
-logs：6
+logs：7
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
 [✔️]2020.06.15
 [✔️]2020.06.30
+[✔️]2020.08.07
 */
-function selectionSort(array) {
-  let tempMin;
-  for (let i = 0; i < array.length - 1; i++) {
-    tempMin = i;
-    for (let j = i; j < array.length; j++) {
-      if (array[tempMin] > array[j]) {
+function selectionSort(nums) {
+  for (let i = 0; i < nums.length - 1; i++) {
+    let tempMin = i;
+    for (let j = i; j < nums.length; j++) {
+      if (nums[tempMin] > nums[j]) {
         tempMin = j;
       }
     }
     if (i !== tempMin) {
-      [array[i], array[tempMin]] = [array[tempMin], array[i]];
+      [nums[i], nums[tempMin]] = [nums[tempMin], nums[i]];
     }
   }
-  return array;
+  return nums;
 }
 const test = selectionSort([4, 4, 52, 13, 5, 8, 91, 1]);
 
@@ -2791,18 +2793,17 @@ logs：6
 [✔️]2020.07.06
 [✔️]2020.07.07
 */
-function insertionSort(array) {
-  let temp;
-  for (let i = 1; i < array.length; i++) {
+function insertionSort(nums) {
+  for (let i = 1; i < nums.length; i++) {
+    let temp = nums[i];
     let j = i;
-    temp = array[i];
-    while (j > 0 && temp < array[j - 1]) {
-      array[j] = array[j - 1];
+    while (j > 0 && temp < nums[j - 1]) {
+      nums[j] = nums[j - 1];
       j--;
     }
-    if (i != j) array[j] = temp;
+    if (i != j) nums[j] = temp;
   }
-  return array;
+  return nums;
 }
 const test = insertionSort([4, 4, 52, 13, 5, 8, 91, 1]);
 
@@ -2831,11 +2832,11 @@ logs：6
 [✔️]2020.07.06
 */
 
-function mergeSort(array) {
-  if (array.length <= 1) return array;
-  let middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle);
+function mergeSort(nums) {
+  if (nums.length <= 1) return nums;
+  let middle = Math.floor(nums.length / 2);
+  let left = nums.slice(0, middle);
+  let right = nums.slice(middle);
   return merge(mergeSort(left), mergeSort(right));
 }
 
@@ -2875,33 +2876,33 @@ logs：6
 [✔️]2020.07.06
 [✔️]2020.07.07
 */
-function quickSort(array) {
-  return quick(array, 0, array.length - 1);
+function quickSort(nums) {
+  return quick(nums, 0, nums.length - 1);
 }
 
-function quick(array, left, right) {
-  if (array.length <= 1) return array;
-  let index = partition(array, left, right);
+function quick(nums, left, right) {
+  if (nums.length <= 1) return nums;
+  let index = partition(nums, left, right);
   // 较主元小的值组成的子数组重复划分排序操作
-  if (left < index - 1) quick(array, left, index - 1);
+  if (left < index - 1) quick(nums, left, index - 1);
   // 较主元大的值组成的子数组重复划分排序操作
-  if (index < right) quick(array, index, right);
-  return array;
+  if (index < right) quick(nums, index, right);
+  return nums;
 }
 
-function partition(array, left, right) {
-  const pivot = array[Math.floor((right + left) / 2)];
+function partition(nums, left, right) {
+  const pivot = nums[Math.floor((right + left) / 2)];
   let i = left;
   let j = right;
   // 这个过程将使得比主元小的值都排在主元之前，而比主元大的值都排在主元之后
   while (i <= j) {
     // 移动左指针直到我们找到一个比主元大的值
-    while (array[i] < pivot) i++;
+    while (nums[i] < pivot) i++;
     // 移动右指针直到找到一个比主元小的值
-    while (array[j] > pivot) j--;
+    while (nums[j] > pivot) j--;
     // 交换它们
     if (i <= j) {
-      [array[i], array[j]] = [array[j], array[i]];
+      [nums[i], nums[j]] = [nums[j], nums[i]];
       i++;
       j--;
     }
@@ -3085,7 +3086,7 @@ function binarySearch4(array, value) {
   return -1;
 }
 const test = binarySearch4([1, 3, 5, 7, 9], 4); // 1
-console.log(test)
+console.log(test);
 
 //
 // -------divider-------
