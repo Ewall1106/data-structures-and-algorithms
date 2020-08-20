@@ -328,6 +328,45 @@ var merge = function (nums1, m, nums2, n) {
 //
 
 /*
+【合并区间】
+https://leetcode-cn.com/problems/merge-intervals/
+给出一个区间的集合，请合并所有重叠的区间。
+
+示例 1:
+输入: intervals = [[1,3],[2,6],[8,10],[15,18]]
+输出: [[1,6],[8,10],[15,18]]
+解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+
+示例 2:
+输入: intervals = [[1,4],[4,5]]
+输出: [[1,5]]
+解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
+注意：输入类型已于2019年4月15日更改。 请重置默认代码定义以获取新方法签名。
+
+logs：0
+*/
+
+// 排序。时间复杂度O(nlogn)
+var merge = function (intervals) {
+  if (!intervals || !intervals.length) return [];
+  intervals.sort((a, b) => a[0] - b[0]);
+  let merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    if (merged[merged.length - 1][1] >= intervals[i][0]) {
+      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], intervals[i][1]);
+    } else {
+      merged.push(intervals[i]);
+    }
+  }
+  return merged;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【加一】
 https://leetcode-cn.com/problems/plus-one/
 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加1。
@@ -502,13 +541,14 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 nums1和nums2中所有元素是唯一的。
 nums1和nums2 的数组大小都不超过1000。
 
-logs：6
+logs：7
 [✔️]2020.05.09
 [✔️]2020.05.14
 [✔️]2020.06.01
 [✔️]2020.06.06
 [✔️]2020.06.17
 [✔️]2020.07.22
+[✔️]2020.08.13
 */
 
 // 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。
@@ -556,13 +596,14 @@ var nextGreaterElement = function (nums1, nums2) {
 【进制转换算法】
 实现十进制转二进制、任意进制转换
 
-logs：6
+logs：7
 [✔️]2020.05.09
 [✔️]2020.05.14
 [✔️]2020.06.02
 [✔️]2020.06.06
 [✔️]2020.06.17
 [✔️]2020.06.21
+[✔️]2020.08.13
 */
 // 十进制转二进制。要把十进制转化成二进制，我们可以将该十进制数除以 2（二进制是满二进一）并对商取整，直到结果是 0 为止。
 function decimalToBinary(number) {
@@ -2235,6 +2276,43 @@ var lowestCommonAncestor = function (root, p, q) {
 // -------divider-------
 //
 
+/*
+【对称二叉树】
+https://leetcode-cn.com/problems/symmetric-tree/
+给定一个二叉树，检查它是否是镜像对称的。
+
+例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+
+但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+    1
+   / \
+  2   2
+   \   \
+   3    3
+
+logs：0
+*/
+
+// dfs。时间复杂度O(n)、空间复杂度O(n)
+var isSymmetric = function (root) {
+  return dfs(root, root);
+
+  function dfs(p, q) {
+    if (p == null && q == null) return true;
+    if (p == null || q == null) return false;
+    return p.val === q.val && dfs(p.left, q.right) && dfs(p.right, q.left);
+  }
+};
+
+//
+// -------divider-------
+//
+
 /* -------------------------- 递归、分治 ---------------------------*/
 
 /* 
@@ -3211,6 +3289,24 @@ https://time.geekbang.org/course/detail/130-67646
 //
 
 /* -------------------------- 动态规划、贪心算法 ---------------------------*/
+/*
+【最长上升子序列】
+https://leetcode-cn.com/problems/longest-increasing-subsequence/
+给定一个无序的整数数组，找到其中最长上升子序列的长度。
+
+示例:
+输入: [10,9,2,5,3,7,101,18]
+输出: 4 
+解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+说明:
+
+可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
+你算法的时间复杂度应该为 O(n2) 。
+进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+
+logs：0
+*/
+
 /*
 【杨辉三角】
 https://leetcode-cn.com/problems/pascals-triangle/
