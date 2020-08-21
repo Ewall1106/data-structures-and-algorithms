@@ -3045,25 +3045,26 @@ function binarySearch(array, value) {
 查找【第一个】值等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：2
+logs：3
 [✔️]2020.06.21
 [✔️]2020.06.23
+[✔️]2020.08.21
 */
-function binarySearch1(array, value) {
-  array.sort((a, b) => a - b);
+function binarySearch1(nums, value) {
+  nums.sort((a, b) => a - b);
   let low = 0;
-  let high = array.length - 1;
+  let high = nums.length - 1;
 
   while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
-    if (value > array[mid]) {
+    let mid = Math.floor((low + high) / 2);
+    if (value > nums[mid]) {
       low = mid + 1;
-    } else if (value < array[mid]) {
+    } else if (value < nums[mid]) {
       high = mid - 1;
     } else {
       // 如果 mid 等于 0，那这个元素已经是数组的第一个元素，那它肯定是我们要找的；
-      // 如果 mid 不等于 0，但 array[mid]的前一个元素 array[mid-1]不等于 value，那也说明 array[mid]就是我们要找的第一个值等于给定值的元素。(因为是排好序的，所以会相连)
-      if (mid == 0 || array[mid - 1] != value) return mid;
+      // 如果 mid 不等于 0，但 nums[mid]的前一个元素 nums[mid-1]不等于 value，那也说明 nums[mid]就是我们要找的第一个值等于给定值的元素。(因为是排好序的，所以会相连)
+      if (mid == 0 || nums[mid - 1] != value) return mid;
       else high = mid - 1;
     }
   }
