@@ -1787,10 +1787,11 @@ https://leetcode-cn.com/problems/4sum/
   [-2,  0, 0, 2]
 ]
 
-logs：3
+logs：4
 [✔️]2020.05.22
 [✔️]2020.06.11
 [✔️]2020.08.05
+[✔️]2020.08.25
 */
 // 解法1：暴力求解。时间复杂度O(n^4)
 // 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
@@ -3083,9 +3084,10 @@ const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 查找【最后一个】值等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：2
+logs：3
 [✔️]2020.06.22
 [✔️]2020.06.28
+[✔️]2020.08.24
 */
 
 function binarySearch2(array, value) {
