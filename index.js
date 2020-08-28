@@ -2807,7 +2807,7 @@ var generateParenthesis = function (n) {
 元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
 时间复杂度O(n^2)
 
-logs：8
+logs：9
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
@@ -2816,16 +2816,17 @@ logs：8
 [✔️]2020.07.07
 [✔️]2020.08.06
 [✔️]2020.08.21
+[✔️]2020.08.28
 */
-function bubbleSort(array) {
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length - 1; j++) {
-      if (array[j] > array[j + 1]) {
-        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+function bubbleSort(nums) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 0; j < nums.length - 1; j++) {
+      if (nums[j] > nums[j + 1]) {
+        [nums[j], nums[j + 1]] = [nums[j + 1], nums[j]];
       }
     }
   }
-  return array;
+  return nums;
 }
 const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
 
