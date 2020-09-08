@@ -618,21 +618,21 @@ function decimalToBinary(number) {
     remStack.push(rem);
     number = Math.floor(number / 2);
   }
-  return remStack.join("");
+  return remStack.join('');
 }
 
 // 十进制转其它任意进制
 function baseConverter(number, base) {
-  if (base < 2 || base > 36) return "";
+  if (base < 2 || base > 36) return '';
 
   const remStack = [];
-  const digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   while (number > 0) {
     let rem = number % base;
     remStack.push(digits[rem]);
     number = Math.floor(number / base);
   }
-  return remStack.join("");
+  return remStack.join('');
 }
 
 //
@@ -685,7 +685,7 @@ logs：7
  */
 var isValid = function (s) {
   let stack = [];
-  let map = { "(": ")", "[": "]", "{": "}" };
+  let map = { '(': ')', '[': ']', '{': '}' };
 
   for (let i = 0; i < s.length; i++) {
     // The [in] operator returns true if the specified property is in the specified object or its prototype chain.
@@ -705,7 +705,7 @@ var isValid = function (s) {
   let length;
   do {
     length = s.length;
-    s = s.replace("()", "").replace("{}", "").replace("[]", "");
+    s = s.replace('()', '').replace('{}', '').replace('[]', '');
   } while (length != s.length);
 
   return s.length === 0;
@@ -1568,7 +1568,7 @@ logs：6
  */
 var isAnagram = function (s, t) {
   if (s.length !== t.length) return false;
-  return s.split("").sort().join("") === t.split("").sort().join("");
+  return s.split('').sort().join('') === t.split('').sort().join('');
 };
 
 // 解法2：hash，对单词中的每个字母进行计数看出现了几次。 时间复杂度：O(n)
@@ -1697,7 +1697,7 @@ var threeSum = function (nums) {
       for (let k = j + 1; k < nums.length; k++) {
         if (nums[i] + nums[j] + nums[k] === 0) {
           let value = [nums[i], nums[j], nums[k]].sort();
-          let key = value.join(",");
+          let key = value.join(',');
           // 去重
           if (!Object.keys(map).includes(key)) {
             map[key] = value;
@@ -1817,7 +1817,7 @@ var fourSum = function (nums, target) {
           // 剪枝
           if (hash.get(nums[k]) === 0) {
             let value = [nums[i], nums[j], nums[k], target - nums[i] - nums[j] - nums[k]].sort();
-            let key = value.join(",");
+            let key = value.join(',');
             // 去重（这里去重性能有点低，需要找个更好的方案优化一下）
             if (!Object.keys(result).includes(key)) {
               result[key] = value;
@@ -2303,8 +2303,9 @@ https://leetcode-cn.com/problems/symmetric-tree/
    \   \
    3    3
 
-logs：1
+logs：2
 [✔️]2020.08.28
+[✔️]2020.09.08
 */
 
 // dfs。时间复杂度O(n)、空间复杂度O(n)
@@ -2534,15 +2535,15 @@ class Graph {
 }
 
 const graph = new Graph();
-const myVertices = ["A", "B", "C", "D", "E"];
+const myVertices = ['A', 'B', 'C', 'D', 'E'];
 for (let i = 0; i < myVertices.length; i++) {
   graph.addVertex(myVertices[i]);
 }
-graph.addEdge("A", "B");
-graph.addEdge("A", "C");
-graph.addEdge("A", "D");
-graph.addEdge("C", "D");
-graph.addEdge("C", "G");
+graph.addEdge('A', 'B');
+graph.addEdge('A', 'C');
+graph.addEdge('A', 'D');
+graph.addEdge('C', 'D');
+graph.addEdge('C', 'G');
 console.log(graph.adjList);
 
 // DFS写法
@@ -2792,7 +2793,7 @@ var generateParenthesis = function (n) {
     if (left < n) dfs(`${s}(`, left + 1, right);
     if (left > right && right < n) dfs(`${s})`, left, right + 1);
   }
-  dfs("", 0, 0);
+  dfs('', 0, 0);
   return res;
 };
 
@@ -3129,23 +3130,24 @@ const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 查找第一个大于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：2
+logs：3
 [✔️]2020.06.22
 [✔️]2020.07.01
+[✔️]2020.09.08
 */
 
-function binarySearch3(array, value) {
-  array.sort((a, b) => a - b);
+function binarySearch3(nums, value) {
+  nums.sort((a, b) => a - b);
   let low = 0;
-  let high = array.length - 1;
+  let high = nums.length - 1;
 
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
-    if (value > array[mid]) {
+    if (value > nums[mid]) {
       low = mid + 1;
     } else {
-      // 如果array[mid]前面已经没有元素，或者前面一个元素小于要查找的值 value，那a[mid]就是我们要找的元素
-      if (mid == 0 || array[mid - 1] < value) return mid;
+      // 如果nums[mid]前面已经没有元素，或者前面一个元素小于要查找的值 value，那a[mid]就是我们要找的元素
+      if (mid == 0 || nums[mid - 1] < value) return mid;
       else high = mid - 1;
     }
   }
