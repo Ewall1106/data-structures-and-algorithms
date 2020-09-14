@@ -2304,9 +2304,11 @@ https://leetcode-cn.com/problems/symmetric-tree/
    \   \
    3    3
 
-logs：2
+logs：4
 [✔️]2020.08.28
 [✔️]2020.09.08
+[✔️]2020.09.10
+[✔️]2020.09.14
 */
 
 // dfs。时间复杂度O(n)、空间复杂度O(n)
@@ -2921,13 +2923,14 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：6
+logs：7
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
 [✔️]2020.06.22
 [✔️]2020.06.23
 [✔️]2020.07.06
+[✔️]2020.09.14
 */
 
 function mergeSort(nums) {
