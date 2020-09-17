@@ -346,9 +346,10 @@ https://leetcode-cn.com/problems/merge-intervals/
 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
 注意：输入类型已于2019年4月15日更改。 请重置默认代码定义以获取新方法签名。
 
-logs：2
+logs：3
 [✔️]2020.08.28
 [✔️]2020.08.31
+[✔️]2020.09.16
 */
 
 // 排序。时间复杂度O(nlogn)
@@ -1042,13 +1043,13 @@ var reverseList = function (head) {
 
 // 递归解法：时间复杂度：O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
+  return reverse(head, null);
   function reverse(curr, prev) {
     if (curr == null) return prev;
     let next = curr.next;
     curr.next = prev;
     return reverse(next, curr);
   }
-  return reverse(head, null);
 };
 
 //
@@ -1255,13 +1256,14 @@ var hasCycle = function (head) {
   输出：no cycle
   解释：链表中没有环。
 
-  logs：6
+  logs：7
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.06.08
   [✔️]2020.06.22
   [✔️]2020.07.10
   [✔️]2020.07.24
+  [✔️]2020.09.17
 */
 
 // 解法1：迭代，给每个经过的元素添加flag标识。时间复杂度：O(n)，空间复杂度O(1)
@@ -1790,12 +1792,13 @@ https://leetcode-cn.com/problems/4sum/
   [-2,  0, 0, 2]
 ]
 
-logs：5
+logs：6
 [✔️]2020.05.22
 [✔️]2020.06.11
 [✔️]2020.08.05
 [✔️]2020.08.25
 [✔️]2020.09.09
+[✔️]2020.09.16
 */
 // 解法1：暴力求解。时间复杂度O(n^4)
 // 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
@@ -2971,7 +2974,7 @@ const test = mergeSort([4, 4, 52, 13, 5, 8, 91, 1]);
 归并排序的处理过程是由下到上的，先处理子问题，然后再合并。而快排正好相反，它的处理过程是由上到下的，先分区，然后再处理子问题。
 归并排序虽然是稳定的、时间复杂度为O(nlogn)的排序算法，但是它是非原地排序算法。
 
-logs：7
+logs：8
 [✔️]2020.05.26
 [✔️]2020.06.01
 [✔️]2020.06.15
@@ -2979,6 +2982,7 @@ logs：7
 [✔️]2020.07.06
 [✔️]2020.07.07
 [✔️]2020.09.15
+[✔️]2020.09.16
 */
 function quickSort(nums) {
   return quick(nums, 0, nums.length - 1);
