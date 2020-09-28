@@ -933,13 +933,14 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：6
+logs：7
 [✔️]2020.05.28
 [✔️]2020.05.28
 [✔️]2020.06.04
 [✔️]2020.06.19
 [✔️]2020.07.03
 [✔️]2020.07.23
+[✔️]2020.09.26
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
@@ -1013,7 +1014,7 @@ var maxSlidingWindow = function (nums, k) {
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：7
+  logs：8
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
@@ -1021,6 +1022,7 @@ var maxSlidingWindow = function (nums, k) {
   [✔️]2020.05.07
   [✔️]2020.06.02
   [✔️]2020.09.22
+  [✔️]2020.09.26
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -1325,13 +1327,14 @@ https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 进阶：
 你能尝试使用一趟扫描实现吗？
 
-logs：6
+logs：7
 [✔️]2020.05.25
 [✔️]2020.06.08
 [✔️]2020.06.09
 [✔️]2020.06.23
 [✔️]2020.07.15
 [✔️]2020.07.24
+[✔️]2020.09.28
 */
 
 // 解法1：两次遍历。时间复杂度O(n)
@@ -3111,10 +3114,11 @@ const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 查找【最后一个】值等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：3
+logs：4
 [✔️]2020.06.22
 [✔️]2020.06.28
 [✔️]2020.08.24
+[✔️]2020.09.28
 */
 
 function binarySearch2(array, value) {
@@ -3148,10 +3152,11 @@ const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 查找第一个大于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：3
+logs：4
 [✔️]2020.06.22
 [✔️]2020.07.01
 [✔️]2020.09.08
+[✔️]2020.09.25
 */
 
 function binarySearch3(nums, value) {
