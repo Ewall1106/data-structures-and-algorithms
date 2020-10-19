@@ -361,7 +361,10 @@ var merge = function (intervals) {
 
   for (let i = 1; i < intervals.length; i++) {
     if (merged[merged.length - 1][1] >= intervals[i][0]) {
-      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], intervals[i][1]);
+      merged[merged.length - 1][1] = Math.max(
+        merged[merged.length - 1][1],
+        intervals[i][1]
+      );
     } else {
       merged.push(intervals[i]);
     }
@@ -1832,7 +1835,12 @@ var fourSum = function (nums, target) {
         if (hash.has(nums[k])) {
           // 剪枝
           if (hash.get(nums[k]) === 0) {
-            let value = [nums[i], nums[j], nums[k], target - nums[i] - nums[j] - nums[k]].sort();
+            let value = [
+              nums[i],
+              nums[j],
+              nums[k],
+              target - nums[i] - nums[j] - nums[k],
+            ].sort();
             let key = value.join(',');
             // 去重（这里去重性能有点低，需要找个更好的方案优化一下）
             if (!Object.keys(result).includes(key)) {
@@ -1939,7 +1947,9 @@ class BinarySearchTree {
       if (node.key > newNode.key) {
         node.left == null ? (node.left = newNode) : helper(node.left, newNode);
       } else {
-        node.right == null ? (node.right = newNode) : helper(node.right, newNode);
+        node.right == null
+          ? (node.right = newNode)
+          : helper(node.right, newNode);
       }
     }
   }
@@ -2006,6 +2016,8 @@ class BinarySearchTree {
 
   // search：在树中查找一个键。如果节点存在，则返回 true；如果不存在，则返回false。
   search(key) {
+    return helper(this.root, key);
+
     function helper(node, key) {
       if (node == null) return false;
       if (node.key > key) {
@@ -2016,7 +2028,6 @@ class BinarySearchTree {
         return true;
       }
     }
-    return helper(this.root, key);
   }
 
   // remove(key)：从树中移除某个键。
@@ -2152,6 +2163,8 @@ var isValidBST = function (root) {
  * @return {boolean}
  */
 var isValidBST = function (root) {
+  return helper(root, -Infinity, Infinity);
+
   function helper(root, min, max) {
     if (root == null) return true;
     // 左子树：当前值比最大值要小
@@ -2162,8 +2175,6 @@ var isValidBST = function (root) {
     let right = helper(root.right, root.val, max);
     return left && right;
   }
-
-  return helper(root, -Infinity, Infinity);
 };
 
 //
