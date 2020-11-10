@@ -2970,7 +2970,7 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：7
+logs：8
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
@@ -2978,6 +2978,7 @@ logs：7
 [✔️]2020.06.23
 [✔️]2020.07.06
 [✔️]2020.09.14
+[✔️]2020.11.10
 */
 
 function mergeSort(nums) {
@@ -3273,7 +3274,8 @@ https://time.geekbang.org/course/detail/130-67641
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
 
-logs：0
+logs：1
+[✔️]2020.11.10
 */
 // 解法1：二分查找
 
