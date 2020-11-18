@@ -398,7 +398,7 @@ https://leetcode-cn.com/problems/plus-one/
 输出: [4,3,2,2]
 解释: 输入数组表示数字 4321。
 
-logs：8
+logs：9
 [✔️]2020.05.10
 [✔️]2020.05.11
 [✔️]2020.06.01
@@ -407,6 +407,7 @@ logs：8
 [✔️]2020.07.20
 [✔️]2020.08.06
 [✔️]2020.10.28
+[✔️]2020.11.17
 */
 
 // 解析：
@@ -446,7 +447,7 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
 你不需要考虑数组中超出新长度后面的元素。
 
-logs：8
+logs：9
 [✔️]2020.05.09
 [✔️]2020.05.10
 [✔️]2020.05.11
@@ -455,6 +456,7 @@ logs：8
 [✔️]2020.07.20
 [✔️]2020.08.12
 [✔️]2020.10.27
+[✔️]2020.11.17
 */
 
 // 解法：使用两个指针，如果相等就跳过。时间复杂度：O(n)
@@ -464,12 +466,13 @@ logs：8
  */
 var removeDuplicates = function (nums) {
   let index = 1; // 这是一个指针，下面的 i 也是一个指针
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== nums[i + 1]) {
-      nums[index++] = nums[i + 1];
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[i - 1]) {
+      nums[index] = nums[i];
+      index++;
     }
   }
-  return index - 1;
+  return index;
 };
 
 //
@@ -479,7 +482,7 @@ var removeDuplicates = function (nums) {
 /*
 【数组去重】
 
-logs：8
+logs：9
 [✔️]2020.06.08
 [✔️]2020.06.09
 [✔️]2020.06.17
@@ -488,6 +491,7 @@ logs：8
 [✔️]2020.07.21
 [✔️]2020.08.12
 [✔️]2020.10.26
+[✔️]2020.11.18
 */
 
 // 解法1：使用set。
@@ -507,12 +511,12 @@ var uniqueArray = function (nums) {
 
 // 解法3：使用map，时间换空间。时间复杂度O(n)、空间复杂度O(n)
 var uniqueArray = function (nums) {
-  let hash = new Map();
+  let has = {};
   let result = [];
   for (let i = 0; i < nums.length; i++) {
-    if (!hash.has(nums[i])) {
+    if (!has[nums[i]]) {
       result.push(nums[i]);
-      hash.set(nums[i], 0);
+      has[nums[i]] = true;
     }
   }
   return result;
@@ -522,12 +526,13 @@ var uniqueArray = function (nums) {
 var uniqueArray = function (nums) {
   nums.sort((a, b) => a - b);
   let index = 1; // 这是一个指针，下面的 i 也是一个指针
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== nums[i + 1]) {
-      nums[index++] = nums[i + 1];
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[i - 1]) {
+      nums[index] = nums[i];
+      index++;
     }
   }
-  return nums.slice(0, index - 1);
+  return nums.slice(0, index);
 };
 
 //
@@ -559,7 +564,7 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 nums1和nums2中所有元素是唯一的。
 nums1和nums2 的数组大小都不超过1000。
 
-logs：8
+logs：9
 [✔️]2020.05.09
 [✔️]2020.05.14
 [✔️]2020.06.01
@@ -568,6 +573,7 @@ logs：8
 [✔️]2020.07.22
 [✔️]2020.08.13
 [✔️]2020.10.28
+[✔️]2020.11.18
 */
 
 // 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。
