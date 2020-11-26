@@ -2508,13 +2508,14 @@ https://time.geekbang.org/course/detail/100019701-42713
 输入: [2,2,1,1,1,2,2]
 输出: 2
 
-logs：6
+logs：7
 [✔️]2020.05.29
 [✔️]2020.06.12
 [✔️]2020.07.14
 [✔️]2020.07.15
 [✔️]2020.07.16
 [✔️]2020.08.01
+[✔️]2020.11.26
 */
 
 // 解法1：暴力破解。即枚举数组中的每个元素，再遍历一遍数组统计其出现次数。时间复杂度为O(N^2)
@@ -2645,7 +2646,7 @@ function BFS(graph, start, end) {
 【二叉树的层序遍历】
 https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
 https://time.geekbang.org/course/detail/100019701-67634
-给你一个二叉树，请你返回其按 层序遍历 得到的节点值。（即逐层地，从左到右访问所有节点）。
+给你一个二叉树，请你返回其按层序遍历得到的节点值。（即逐层地，从左到右访问所有节点）。
 
 示例：
 二叉树：[3,9,20,null,null,15,7],
@@ -2661,13 +2662,14 @@ https://time.geekbang.org/course/detail/100019701-67634
   [15,7]
 ]
 
-logs：6
+logs：7
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
 [✔️]2020.06.29
 [✔️]2020.07.16
 [✔️]2020.08.01
+[✔️]2020.11.26
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -2850,13 +2852,14 @@ logs：6
  */
 var generateParenthesis = function (n) {
   let res = [];
+  dfs('', 0, 0);
+  return res;
+
   function dfs(s, left, right) {
     if (left == n && right == n) return res.push(s);
     if (left < n) dfs(`${s}(`, left + 1, right);
     if (left > right && right < n) dfs(`${s})`, left, right + 1);
   }
-  dfs('', 0, 0);
-  return res;
 };
 
 //
