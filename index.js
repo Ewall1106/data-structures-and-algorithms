@@ -15,6 +15,56 @@
 /* -------------------------- 数组 ---------------------------*/
 
 /*
+【移动零】
+https://leetcode-cn.com/problems/move-zeroes/
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+示例:
+输入: [0,1,0,3,12]
+输出: [1,3,12,0,0]
+
+说明:
+必须在原数组上操作，不能拷贝额外的数组。
+尽量减少操作次数。
+
+logs：2
+[✔️]2020.11.27
+[✔️]2020.11.28
+*/
+
+// 解法1：双指针 时间复杂度O(n)
+var moveZeroes = function (nums) {
+  let j = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      if (i !== j) {
+        nums[j] = nums[i];
+        nums[i] = 0;
+      }
+      j++;
+    }
+  }
+};
+
+// 解法2：交换
+var moveZeroes = function (nums) {
+  let j = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] != 0) {
+      [nums[i], nums[j]] = [nums[j], nums[i]];
+      j++;
+    }
+  }
+};
+
+// 解法3：使用一个额外数组 时间复杂度O(n) 空间复杂度O(n)
+// 解法4：暴力破解法 loop
+
+//
+// -------divider-------
+//
+
+/*
 【缺失数字】
 https://leetcode-cn.com/problems/missing-number/
 给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。
@@ -349,13 +399,14 @@ https://leetcode-cn.com/problems/merge-intervals/
 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
 注意：输入类型已于2019年4月15日更改。 请重置默认代码定义以获取新方法签名。
 
-logs：6
+logs：7
 [✔️]2020.08.28
 [✔️]2020.08.31
 [✔️]2020.09.16
 [✔️]2020.10.12
 [✔️]2020.10.28
 [✔️]2020.11.02
+[✔️]2020.11.27
 */
 
 // 排序。时间复杂度 O(nlogn)
@@ -1137,7 +1188,7 @@ var swapPairs = function (head) {
   输入：1->2->4, 1->3->4
   输出：1->1->2->3->4->4
 
-  logs：7
+  logs：8
   [✔️]2020.05.25
   [✔️]2020.06.02
   [✔️]2020.06.04
@@ -1145,6 +1196,7 @@ var swapPairs = function (head) {
   [✔️]2020.06.19
   [✔️]2020.06.27
   [✔️]2020.10.26
+  [✔️]2020.11.27
 */
 
 // Recursion。时间复杂度O(m+n)
@@ -1175,21 +1227,21 @@ var mergeTwoLists = function (l1, l2) {
 
 // Interation。时间复杂度O(m+n)
 var mergeTwoLists = function (l1, l2) {
-  const prehead = new ListNode(null);
-  let prev = prehead; // 复制的是prehead这个对象，所以两者的next指针是一致的
+  const prev = new ListNode(null);
+  let temp = prev; // 复制的是prev这个对象，所以两者的next指针是一致的
   while (l1 && l2) {
     if (l1.val <= l2.val) {
-      prev.next = l1;
+      temp.next = l1;
       l1 = l1.next;
     } else {
-      prev.next = l2;
+      temp.next = l2;
       l2 = l2.next;
     }
-    prev = prev.next;
+    temp = temp.next;
   }
   // 合并后 l1 和 l2 最多只有一个还未被合并完，我们直接将链表末尾指向未合并完的链表即可
-  prev.next = l1 == null ? l2 : l1;
-  return prehead.next;
+  temp.next = l1 == null ? l2 : l1;
+  return prev.next;
 };
 
 //
@@ -3295,17 +3347,18 @@ https://time.geekbang.org/course/detail/130-67641
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
 
-logs：2
+logs：3
 [✔️]2020.11.10
 [✔️]2020.11.16
+[✔️]2020.11.27
 */
 // 解法1：二分查找
 
 var mySqrt = function (x) {
   if (x == 0 || x == 1) return x;
-  let low = 1,
-    high = x,
-    res;
+  let low = 1;
+  let high = x;
+  let res;
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
     if (mid == x / mid) {
