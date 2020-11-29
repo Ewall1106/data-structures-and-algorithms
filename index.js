@@ -9,10 +9,51 @@
 图、DFS、BFS
 动态规划、贪心算法
 排序、搜索算法
-  ....
 */
 
 /* -------------------------- 数组 ---------------------------*/
+
+/*
+【盛最多水的容器】
+https://leetcode-cn.com/problems/container-with-most-water/
+
+给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。
+在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
+找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+logs：1
+[✔️]2020.11.29
+*/
+
+// 解法1：暴力破解法。时间复杂度O(n*2)
+var maxArea = function (height) {
+  let max = 0;
+  for (let i = 0; i < height.length - 1; i++) {
+    for (let j = i + 1; j < height.length; j++) {
+      let area = (j - i) * Math.min(height[i], height[j]);
+      max = Math.max(max, area);
+    }
+  }
+  return max;
+};
+
+// 解法2：左右双指针（左右夹逼），一头一尾两个指针往中间收敛，找到最大面积。时间复杂度O(n)
+var maxArea = function (height) {
+  let i = 0,
+    j = height.length - 1,
+    max = 0;
+
+  while (i < j) {
+    let minHeight = height[i] < height[j] ? height[i++] : height[j--];
+    let area = (j - i + 1) * minHeight;
+    max = Math.max(max, area);
+  }
+  return max;
+};
+
+//
+// -------divider-------
+//
 
 /*
 【移动零】
@@ -3736,7 +3777,20 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 logs：0
 */
-// 解法1：回溯
+// 解法1：回溯。时间复杂度O(n)
+var climbStairs = function (n) {
+  if (n <= 2) return n;
+  let f1 = 1,
+    f2 = 2,
+    f3 = 3;
+  for (let i = 3; i <= n; i++) {
+    f3 = f1 + f2;
+    f1 = f2;
+    f2 = f3;
+  }
+  return f3;
+};
+
 // 解法2：动态规划
 
 //
