@@ -21,8 +21,9 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：1
+logs：2
 [✔️]2020.11.29
+[✔️]2020.11.30
 */
 
 // 解法1：暴力破解法。时间复杂度O(n*2)
@@ -440,7 +441,7 @@ https://leetcode-cn.com/problems/merge-intervals/
 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
 注意：输入类型已于2019年4月15日更改。 请重置默认代码定义以获取新方法签名。
 
-logs：7
+logs：8
 [✔️]2020.08.28
 [✔️]2020.08.31
 [✔️]2020.09.16
@@ -448,6 +449,7 @@ logs：7
 [✔️]2020.10.28
 [✔️]2020.11.02
 [✔️]2020.11.27
+[✔️]2020.11.30
 */
 
 // 排序。时间复杂度 O(nlogn)
@@ -1742,7 +1744,7 @@ https://leetcode-cn.com/problems/two-sum/
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
 
-logs：7
+logs：8
 [✔️]2020.05.07
 [✔️]2020.05.22
 [✔️]2020.05.29
@@ -1750,6 +1752,7 @@ logs：7
 [✔️]2020.07.07
 [✔️]2020.07.28
 [✔️]2020.10.14
+[✔️]2020.11.30
 */
 
 // 解法1：暴力破解法。使用两个for循环，如果相加等于target值则return，时间复杂度为O(n^2)
@@ -1761,7 +1764,7 @@ logs：7
 var twoSum = function (nums, target) {
   if (nums == null || nums.length < 2) return [];
 
-  for (let i = 0; i < nums.length; i++) {
+  for (let i = 0; i < nums.length - 1; i++) {
     for (let j = i + 1; j < nums.length; j++) {
       if (nums[i] + nums[j] === target) {
         return [i, j];
@@ -3775,7 +3778,10 @@ https://leetcode-cn.com/problems/climbing-stairs/
 2.  1 阶 + 2 阶
 3.  2 阶 + 1 阶
 
-logs：0
+递推公式：f(n) = f(n-1) + f(n-2)
+
+logs：1
+[✔️]2020.11.30
 */
 // 解法1：回溯。时间复杂度O(n)
 var climbStairs = function (n) {
