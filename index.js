@@ -21,9 +21,10 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：2
+logs：3
 [✔️]2020.11.29
 [✔️]2020.11.30
+[✔️]2020.12.01
 */
 
 // 解法1：暴力破解法。时间复杂度O(n*2)
@@ -1139,7 +1140,7 @@ var maxSlidingWindow = function (nums, k) {
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
   if (head == null || head.next == null) return head;
-  let prev = new ListNode(null);
+  let prev = null;
   while (head) {
     let next = head.next;
     head.next = prev;
@@ -1150,7 +1151,7 @@ var reverseList = function (head) {
 };
 var reverseList = function (head) {
   if (head == null || head.next == null) return head;
-  let prev = new ListNode(null);
+  let prev = null;
   while (head) {
     [head.next, prev, head] = [prev, head, head.next];
   }
@@ -3344,10 +3345,11 @@ const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
 查找最后一个小于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：3
+logs：4
 [✔️]2020.06.22
 [✔️]2020.06.04
 [✔️]2020.09.09
+[✔️]2020.12.01
 */
 
 function binarySearch4(array, value) {
