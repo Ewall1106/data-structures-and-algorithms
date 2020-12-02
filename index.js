@@ -3782,8 +3782,9 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：1
+logs：2
 [✔️]2020.11.30
+[✔️]2020.12.02
 */
 // 解法1：回溯。时间复杂度O(n)
 var climbStairs = function (n) {
