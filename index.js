@@ -1,8 +1,7 @@
 /*
 【目录】
-数组
-栈、队列
-链表
+数组、栈
+链表、队列
 集合、字典、散列表
 树、二叉树、二叉搜索树
 递归、分治
@@ -11,7 +10,49 @@
 排序、搜索算法
 */
 
-/* -------------------------- 数组 ---------------------------*/
+/* -------------------------- 数组、栈 ---------------------------*/
+
+/*
+【最小栈】
+https://leetcode-cn.com/problems/min-stack/
+
+设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+push(x) —— 将元素 x 推入栈中。
+pop() —— 删除栈顶的元素。
+top() —— 获取栈顶元素。
+getMin() —— 检索栈中的最小元素。
+
+logs：1
+[✔️]2020.12.02
+*/
+
+// 辅助栈法
+var MinStack = function () {
+  this.stack = [];
+  this.min_stack = [Infinity];
+};
+
+MinStack.prototype.push = function (x) {
+  this.stack.push(x);
+  this.min_stack.push(Math.min(this.min_stack[this.min_stack.length - 1], x));
+};
+
+MinStack.prototype.pop = function () {
+  this.stack.pop();
+  this.min_stack.pop();
+};
+
+MinStack.prototype.top = function () {
+  return this.stack[this.stack.length - 1];
+};
+
+MinStack.prototype.getMin = function () {
+  return this.min_stack[this.min_stack.length - 1];
+};
+
+//
+// -------divider-------
+//
 
 /*
 【盛最多水的容器】
@@ -21,10 +62,11 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：3
+logs：4
 [✔️]2020.11.29
 [✔️]2020.11.30
 [✔️]2020.12.01
+[✔️]2020.12.03
 */
 
 // 解法1：暴力破解法。时间复杂度O(n*2)
@@ -70,9 +112,10 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：2
+logs：3
 [✔️]2020.11.27
 [✔️]2020.11.28
+[✔️]2020.12.03
 */
 
 // 解法1：双指针 时间复杂度O(n)
@@ -834,7 +877,7 @@ var isValid = function (s) {
 // -------divider-------
 //
 
-/* -------------------------- 队列、优先队列 ---------------------------*/
+/* -------------------------- 链表、队列 ---------------------------*/
 // priorityQueue：优先队列。实现机制：堆（二叉堆）、二叉搜索树
 
 /*
@@ -3393,10 +3436,11 @@ https://time.geekbang.org/course/detail/130-67641
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
 
-logs：3
+logs：4
 [✔️]2020.11.10
 [✔️]2020.11.16
 [✔️]2020.11.27
+[✔️]2020.12.03
 */
 // 解法1：二分查找
 
