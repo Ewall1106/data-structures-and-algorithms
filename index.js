@@ -2586,11 +2586,12 @@ https://time.geekbang.org/course/detail/130-42711
 -100.0 < x < 100.0
 n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
 
-logs：4
+logs：5
 [✔️]2020.06.12
 [✔️]2020.06.28
 [✔️]2020.07.14
 [✔️]2020.10.14
+[✔️]2020.12.14
 */
 
 // 解法1：暴力破解法，傻乘，如求2的10次方，就循环10次。时间复杂度O(n)
@@ -3326,11 +3327,12 @@ const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 查找【最后一个】值等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：4
+logs：5
 [✔️]2020.06.22
 [✔️]2020.06.28
 [✔️]2020.08.24
 [✔️]2020.09.28
+[✔️]2020.12.14
 */
 
 function binarySearch2(array, value) {
@@ -3837,9 +3839,10 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：2
+logs：3
 [✔️]2020.11.30
 [✔️]2020.12.02
+[✔️]2020.12.14
 */
 // 解法1：回溯。时间复杂度O(n)
 var climbStairs = function (n) {
