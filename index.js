@@ -62,11 +62,12 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：4
+logs：5
 [✔️]2020.11.29
 [✔️]2020.11.30
 [✔️]2020.12.01
 [✔️]2020.12.03
+[✔️]2020.12.24
 */
 
 // 解法1：暴力破解法。时间复杂度O(n*2)
@@ -3848,12 +3849,19 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：3
+logs：4
 [✔️]2020.11.30
 [✔️]2020.12.02
 [✔️]2020.12.14
+[✔️]2020.12.24
 */
-// 解法1：回溯。时间复杂度O(n)
+// 解法1：递归。时间复杂度 O(2^n)
+var climbStairs = function (n) {
+  if (n <= 2) return n;
+  return climbStairs(n - 1) + climbStairs(n - 2);
+};
+
+// 解法2：回溯。时间复杂度 O(n)
 var climbStairs = function (n) {
   if (n <= 2) return n;
   let f1 = 1,
@@ -3867,7 +3875,8 @@ var climbStairs = function (n) {
   return f3;
 };
 
-// 解法2：动态规划
+
+// 解法3：动态规划
 
 //
 // -------divider-------
