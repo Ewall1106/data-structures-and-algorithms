@@ -1102,7 +1102,7 @@ https://time.geekbang.org/course/detail/100019701-41559
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：8
+logs：9
 [✔️]2020.05.28
 [✔️]2020.05.28
 [✔️]2020.06.04
@@ -1111,6 +1111,7 @@ logs：8
 [✔️]2020.07.23
 [✔️]2020.09.26
 [✔️]2020.11.09
+[✔️]2020.12.25
 */
 // 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
@@ -2548,31 +2549,6 @@ var isSymmetric = function (root) {
 */
 
 /*
-【斐波那契数列】
-
-logs：4
-[✔️]2020.06.22
-[✔️]2020.07.14
-[✔️]2020.08.20
-[✔️]2020.09.15
-*/
-// 1、求1，1，2，3，5，8，....第n个数是多少？
-function fibonacci(n) {
-  if (n <= 2) return 1;
-  return fibonacci(n - 1) + fibonacci(n - 2);
-}
-
-// 2、计算阶乘n! = 1 x 2 x 3 x ... x n
-function fact(n) {
-  if (n === 1) return 1;
-  return n * fact(n - 1);
-}
-
-//
-// -------divider-------
-//
-
-/*
 【Pow(x, n)】
 https://leetcode-cn.com/problems/powx-n/
 https://time.geekbang.org/course/detail/130-42711
@@ -2819,7 +2795,7 @@ https://time.geekbang.org/course/detail/100019701-67634
   [15,7]
 ]
 
-logs：8
+logs：9
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -2828,6 +2804,7 @@ logs：8
 [✔️]2020.08.01
 [✔️]2020.11.26
 [✔️]2020.12.10
+[✔️]2020.12.25
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -2898,7 +2875,7 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：8
+logs：9
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -2907,6 +2884,7 @@ logs：8
 [✔️]2020.08.03
 [✔️]2020.12.05
 [✔️]2020.12.10
+[✔️]2020.12.25
 */
 
 // 解法1：DFS、递归。时间复杂度O(n)
@@ -2948,7 +2926,7 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
    15   7
 返回它的最小深度  2.
 
-logs：8
+logs：9
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -2957,6 +2935,7 @@ logs：8
 [✔️]2020.08.03
 [✔️]2020.12.05
 [✔️]2020.12.10
+[✔️]2020.12.25
 */
 
 // 解法1：DFS。时间复杂度O(n)
@@ -3152,7 +3131,7 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：8
+logs：9
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
@@ -3161,6 +3140,7 @@ logs：8
 [✔️]2020.07.06
 [✔️]2020.09.14
 [✔️]2020.11.10
+[✔️]2020.12.25
 */
 
 function mergeSort(nums) {
@@ -3874,7 +3854,6 @@ var climbStairs = function (n) {
   }
   return f3;
 };
-
 
 // 解法3：动态规划
 
