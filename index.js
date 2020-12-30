@@ -1985,7 +1985,7 @@ https://leetcode-cn.com/problems/4sum/
   [-2,  0, 0, 2]
 ]
 
-logs：8
+logs：9
 [✔️]2020.05.22
 [✔️]2020.06.11
 [✔️]2020.08.05
@@ -1994,6 +1994,7 @@ logs：8
 [✔️]2020.09.16
 [✔️]2020.11.09
 [✔️]2020.12.05
+[✔️]2020.12.30
 */
 // 解法1：暴力求解。时间复杂度O(n^4)
 // 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
@@ -2046,23 +2047,20 @@ var fourSum = function (nums, target) {
 var fourSum = function (nums, target) {
   if (!nums || nums.length < 4) return [];
   let result = [];
-  let a, b;
 
   nums.sort((a, b) => a - b);
 
-  for (let i = 0; i < nums.length; i++) {
+  for (let i = 0; i < nums.length - 1; i++) {
     // if (nums[i] > 0) break; 这里不加这个剪枝是因为题目并没有跟前面一样说target是0
     if (i > 0 && nums[i] === nums[i - 1]) continue;
     for (let j = i + 1; j < nums.length; j++) {
       if (j > i + 1 && nums[j] === nums[j - 1]) continue;
-      a = nums[i];
-      b = nums[j];
       let l = j + 1;
       let r = nums.length - 1;
       while (l < r) {
-        let sum = a + b + nums[l] + nums[r];
+        let sum = nums[i] + nums[j] + nums[l] + nums[r];
         if (sum === target) {
-          result.push([a, b, nums[l], nums[r]]);
+          result.push([nums[i], nums[j], nums[l], nums[r]]);
           while (l < r && nums[l] === nums[l + 1]) l++;
           while (l < r && nums[r] === nums[r - 1]) r--;
           l++;
@@ -2301,6 +2299,7 @@ logs：8
 [✔️]2020.08.03
 [✔️]2020.10.22
 [✔️]2020.12.15
+[✔️]2020.12.30
 */
 
 // 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
@@ -2333,7 +2332,9 @@ var isValidBST = function (root) {
   return helper(root);
 };
 
-// 解法2：使用递归。因为是二叉搜索树，左子树都要比root小，右子树都要比root大。所以递归左子树，找到它的最小值与root判断；同理递归右子树找到它的最大值并与root判断。时间复杂度：O(n)
+// 解法2：使用递归。时间复杂度：O(n)
+// 因为是二叉搜索树，左子树都要比root小，右子树都要比root大。
+// 所以递归左子树，找到它的最小值与root判断；同理递归右子树找到它的最大值并与root判断。
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
