@@ -22,8 +22,9 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：1
+logs：2
 [✔️]2020.12.02
+[✔️]2020.01.04
 */
 
 // 辅助栈法
@@ -117,6 +118,7 @@ logs：3
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
+[✔️]2021.01.04
 */
 
 // 解法1：双指针 时间复杂度O(n)
@@ -144,8 +146,21 @@ var moveZeroes = function (nums) {
   }
 };
 
-// 解法3：使用一个额外数组 时间复杂度O(n) 空间复杂度O(n)
-// 解法4：暴力破解法 loop
+// 解法3：暴力破解法 loop 时间复杂度O(n^2)
+var moveZeroes = function (nums) {
+  for (let i = 0; i < nums.length - 1; i++) {
+    if (nums[i] != 0) continue;
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[j] != 0) {
+        nums[i] = nums[j];
+        nums[j] = 0;
+        break;
+      }
+    }
+  }
+};
+
+// 解法4：使用一个额外数组 时间复杂度O(n) 空间复杂度O(n)
 
 //
 // -------divider-------
