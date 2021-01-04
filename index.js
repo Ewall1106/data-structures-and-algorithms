@@ -2097,7 +2097,7 @@ const tree = new BinarySearchTree();
 tree.insert(new Node(5));
 tree.insert(new Node(3));
 
-logs：7
+logs：8
 [✔️]2020.05.13
 [✔️]2020.05.14
 [✔️]2020.06.12
@@ -2105,6 +2105,7 @@ logs：7
 [✔️]2020.07.13
 [✔️]2020.07.30
 [✔️]2020.10.23
+[✔️]2021.01.04
 */
 class Node {
   constructor(key) {
@@ -2174,11 +2175,11 @@ class BinarySearchTree {
     return this.minNode(this.root);
   }
   minNode(node) {
-    let current = node;
-    while (current != null && current.left != null) {
-      current = current.left;
+    let temp = node;
+    while (temp && temp.left) {
+      temp = temp.left;
     }
-    return current;
+    return temp;
   }
 
   // max：返回树中最大的值/键。
@@ -2186,11 +2187,11 @@ class BinarySearchTree {
     return this.maxNode(this.root);
   }
   maxNode(node) {
-    let current = node;
-    while (current != null && current.right != null) {
-      current = current.right;
+    let temp = node;
+    while (temp && temp.right) {
+      temp = temp.right;
     }
-    return current;
+    return temp;
   }
 
   // search：在树中查找一个键。如果节点存在，则返回 true；如果不存在，则返回false。
@@ -2290,7 +2291,7 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 
-logs：8
+logs：9
 [✔️]2020.05.24
 [✔️]2020.05.27
 [✔️]2020.06.12
@@ -2469,8 +2470,8 @@ logs：7
 [✔️]2020.08.01
 [✔️]2020.10.23
 */
-// 解法1：递归。在当前节点的左子树和右子树中分别递归找p和q，如果存在那么就是【公共祖先】了；继续重复递归就可以找到【最近公共祖先】。
-// 时间复杂度O(n)。
+// 解法1：递归 时间复杂度O(n)。
+// 在当前节点的左子树和右子树中分别递归找p和q，如果存在那么就是【公共祖先】了；继续重复递归就可以找到【最近公共祖先】。
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
