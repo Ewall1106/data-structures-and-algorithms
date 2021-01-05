@@ -114,7 +114,7 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：3
+logs：4
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
@@ -3377,11 +3377,12 @@ const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 查找第一个大于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：4
+logs：5
 [✔️]2020.06.22
 [✔️]2020.07.01
 [✔️]2020.09.08
 [✔️]2020.09.25
+[✔️]2021.01.05
 */
 
 function binarySearch3(nums, value) {
@@ -3412,22 +3413,23 @@ const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
 查找最后一个小于等于给定值的元素，返回索引
 https://time.geekbang.org/column/article/42733
 
-logs：4
+logs：5
 [✔️]2020.06.22
 [✔️]2020.06.04
 [✔️]2020.09.09
 [✔️]2020.12.01
+[✔️]2021.01.05
 */
 
-function binarySearch4(array, value) {
-  array.sort((a, b) => a - b);
+function binarySearch4(nums, value) {
+  nums.sort((a, b) => a - b);
   let low = 0;
-  let high = array.length - 1;
+  let high = nums.length - 1;
 
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
-    if (value >= array[mid]) {
-      if (mid == array.length - 1 || array[mid + 1] > value) return mid;
+    if (value >= nums[mid]) {
+      if (mid == nums.length - 1 || nums[mid + 1] > value) return mid;
       else low = mid + 1;
     } else {
       high = mid - 1;
