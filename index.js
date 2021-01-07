@@ -90,8 +90,8 @@ var maxArea = function (height) {
     max = 0;
 
   while (i < j) {
-    let minHeight = height[i] < height[j] ? height[i++] : height[j--];
-    let area = (j - i + 1) * minHeight;
+    let maxHeight = height[i] < height[j] ? height[i++] : height[j--];
+    let area = (j - i + 1) * maxHeight;
     max = Math.max(max, area);
   }
   return max;
@@ -114,11 +114,12 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：4
+logs：5
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
 [✔️]2021.01.04
+[✔️]2021.01.06
 */
 
 // 解法1：双指针 时间复杂度O(n)
@@ -2592,12 +2593,13 @@ https://time.geekbang.org/course/detail/130-42711
 -100.0 < x < 100.0
 n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
 
-logs：5
+logs：6
 [✔️]2020.06.12
 [✔️]2020.06.28
 [✔️]2020.07.14
 [✔️]2020.10.14
 [✔️]2020.12.14
+[✔️]2021.01.06
 */
 
 // 解法1：暴力破解法，傻乘，如求2的10次方，就循环10次。时间复杂度O(n)
@@ -2997,16 +2999,17 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：6
+logs：7
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
 [✔️]2020.06.29
 [✔️]2020.07.17
 [✔️]2020.08.04
+[✔️]2021.01.07
 */
 
-// 解法1：DFS。时间复杂度O(2^n)
+// 解法1：DFS。时间复杂度 O(2^n)
 // https://time.geekbang.org/course/detail/130-67636
 /**
  * @param {number} n
