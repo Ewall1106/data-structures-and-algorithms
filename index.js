@@ -1261,9 +1261,9 @@ var reverseList = function (head) {
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
 // 这个图解好：https://leetcode-cn.com/problems/swap-nodes-in-pairs/solution/bi-jiao-zhi-jie-gao-xiao-de-zuo-fa-han-tu-jie-by-w/
 var swapPairs = function (head) {
-  let pre = new ListNode(null);
-  pre.next = head;
-  let temp = pre;
+  let prev = new ListNode(null);
+  prev.next = head;
+  let temp = prev;
   while (temp.next && temp.next.next) {
     let start = temp.next;
     let end = temp.next.next;
@@ -1272,7 +1272,7 @@ var swapPairs = function (head) {
     end.next = start;
     temp = start;
   }
-  return pre.next;
+  return prev.next;
 };
 
 // 递归：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(N)，递归过程使用的堆栈空间。
@@ -1751,7 +1751,7 @@ https://time.geekbang.org/course/detail/100019701-42702
 输入: s = "rat", t = "car"
 输出: false
 
-logs：8
+logs：9
 [✔️]2020.05.12
 [✔️]2020.06.10
 [✔️]2020.06.29
@@ -1760,6 +1760,7 @@ logs：8
 [✔️]2020.07.27
 [✔️]2020.10.24
 [✔️]2020.11.02
+[✔️]2021.01.08
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(n*log(n))
@@ -2477,7 +2478,7 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 输出: 5
 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：7
+logs：8
 [✔️]2020.05.25
 [✔️]2020.05.27
 [✔️]2020.06.12
@@ -2485,6 +2486,7 @@ logs：7
 [✔️]2020.07.14
 [✔️]2020.08.01
 [✔️]2020.10.23
+[✔️]2021.01.08
 */
 // 解法1：递归 时间复杂度O(n)。
 // 在当前节点的左子树和右子树中分别递归找p和q，如果存在那么就是【公共祖先】了；继续重复递归就可以找到【最近公共祖先】。
