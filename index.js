@@ -1191,7 +1191,7 @@ var maxSlidingWindow = function (nums, k) {
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：10
+  logs：11
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
@@ -1202,6 +1202,7 @@ var maxSlidingWindow = function (nums, k) {
   [✔️]2020.09.26
   [✔️]2020.12.22
   [✔️]2020.12.28
+  [✔️]2021.01.09
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
