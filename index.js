@@ -13,6 +13,89 @@
 /* -------------------------- 数组、栈 ---------------------------*/
 
 /*
+【柱状图中最大的矩形】
+https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
+
+给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+求在该柱状图中，能够勾勒出来的矩形的最大面积。
+
+logs：1
+*/
+
+// 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+var largestRectangleArea = function (heights) {
+  let ans = 0;
+  // 枚举左边界
+  for (let i = 0; i < heights.length; i++) {
+    let minHeight = Infinity;
+    // 枚举右边界
+    for (let j = i; j < heights.length; j++) {
+      // 确定高度
+      minHeight = Math.min(minHeight, heights[j]);
+      // 计算面积
+      ans = Math.max(ans, (j - i + 1) * minHeight);
+    }
+  }
+  return ans;
+};
+
+// 双指针法 时间复杂度O(n^2) 【有问题 test未通过】
+// 使用一重循环枚举某一根柱子高度为h，随后我们从这跟柱子开始向两侧延伸，直到遇到高度小于h的柱子，就确定了矩形的左右边界。
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+var largestRectangleArea = function (heights) {
+  let ans = 0;
+  for (let i = 0; i < heights.length; i++) {
+    // 枚举高
+    let h = heights[i];
+    let left = h,
+      right = h;
+    // 确定左右边界
+    while (left - 1 >= 0 && heights[left - 1] >= h) {
+      --left;
+    }
+    while (right + 1 < heights.length && heights[right + 1] >= h) {
+      ++right;
+    }
+    // 计算面积
+    ans = Math.max(ans, (right - left + 1) * h);
+  }
+  return ans;
+};
+
+// 单调栈
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+var largestRectangleArea = function (heights) {
+  var maxArea = 0;
+  var stack = [];
+  heights.push(0);
+  heights.unshift(0);
+  for (var i = 0; i < heights.length; i++) {
+    while (stack.length > 0 && heights[stack[stack.length - 1]] > heights[i]) {
+      maxArea = Math.max(
+        maxArea,
+        heights[stack.pop()] * (i - stack[stack.length - 1] - 1)
+      );
+    }
+    stack.push(i);
+  }
+  return maxArea;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【最小栈】
 https://leetcode-cn.com/problems/min-stack/
 
@@ -22,9 +105,10 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：2
+logs：3
 [✔️]2020.12.02
 [✔️]2020.01.04
+[✔️]2020.01.15
 */
 
 // 辅助栈法
@@ -884,6 +968,7 @@ var isValid = function (s) {
 };
 
 // 解法2：消消乐，使用正则，把‘[]’、‘()’、‘{}’用replace两两消掉，循环后如果字符串为空则返回true，反之则为false。
+// 时间复杂度 O(n^2)
 var isValid = function (s) {
   let length;
   do {
