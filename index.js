@@ -28,7 +28,7 @@ logs：1
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-  let ans = 0;
+  let area = 0;
   // 枚举左边界
   for (let i = 0; i < heights.length; i++) {
     let minHeight = Infinity;
@@ -37,36 +37,35 @@ var largestRectangleArea = function (heights) {
       // 确定高度
       minHeight = Math.min(minHeight, heights[j]);
       // 计算面积
-      ans = Math.max(ans, (j - i + 1) * minHeight);
+      area = Math.max(area, (j - i + 1) * minHeight);
     }
   }
-  return ans;
+  return area;
 };
 
-// 双指针法 时间复杂度O(n^2) 【有问题 test未通过】
+// 双指针法 时间复杂度O(n^2)
 // 使用一重循环枚举某一根柱子高度为h，随后我们从这跟柱子开始向两侧延伸，直到遇到高度小于h的柱子，就确定了矩形的左右边界。
 /**
  * @param {number[]} heights
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-  let ans = 0;
+  let area = 0;
   for (let i = 0; i < heights.length; i++) {
     // 枚举高
     let h = heights[i];
-    let left = h,
-      right = h;
+    let left = (right = i);
     // 确定左右边界
     while (left - 1 >= 0 && heights[left - 1] >= h) {
-      --left;
+      left--;
     }
     while (right + 1 < heights.length && heights[right + 1] >= h) {
-      ++right;
+      right++;
     }
     // 计算面积
-    ans = Math.max(ans, (right - left + 1) * h);
+    area = Math.max(area, (right - left + 1) * h);
   }
-  return ans;
+  return area;
 };
 
 // 单调栈
@@ -105,10 +104,11 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：3
+logs：4
 [✔️]2020.12.02
 [✔️]2020.01.04
 [✔️]2020.01.15
+[✔️]2020.01.18
 */
 
 // 辅助栈法
@@ -147,15 +147,16 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：5
+logs：6
 [✔️]2020.11.29
 [✔️]2020.11.30
 [✔️]2020.12.01
 [✔️]2020.12.03
 [✔️]2020.12.24
+[✔️]2020.01.18
 */
 
-// 解法1：暴力破解法。时间复杂度O(n*2)
+// 暴力破解法 时间复杂度O(n*2)
 var maxArea = function (height) {
   let max = 0;
   for (let i = 0; i < height.length - 1; i++) {
@@ -167,15 +168,14 @@ var maxArea = function (height) {
   return max;
 };
 
-// 解法2：左右双指针（左右夹逼），一头一尾两个指针往中间收敛，找到最大面积。时间复杂度O(n)
+// 左右双指针（左右夹逼），一头一尾两个指针往中间收敛，找到最大面积 时间复杂度O(n)
 var maxArea = function (height) {
-  let i = 0,
-    j = height.length - 1,
-    max = 0;
-
+  let max = 0;
+  let i = 0;
+  let j = height.length - 1;
   while (i < j) {
-    let maxHeight = height[i] < height[j] ? height[i++] : height[j--];
-    let area = (j - i + 1) * maxHeight;
+    let area = (j - i) * Math.min(height[i], height[j]);
+    height[i] < height[j] ? i++ : j--;
     max = Math.max(max, area);
   }
   return max;
@@ -208,7 +208,7 @@ logs：5
 
 // 解法1：双指针 时间复杂度O(n)
 var moveZeroes = function (nums) {
-  let j = 0;
+  let j = 0; // j指向位置为0的索引
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== 0) {
       if (i !== j) {
