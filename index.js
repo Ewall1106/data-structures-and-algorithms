@@ -2370,6 +2370,89 @@ tree.inOrderTraverse((value) => console.log(value));
 // -------divider-------
 //
 
+/*
+【二叉树的中序遍历】
+https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
+给定一个二叉树的根节点 root ，返回它的 中序 遍历。
+
+输入：root = [1,null,2,3]
+输出：[1,3,2]
+
+输入：root = []
+输出：[]
+
+logs：1
+[✔️]2021.01.18
+*/
+
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inOrderTraversal = function (root) {
+  let result = [];
+  helper(root);
+  return result;
+  function helper(node) {
+    if (node === null) return;
+    helper(node.left);
+    result.push(node.val);
+    helper(node.right);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【N叉树的后序遍历】
+https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
+给定一个 N 叉树，返回其节点值的后序遍历。
+例如，给定一个 3叉树 :
+*/
+
+// 递归
+/**
+ * @param {Node} root
+ * @return {number[]}
+ */
+var postorder = function (root) {
+  let res = [];
+  let fn = function (root) {
+    if (!root) return null;
+    for (let i = 0; i < root.children.length; i++) {
+      fn(root.children[i]);
+    }
+    res.push(root.val);
+  };
+  fn(root);
+  return res;
+};
+
+// 迭代
+/**
+ * @param {Node} root
+ * @return {number[]}
+ */
+var postorder = function (root) {
+  const ans = [],
+    stack = [root];
+  if (!root) return ans;
+  while (stack.length) {
+    const node = stack.pop();
+    ans.unshift(node.val);
+    for (let i = 0; i < node.children.length; i++) {
+      stack.push(node.children[i]);
+    }
+  }
+  return ans;
+};
+
+//
+// -------divider-------
+//
+
 /* 
 【验证二叉搜索树】BinarySearchTree
 https://leetcode-cn.com/problems/validate-binary-search-tree/
