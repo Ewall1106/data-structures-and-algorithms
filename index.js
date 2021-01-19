@@ -20,6 +20,7 @@ https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
 logs：1
+2021.01.19
 */
 
 // 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
@@ -68,17 +69,20 @@ var largestRectangleArea = function (heights) {
   return area;
 };
 
-// 单调栈
+// 单调栈 时间复杂度O(n) 空间复杂度O(n)
 /**
  * @param {number[]} heights
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
-  var maxArea = 0;
-  var stack = [];
+  if (!heights || !heights.length) return 0;
+  
   heights.push(0);
   heights.unshift(0);
-  for (var i = 0; i < heights.length; i++) {
+
+  let maxArea = 0;
+  let stack = [];
+  for (let i = 0; i < heights.length; i++) {
     while (stack.length > 0 && heights[stack[stack.length - 1]] > heights[i]) {
       maxArea = Math.max(
         maxArea,
@@ -2409,7 +2413,9 @@ var inOrderTraversal = function (root) {
 【N叉树的后序遍历】
 https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
 给定一个 N 叉树，返回其节点值的后序遍历。
-例如，给定一个 3叉树 :
+
+logs：1
+[✔️]2021.01.18
 */
 
 // 递归
