@@ -76,7 +76,7 @@ var largestRectangleArea = function (heights) {
  */
 var largestRectangleArea = function (heights) {
   if (!heights || !heights.length) return 0;
-  
+
   heights.push(0);
   heights.unshift(0);
 
@@ -2424,35 +2424,95 @@ logs：1
  * @return {number[]}
  */
 var postorder = function (root) {
-  let res = [];
-  let fn = function (root) {
+  let result = [];
+  helper(root);
+  return result;
+  function helper(root) {
     if (!root) return null;
     for (let i = 0; i < root.children.length; i++) {
-      fn(root.children[i]);
+      helper(root.children[i]);
     }
-    res.push(root.val);
-  };
-  fn(root);
-  return res;
+    result.push(root.val);
+  }
 };
 
-// 迭代
+// 迭代 BFS 时间复杂度 O(n)
 /**
  * @param {Node} root
  * @return {number[]}
  */
 var postorder = function (root) {
-  const ans = [],
+  const result = [],
     stack = [root];
-  if (!root) return ans;
+  if (!root) return result;
   while (stack.length) {
     const node = stack.pop();
-    ans.unshift(node.val);
+    result.unshift(node.val);
     for (let i = 0; i < node.children.length; i++) {
       stack.push(node.children[i]);
     }
   }
-  return ans;
+  return result;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【N叉树的层序遍历】
+https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
+给定一个 N 叉树，返回其节点值的层序遍历。（即从左到右，逐层遍历）。
+树的序列化输入是用层序遍历，每组子节点都由 null 值分隔（参见示例）。
+
+输入：root = [1,null,3,2,4,null,5,6]
+输出：[[1],[3,2,4],[5,6]]
+
+logs：1
+[✔️]2021.01.19
+*/
+
+// 迭代 BFS 时间复杂度O(n) 空间复杂度O(n)
+/**
+ * @param {Node} root
+ * @return {number[][]}
+ */
+var levelOrder = function (root) {
+  if (root == null || root.length == 0) return [];
+  let result = [];
+  let stack = [root];
+  while (stack.length) {
+    let temp = [];
+    for (let i = 0, len = stack.length; i < len; i++) {
+      let node = stack.shift();
+      temp.push(node.val);
+      for (let j = 0; j < node.children.length; j++) {
+        stack.push(node.children[j]);
+      }
+    }
+    result.push(temp);
+  }
+  return result;
+};
+
+// 递归 DFS 时间复杂度O(n) 空间复杂度O(n)
+/**
+ * @param {Node} root
+ * @return {number[][]}
+ */
+var levelOrder = function (root) {
+  if (root == null || root.length == 0) return [];
+  let result = [];
+  dfs(root, 0);
+  return result;
+  function dfs(node, level) {
+    if (node == null) return;
+    if (result.length < level + 1) result.push([]);
+    result[level].push(node.val);
+    for (let i = 0; i < node.children.length; i++) {
+      dfs(node.children[i], level + 1);
+    }
+  }
 };
 
 //
