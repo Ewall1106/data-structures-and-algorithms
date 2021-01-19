@@ -33,7 +33,7 @@ var largestRectangleArea = function (heights) {
   // 枚举左边界
   for (let i = 0; i < heights.length; i++) {
     let minHeight = Infinity;
-    // 枚举右边界
+    // 枚举右边界（从自己开始算，所以不用i+1）
     for (let j = i; j < heights.length; j++) {
       // 确定高度
       minHeight = Math.min(minHeight, heights[j]);
@@ -202,12 +202,13 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：5
+logs：6
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
 [✔️]2021.01.04
 [✔️]2021.01.06
+[✔️]2021.01.19
 */
 
 // 解法1：双指针 时间复杂度O(n)
@@ -336,7 +337,7 @@ https://leetcode-cn.com/problems/contains-duplicate/
 输入: [1,1,1,3,3,4,3,2,4,2]
 输出: true
 
-logs：9
+logs：10
 [✔️]2020.05.15
 [✔️]2020.05.16
 [✔️]2020.05.19
@@ -346,6 +347,7 @@ logs：9
 [✔️]2020.08.04
 [✔️]2020.08.20
 [✔️]2020.11.17
+[✔️]2021.01.19
 */
 
 // 解法1：对数组去重以后在比较length
