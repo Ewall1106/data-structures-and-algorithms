@@ -32,6 +32,7 @@ var largestRectangleArea = function (heights) {
   let area = 0;
   // 枚举左边界
   for (let i = 0; i < heights.length; i++) {
+    // 需保存[i, j]区间之中的最小值，而非nums[i]与nums[j]的最小值
     let minHeight = Infinity;
     // 枚举右边界（从自己开始算，所以不用i+1）
     for (let j = i; j < heights.length; j++) {
@@ -83,6 +84,8 @@ var largestRectangleArea = function (heights) {
   let maxArea = 0;
   let stack = [];
   for (let i = 0; i < heights.length; i++) {
+    // 通过与当前柱高做比较，可以确定栈中柱的右边界
+    // 而栈中维护的都是从小到大排序的元素的索引，所以左边界就是前一个值
     while (stack.length > 0 && heights[stack[stack.length - 1]] > heights[i]) {
       maxArea = Math.max(
         maxArea,
@@ -1221,7 +1224,7 @@ logs：9
 [✔️]2020.11.09
 [✔️]2020.12.25
 */
-// 解法1：暴力破解法。时间复杂度：O(n*k)、空间复杂度：O(n)
+// 暴力破解法 时间复杂度：O(n*k) 空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
   if (!nums.length) return [];
   if (k === 1) return nums;
@@ -1237,7 +1240,7 @@ var maxSlidingWindow = function (nums, k) {
   return result;
 };
 
-// 解法2：使用双端队列Queue。时间复杂度：O(n)、空间复杂度：O(n)
+// 使用双端队列 时间复杂度：O(n) 空间复杂度：O(n)
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -1250,24 +1253,24 @@ var maxSlidingWindow = function (nums, k) {
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
-    // i >= k：保证已经往右移了k位了
-    // deque[0] <= i - k：把滑动窗口之外的踢出
-    if (i >= k && deque[0] <= i - k) deque.shift();
-    // 最大值永远是【左边】的值，对于进来的新值进行判断
-    while (deque.length && nums[i] >= nums[deque[deque.length - 1]]) {
-      deque.pop();
+    // i >= k：保证已经往右移了k+1位了
+    // deque[deque.length - 1] <= i - k：因为右边维护的最大值，如果出界了就踢掉
+    if (i >= k && deque[deque.length - 1] <= i - k) deque.pop();
+    // 最大值永远是【右边】的值，对于进来的新值进行判断
+    while (deque.length && nums[i] >= nums[deque[0]]) {
+      deque.shift();
     }
-    deque.push(i);
-    // 队列左侧是最大值,放入结果
+    deque.unshift(i);
+    // 保证往右移动了k位，将队列右侧最大值放入结果
     if (i >= k - 1) {
-      result.push(nums[deque[0]]);
+      result.push(nums[deque[deque.length - 1]]);
     }
   }
 
   return result;
 };
 
-// 解法3：动态规划
+// 动态规划
 
 //
 // -------divider-------
@@ -2391,6 +2394,7 @@ logs：1
 [✔️]2021.01.18
 */
 
+// 递归
 /**
  * @param {TreeNode} root
  * @return {number[]}
@@ -2405,6 +2409,26 @@ var inOrderTraversal = function (root) {
     result.push(node.val);
     helper(node.right);
   }
+};
+
+// 迭代 时间复杂度O(n) 空间复杂度O(n)
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inOrderTraversal = function (root) {
+  const result = [];
+  const stack = [];
+  while (root || stack.length) {
+    while (root) {
+      stack.push(root);
+      root = root.left;
+    }
+    root = stack.pop();
+    result.push(root.val);
+    root = root.right;
+  }
+  return result;
 };
 
 //
@@ -2444,9 +2468,9 @@ var postorder = function (root) {
  * @return {number[]}
  */
 var postorder = function (root) {
-  const result = [],
-    stack = [root];
-  if (!root) return result;
+  if (!root || root.length === 0) return [];
+  const result = [];
+  const stack = [root];
   while (stack.length) {
     const node = stack.pop();
     result.unshift(node.val);
