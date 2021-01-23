@@ -601,7 +601,7 @@ https://leetcode-cn.com/problems/merge-intervals/
 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
 注意：输入类型已于2019年4月15日更改。 请重置默认代码定义以获取新方法签名。
 
-logs：9
+logs：10
 [✔️]2020.08.28
 [✔️]2020.08.31
 [✔️]2020.09.16
@@ -611,6 +611,7 @@ logs：9
 [✔️]2020.11.27
 [✔️]2020.11.30
 [✔️]2020.12.16
+[✔️]2021.01.23
 */
 
 // 排序。时间复杂度 O(nlogn)
@@ -653,7 +654,7 @@ https://leetcode-cn.com/problems/plus-one/
 输出: [4,3,2,2]
 解释: 输入数组表示数字 4321。
 
-logs：9
+logs：10
 [✔️]2020.05.10
 [✔️]2020.05.11
 [✔️]2020.06.01
@@ -663,6 +664,7 @@ logs：9
 [✔️]2020.08.06
 [✔️]2020.10.28
 [✔️]2020.11.17
+[✔️]2021.01.23
 */
 
 // 解析：
@@ -675,9 +677,10 @@ logs：9
  */
 var plusOne = function (digits) {
   for (let i = digits.length - 1; i >= 0; i--) {
-    digits[i]++;
-    digits[i] %= 10;
-    if (digits[i] != 0) return digits;
+    digits[i] = (digits[i] + 1) % 10;
+    if (digits[i] != 0) {
+      return digits;
+    }
   }
   return [1, ...digits];
 };
@@ -737,7 +740,7 @@ var removeDuplicates = function (nums) {
 /*
 【数组去重】
 
-logs：9
+logs：10
 [✔️]2020.06.08
 [✔️]2020.06.09
 [✔️]2020.06.17
@@ -747,6 +750,7 @@ logs：9
 [✔️]2020.08.12
 [✔️]2020.10.26
 [✔️]2020.11.18
+[✔️]2021.01.23
 */
 
 // 解法1：使用set。
@@ -819,7 +823,7 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 nums1和nums2中所有元素是唯一的。
 nums1和nums2 的数组大小都不超过1000。
 
-logs：9
+logs：10
 [✔️]2020.05.09
 [✔️]2020.05.14
 [✔️]2020.06.01
@@ -829,6 +833,7 @@ logs：9
 [✔️]2020.08.13
 [✔️]2020.10.28
 [✔️]2020.11.18
+[✔️]2021.01.23
 */
 
 // 解法1：单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。
@@ -902,14 +907,14 @@ function decimalToBinary(number) {
 function baseConverter(number, base) {
   if (base < 2 || base > 36) return '';
 
-  const remStack = [];
+  const stack = [];
   const digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   while (number > 0) {
     let rem = number % base;
-    remStack.push(digits[rem]);
+    stack.push(digits[rem]);
     number = Math.floor(number / base);
   }
-  return remStack.join('');
+  return stack.join('');
 }
 
 //
@@ -1289,7 +1294,7 @@ var maxSlidingWindow = function (nums, k) {
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：11
+  logs：12
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
@@ -1301,6 +1306,7 @@ var maxSlidingWindow = function (nums, k) {
   [✔️]2020.12.22
   [✔️]2020.12.28
   [✔️]2021.01.09
+  [✔️]2021.01.23
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
