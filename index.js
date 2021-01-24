@@ -2558,7 +2558,8 @@ var levelOrder = function (root) {
 【验证二叉搜索树】BinarySearchTree
 https://leetcode-cn.com/problems/validate-binary-search-tree/
 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
-假设一个二叉搜索树具有如下特征：
+
+一个二叉搜索树具有如下特征：
 节点的【左子树】只包含小于当前节点的数。
 节点的【右子树】只包含大于当前节点的数。
 所有左子树和右子树自身必须也是二叉搜索树。
@@ -2593,7 +2594,7 @@ logs：9
 [✔️]2020.12.30
 */
 
-// 解法1：使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
+// 使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -2623,7 +2624,7 @@ var isValidBST = function (root) {
   return helper(root);
 };
 
-// 解法2：使用递归。时间复杂度：O(n)
+// 使用递归。时间复杂度：O(n)
 // 因为是二叉搜索树，左子树都要比root小，右子树都要比root大。
 // 所以递归左子树，找到它的最小值与root判断；同理递归右子树找到它的最大值并与root判断。
 /**
@@ -2829,6 +2830,47 @@ var isSymmetric = function (root) {
     if (p == null || q == null) return false;
     return p.val === q.val && dfs(p.left, q.right) && dfs(p.right, q.left);
   }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【翻转二叉树】
+https://leetcode-cn.com/problems/invert-binary-tree/
+翻转一棵二叉树。示例：
+
+输入：
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+
+输出：
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+
+logs：1
+[✔️]2021.01.24
+*/
+
+// 递归 时间复杂度O(n)
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function (root) {
+  if (root === null) return null;
+  const left = invertTree(root.left);
+  const right = invertTree(root.right);
+  root.left = right;
+  root.right = left;
+  return root;
 };
 
 //
@@ -3274,7 +3316,7 @@ https://leetcode-cn.com/problems/generate-parentheses/
        "()()()"
      ]
 
-logs：7
+logs：8
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -3282,10 +3324,10 @@ logs：7
 [✔️]2020.07.17
 [✔️]2020.08.04
 [✔️]2021.01.07
+[✔️]2021.01.24
 */
 
-// 解法1：DFS。时间复杂度 O(2^n)
-// https://time.geekbang.org/course/detail/130-67636
+// 递归、DFS 时间复杂度 O(2^n)
 /**
  * @param {number} n
  * @return {string[]}
@@ -3297,8 +3339,11 @@ var generateParenthesis = function (n) {
 
   function dfs(s, left, right) {
     if (left == n && right == n) return res.push(s);
+    // 左括号只要保证小于n就行
     if (left < n) dfs(`${s}(`, left + 1, right);
-    if (left > right && right < n) dfs(`${s})`, left, right + 1);
+    // 右括号必须比左括号个数小
+    // "(())()" -- 这种情况就是需要保证right<left
+    if (right < left) dfs(`${s})`, left, right + 1);
   }
 };
 
@@ -4127,6 +4172,10 @@ https://leetcode-cn.com/problems/climbing-stairs/
 1.  1 阶 + 1 阶 + 1 阶
 2.  1 阶 + 2 阶
 3.  2 阶 + 1 阶
+
+假设n=5，有5级楼梯要爬，根据题意每次有2种选择，爬1级或爬2级。如果爬1级，则剩下4级要爬，如果爬2级，则剩下3级要爬。
+由出发的可能不同可以具体化到两个子问题，爬4级楼梯有几种方式？爬3级楼梯有几种方式？
+于是，爬5级楼梯的方式数 = 爬4级楼梯的方式数 + 爬3级楼梯的方式数。
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
