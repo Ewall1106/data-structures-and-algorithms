@@ -2687,7 +2687,7 @@ logs：8
 [✔️]2020.12.10
 */
 
-// 解法1：递归。时间复杂度O(n)
+// 递归。时间复杂度O(n)
 // 从根节点开始遍历树
 // 如果节点 p 和节点 q 都在右子树上，那么以右孩子为根节点继续操作
 // 如果节点 p 和节点 q 都在左子树上，那么以左孩子为根节点继续操作
@@ -2716,7 +2716,7 @@ var lowestCommonAncestor = function (root, p, q) {
   }
 };
 
-// 解法2：迭代。跟使用递归的思路是一样的，写法不同而已。时间复杂度O(n)
+// 迭代。跟使用递归的思路是一样的，写法不同而已。时间复杂度O(n)
 var lowestCommonAncestor = function (root, p, q) {
   while (root != null) {
     if (p.val > root.val && q.val > root.val) {
@@ -2762,8 +2762,8 @@ logs：8
 [✔️]2020.10.23
 [✔️]2021.01.08
 */
-// 解法1：递归 时间复杂度O(n)。
-// 在当前节点的左子树和右子树中分别递归找p和q，如果存在那么就是【公共祖先】了；继续重复递归就可以找到【最近公共祖先】。
+// 递归 时间复杂度O(n)。
+// 在当前节点的左子树和右子树中递归找p和q，如果存在那么就是【公共祖先】了；继续重复递归就可以找到【最近公共祖先】。
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -3227,7 +3227,7 @@ logs：9
 [✔️]2020.12.25
 */
 
-// 解法1：DFS、递归。时间复杂度O(n)
+// DFS、递归。时间复杂度O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -3278,7 +3278,7 @@ logs：9
 [✔️]2020.12.25
 */
 
-// 解法1：DFS。时间复杂度O(n)
+// DFS。时间复杂度O(n)
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -3346,6 +3346,89 @@ var generateParenthesis = function (n) {
     if (right < left) dfs(`${s})`, left, right + 1);
   }
 };
+
+//
+// -------divider-------
+//
+
+/*
+【二叉树的序列化与反序列化】
+https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
+
+图略
+
+示例 1：
+输入：root = [1,2,3,null,null,4,5]
+输出：[1,2,3,null,null,4,5]
+
+示例 2：
+输入：root = []
+输出：[]
+
+示例 3：
+输入：root = [1]
+输出：[1]
+
+logs：1
+[✔️]2021.01.25
+*/
+
+// DFS(深度优先搜索)。时间复杂度O(n)、空间复杂度O(n)
+// 先序遍历是以优先于后代节点的顺序访问每个节点的。先序遍历的一种应用是打印一个结构化的文档。
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * Encodes a tree to a single string.
+ *
+ * @param {TreeNode} root
+ * @return {string}
+ */
+var serialize = function (root) {
+  const result = [];
+  dfs(root);
+  return result.join(',');
+
+  function dfs(root) {
+    // join方法会直接忽略null，所以用x来做替身
+    if (root == null) return result.push('x');
+    result.push(root.val);
+    dfs(root.left);
+    dfs(root.right);
+  }
+};
+
+/**
+ * Decodes your encoded data to tree.
+ *
+ * @param {string} data
+ * @return {TreeNode}
+ */
+var deserialize = function (data) {
+  data = data.split(',');
+  return buildTree(data);
+
+  function buildTree() {
+    if (!data.length) return null;
+    const value = data.shift();
+    if (value == 'x') return null;
+    const root = new TreeNode(value);
+    root.left = buildTree();
+    root.right = buildTree();
+    return root;
+  }
+};
+
+/**
+ * Your functions will be called as such:
+ * deserialize(serialize(root));
+ */
+
+// BFS(广度优先搜索)。
 
 //
 // -------divider-------
