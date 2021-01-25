@@ -3039,6 +3039,48 @@ var majorityElement = function (nums) {
 // -------divider-------
 //
 
+/*
+【组合】
+https://leetcode-cn.com/problems/combinations/
+
+给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+示例:
+
+输入: n = 4, k = 2
+输出:
+[[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+
+logs：1
+[✔️]2021.01.25
+*/
+
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function (n, k) {
+  if (n < 1 || k < 1) return [];
+  const result = [];
+  dfs(1, []);
+  return result;
+
+  function dfs(start, path) {
+    if (path.length == k) return result.push([...path]);
+    // 剪枝，剩下数的数量大于等于还需要选的数量
+    if (path.length + n - start < k - 1) return;
+    for (let i = start; i <= n; i++) {
+      path.push(i);
+      dfs(i + 1, path);
+      path.pop();
+    }
+  }
+};
+
+//
+// -------divider-------
+//
+
 /* -------------------------- 图、DFS、BFS ---------------------------*/
 // 使用邻接表的形式表示图
 class Graph {
