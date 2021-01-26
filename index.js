@@ -4,7 +4,7 @@
 链表、队列
 集合、字典、散列表
 树、二叉树、二叉搜索树
-递归、分治
+递归、分治、回溯
 图、DFS、BFS
 动态规划、贪心算法
 排序、搜索算法
@@ -2877,7 +2877,7 @@ var invertTree = function (root) {
 // -------divider-------
 //
 
-/* -------------------------- 递归、分治 ---------------------------*/
+/* -------------------------- 递归、分治、回溯 ---------------------------*/
 
 /* 
   Tips：
@@ -2885,7 +2885,7 @@ var invertTree = function (root) {
   （2）如果一个问题 A 可以分解为若干子问题 B、C、D，你可以假设子问题 B、C、D 已经解决，在此基础上思考如何解决问题 A。而且，你只需要思考问题 A 与子问题 B、C、D 两层之间的关系即可，不需要一层一层往下思考子问题与子子问题，子子问题与子子子问题之间的关系。屏蔽掉递归细节，这样子理解起来就简单多了。
   （3）因此，编写递归代码的关键是，只要遇到递归，我们就把它抽象成一个递推公式，不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。
   （4）分治算法一般都是用递归来实现的。分治是一种解决问题的处理思想，递归是一种编程技巧。
-  （5）分治是将大问题拆解为子问题后处理，然后将子结果合并为结果。回溯是列举所有的可能，错了就回退上一步或上几步，然后将正确的结果返回。
+  （5）分治是将大问题拆解为子问题后处理，然后将子结果合并为结果。回溯是列举所有的可能，错了就回退上一步或上几步，最后将正确的结果返回。
 */
 
 /*
@@ -3054,27 +3054,37 @@ https://leetcode-cn.com/problems/combinations/
 logs：1
 [✔️]2021.01.25
 */
-
+// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+// 输入：4 2
+// 输出：[[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
 /**
  * @param {number} n
  * @param {number} k
  * @return {number[][]}
  */
 var combine = function (n, k) {
-  if (n < 1 || k < 1) return [];
   const result = [];
-  dfs(1, []);
+  dfs(1, n, k, []);
   return result;
 
-  function dfs(start, path) {
-    if (path.length == k) return result.push([...path]);
-    // 剪枝，剩下数的数量大于等于还需要选的数量
-    if (path.length + n - start < k - 1) return;
-    for (let i = start; i <= n; i++) {
-      path.push(i);
-      dfs(i + 1, path);
-      path.pop();
+  function dfs(index, n, k, list) {
+    // 剪枝：list 长度加上区间 [index, n] 的长度小于 k
+    if (list.length + (n - index + 1) < k) {
+      return;
     }
+    // 记录合法的答案
+    if (list.length == k) {
+      result.push(list.slice());
+      return;
+    }
+    // 考虑不选择当前位置
+    dfs(index + 1, n, k, list);
+    // 考虑选择当前位置
+    list.push(index);
+    // 继续考察下一个数
+    dfs(index + 1, n, k, list);
+    // 因为list是个堆变量，所以本层递归结束后要去掉最后一个值
+    list.pop();
   }
 };
 
@@ -3102,6 +3112,8 @@ logs：1
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 // 每个值有可选和可不选两种可能，类似于一棵树。
 // https://leetcode-cn.com/problems/subsets/solution/shou-hua-tu-jie-zi-ji-hui-su-fa-xiang-jie-wei-yun-/
+// 输入：[1,2,3]
+// 输出：[[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]]
 /**
  * @param {number[]} nums
  * @return {number[][]}
@@ -3109,20 +3121,20 @@ logs：1
 var subsets = function (nums) {
   if (nums == null) return [];
   let result = [];
-  dfs(result, nums, [], 0);
+  dfs(nums, [], 0);
   return result;
 
-  function dfs(result, nums, list, index) {
+  function dfs(nums, list, index) {
     if (index === nums.length) {
       result.push(list.slice());
       return;
     }
     // 不选择这个数
-    dfs(result, nums, list, index + 1);
+    dfs(nums, list, index + 1);
     // 选择并保存这个数
     list.push(nums[index]);
     // 继续考察下一个数
-    dfs(result, nums, list, index + 1);
+    dfs(nums, list, index + 1);
     // 因为list是个堆变量，所以本层递归结束后要去掉最后一个值
     list.pop();
   }
