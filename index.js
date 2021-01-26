@@ -2885,6 +2885,7 @@ var invertTree = function (root) {
   （2）如果一个问题 A 可以分解为若干子问题 B、C、D，你可以假设子问题 B、C、D 已经解决，在此基础上思考如何解决问题 A。而且，你只需要思考问题 A 与子问题 B、C、D 两层之间的关系即可，不需要一层一层往下思考子问题与子子问题，子子问题与子子子问题之间的关系。屏蔽掉递归细节，这样子理解起来就简单多了。
   （3）因此，编写递归代码的关键是，只要遇到递归，我们就把它抽象成一个递推公式，不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。
   （4）分治算法一般都是用递归来实现的。分治是一种解决问题的处理思想，递归是一种编程技巧。
+  （5）分治是将大问题拆解为子问题后处理，然后将子结果合并为结果。回溯是列举所有的可能，错了就回退上一步或上几步，然后将正确的结果返回。
 */
 
 /*
@@ -2919,8 +2920,8 @@ logs：6
 [✔️]2021.01.06
 */
 
-// 解法1：暴力破解法，傻乘，如求2的10次方，就循环10次。时间复杂度O(n)
-// 解法2：分治+递归，时间复杂度O(logn)
+// 暴力破解法，傻乘，如求2的10次方，就循环10次。时间复杂度O(n)
+// 分治+递归，时间复杂度O(logn)
 /**
  * @param {number} x
  * @param {number} n
@@ -3075,6 +3076,86 @@ var combine = function (n, k) {
       path.pop();
     }
   }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【子集】
+https://leetcode-cn.com/problems/subsets/
+给你一个整数数组 nums，数组中的元素互不相同 。返回该数组所有可能的子集（幂集）。
+解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+
+示例 1：
+输入：nums = [1,2,3]
+输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+
+示例 2：
+输入：nums = [0]
+输出：[[],[0]]
+
+logs：1
+[✔️]2021.01.25
+*/
+// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+// 每个值有可选和可不选两种可能，类似于一棵树。
+// https://leetcode-cn.com/problems/subsets/solution/shou-hua-tu-jie-zi-ji-hui-su-fa-xiang-jie-wei-yun-/
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function (nums) {
+  if (nums == null) return [];
+  let result = [];
+  dfs(result, nums, [], 0);
+  return result;
+
+  function dfs(result, nums, list, index) {
+    if (index === nums.length) {
+      result.push(list.slice());
+      return;
+    }
+    // 不选择这个数
+    dfs(result, nums, list, index + 1);
+    // 选择并保存这个数
+    list.push(nums[index]);
+    // 继续考察下一个数
+    dfs(result, nums, list, index + 1);
+    // 因为list是个堆变量，所以本层递归结束后要去掉最后一个值
+    list.pop();
+  }
+};
+
+// 迭代。时间复杂度O(n)、 空间复杂度O(n)
+// 重复将新的元素加入到上一个结果集中的每个子集当中去，形成n个新的子集，再全部加入到结果集中去。
+// nums：[1,2,3]
+// i = 0
+// sub = [1]
+// res = [],[1]
+// ---
+// i = 1
+// sub = [2],[1,2]
+// res = [],[1],[2],[1,2]
+// ---
+// i = 2
+// sub = [3],[1,3],[2,3],[1,2,3]
+// res = [ [],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3] ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function (nums) {
+  let res = [[]];
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 0, len = res.length; j < len; j++) {
+      let sub = res[j].slice();
+      sub.push(nums[i]);
+      res.push(sub);
+    }
+  }
+  return res;
 };
 
 //
