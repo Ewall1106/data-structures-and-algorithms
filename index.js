@@ -3145,11 +3145,11 @@ var subsets = function (nums) {
 // nums：[1,2,3]
 // i = 0
 // sub = [1]
-// res = [],[1]
+// res = [ [],[1] ]
 // ---
 // i = 1
 // sub = [2],[1,2]
-// res = [],[1],[2],[1,2]
+// res = [ [],[1],[2],[1,2] ]
 // ---
 // i = 2
 // sub = [3],[1,3],[2,3],[1,2,3]
@@ -3296,7 +3296,6 @@ function BFS(graph, start, end) {
 /*
 【二叉树的层序遍历】
 https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
-https://time.geekbang.org/course/detail/100019701-67634
 给你一个二叉树，请你返回其按层序遍历得到的节点值。（即逐层地，从左到右访问所有节点）。
 
 示例：
