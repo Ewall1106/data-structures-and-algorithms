@@ -633,6 +633,68 @@ var merge = function (intervals) {
   return merged;
 };
 
+/*
+【汇总区间】
+https://leetcode-cn.com/problems/summary-ranges/
+
+给定一个无重复元素的有序整数数组 nums 。
+返回 恰好覆盖数组中所有数字 的 最小有序 区间范围列表。也就是说，nums 的每个元素都恰好被某个区间范围所覆盖，并且不存在属于某个范围但不属于 nums 的数字 x 。
+
+列表中的每个区间范围 [a,b] 应该按如下格式输出：
+
+"a->b" ，如果 a != b
+"a" ，如果 a == b
+ 
+示例 1：
+输入：nums = [0,1,2,4,5,7]
+输出：["0->2","4->5","7"]
+解释：区间范围是：
+[0,2] --> "0->2"
+[4,5] --> "4->5"
+[7,7] --> "7"
+
+示例 2：
+输入：nums = [0,2,3,4,6,8,9]
+输出：["0","2->4","6","8->9"]
+解释：区间范围是：
+[0,0] --> "0"
+[2,4] --> "2->4"
+[6,6] --> "6"
+[8,9] --> "8->9"
+
+示例 3：
+输入：nums = []
+输出：[]
+
+示例 4：
+输入：nums = [-1]
+输出：["-1"]
+
+示例 5：
+输入：nums = [0]
+输出：["0"]
+
+logs：01
+[✔️]2021.01.27
+*/
+
+// 双指针。时间复杂度O(n)、空间复杂度O(n)
+/**
+ * @param {number[]} nums
+ * @return {string[]}
+ */
+var summaryRanges = function (nums) {
+  let result = [];
+  let j = 0;
+  for (let i = 1; i <= nums.length; i++) {
+    if (nums[i] - nums[i - 1] !== 1) {
+      result.push(nums[j] + (i - j === 1 ? '' : '->' + nums[i - 1]));
+      j = i;
+    }
+  }
+  return result;
+};
+
 //
 // -------divider-------
 //
@@ -2399,7 +2461,7 @@ https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 输入：root = []
 输出：[]
 
-logs：1
+logs：01
 [✔️]2021.01.18
 */
 
@@ -2449,7 +2511,7 @@ var inOrderTraversal = function (root) {
 https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
 给定一个 N 叉树，返回其节点值的后序遍历。
 
-logs：1
+logs：01
 [✔️]2021.01.18
 */
 
@@ -2503,7 +2565,7 @@ https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 输入：root = [1,null,3,2,4,null,5,6]
 输出：[[1],[3,2,4],[5,6]]
 
-logs：1
+logs：01
 [✔️]2021.01.19
 */
 
@@ -2855,7 +2917,7 @@ https://leetcode-cn.com/problems/invert-binary-tree/
  / \   / \
 9   6 3   1
 
-logs：1
+logs：01
 [✔️]2021.01.24
 */
 
@@ -3051,7 +3113,7 @@ https://leetcode-cn.com/problems/combinations/
 输出:
 [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
 
-logs：1
+logs：01
 [✔️]2021.01.25
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
@@ -3106,7 +3168,7 @@ https://leetcode-cn.com/problems/subsets/
 输入：nums = [0]
 输出：[[],[0]]
 
-logs：1
+logs：01
 [✔️]2021.01.25
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
@@ -3190,7 +3252,7 @@ https://leetcode-cn.com/problems/permutations/
   [3,2,1]
 ]
 
-logs：1
+logs：01
 [✔️]2021.01.26
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
@@ -3546,7 +3608,7 @@ https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
 输入：root = [1]
 输出：[1]
 
-logs：1
+logs：01
 [✔️]2021.01.25
 */
 
