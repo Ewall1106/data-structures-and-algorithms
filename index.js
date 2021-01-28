@@ -3103,6 +3103,51 @@ var majorityElement = function (nums) {
 //
 
 /*
+【括号生成】
+https://leetcode-cn.com/problems/generate-parentheses/
+数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且有效的括号组合。
+示例：
+
+输入：n = 3
+输出：["((()))","(()())","(())()","()(())","()()()"]
+
+logs：9
+[✔️]2020.06.16
+[✔️]2020.06.20
+[✔️]2020.06.22
+[✔️]2020.06.29
+[✔️]2020.07.17
+[✔️]2020.08.04
+[✔️]2021.01.07
+[✔️]2021.01.24
+[✔️]2021.01.28
+*/
+
+// 递归、DFS 时间复杂度 O(2^n)
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function (n) {
+  let res = [];
+  dfs('', 0, 0);
+  return res;
+
+  function dfs(s, left, right) {
+    if (left == n && right == n) return res.push(s);
+    // 左括号只要保证小于n就行
+    if (left < n) dfs(`${s}(`, left + 1, right);
+    // 右括号必须比左括号个数小
+    // "(())()" -- 这种情况就是需要保证right<left
+    if (right < left) dfs(`${s})`, left, right + 1);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
 【组合】
 https://leetcode-cn.com/problems/combinations/
 
@@ -3126,11 +3171,11 @@ logs：01
  */
 var combine = function (n, k) {
   const result = [];
-  dfs(1, n, k, []);
+  dfs(1, []);
   return result;
 
-  function dfs(index, n, k, list) {
-    // 剪枝：list 长度加上区间 [index, n] 的长度小于 k
+  function dfs(index, list) {
+    // list长度加上剩余区间[index, n]的长度小于k
     if (list.length + (n - index + 1) < k) {
       return;
     }
@@ -3139,14 +3184,10 @@ var combine = function (n, k) {
       result.push(list.slice());
       return;
     }
-    // 考虑不选择当前位置
-    dfs(index + 1, n, k, list);
-    // 考虑选择当前位置
-    list.push(index);
-    // 继续考察下一个数
-    dfs(index + 1, n, k, list);
-    // 因为list是个堆变量，所以本层递归结束后要去掉最后一个值
-    list.pop();
+    list.push(index); // 选择这个数
+    dfs(index + 1, list); // 基于该选择，继续往下递归，考察下一个数
+    list.pop(); // 上面的递归结束，撤销该选择，不选这个数
+    dfs(index + 1, list); // 不选这个数，继续往下递归，考察下一个数
   }
 };
 
@@ -3534,56 +3575,6 @@ var minDepth = function (root) {
   if (!root.left) return minDepth(root.right) + 1;
   if (!root.right) return minDepth(root.left) + 1;
   return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
-};
-
-//
-// -------divider-------
-//
-
-/*
-【括号生成】
-https://leetcode-cn.com/problems/generate-parentheses/
-数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且有效的括号组合。
-示例：
-
-输入：n = 3
-输出：[
-       "((()))",
-       "(()())",
-       "(())()",
-       "()(())",
-       "()()()"
-     ]
-
-logs：8
-[✔️]2020.06.16
-[✔️]2020.06.20
-[✔️]2020.06.22
-[✔️]2020.06.29
-[✔️]2020.07.17
-[✔️]2020.08.04
-[✔️]2021.01.07
-[✔️]2021.01.24
-*/
-
-// 递归、DFS 时间复杂度 O(2^n)
-/**
- * @param {number} n
- * @return {string[]}
- */
-var generateParenthesis = function (n) {
-  let res = [];
-  dfs('', 0, 0);
-  return res;
-
-  function dfs(s, left, right) {
-    if (left == n && right == n) return res.push(s);
-    // 左括号只要保证小于n就行
-    if (left < n) dfs(`${s}(`, left + 1, right);
-    // 右括号必须比左括号个数小
-    // "(())()" -- 这种情况就是需要保证right<left
-    if (right < left) dfs(`${s})`, left, right + 1);
-  }
 };
 
 //
