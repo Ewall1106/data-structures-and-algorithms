@@ -112,11 +112,12 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：4
+logs：5
 [✔️]2020.12.02
-[✔️]2020.01.04
-[✔️]2020.01.15
-[✔️]2020.01.18
+[✔️]2021.01.04
+[✔️]2021.01.15
+[✔️]2021.01.18
+[✔️]2021.01.28
 */
 
 // 辅助栈法
@@ -155,13 +156,14 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：6
+logs：7
 [✔️]2020.11.29
 [✔️]2020.11.30
 [✔️]2020.12.01
 [✔️]2020.12.03
 [✔️]2020.12.24
-[✔️]2020.01.18
+[✔️]2021.01.18
+[✔️]2021.01.28
 */
 
 // 暴力破解法 时间复杂度O(n*2)
@@ -206,7 +208,7 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：7
+logs：8
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
@@ -214,9 +216,10 @@ logs：7
 [✔️]2021.01.06
 [✔️]2021.01.19
 [✔️]2021.01.22
+[✔️]2021.01.28
 */
-
-// 解法1：双指针 时间复杂度O(n)
+// 使用一个额外数组。时间复杂度O(n)、空间复杂度O(n)
+// 双指针。时间复杂度O(n)
 var moveZeroes = function (nums) {
   let j = 0; // j指向位置为0的索引
   for (let i = 0; i < nums.length; i++) {
@@ -230,7 +233,7 @@ var moveZeroes = function (nums) {
   }
 };
 
-// 解法2：交换
+// 交换
 var moveZeroes = function (nums) {
   let j = 0;
   for (let i = 0; i < nums.length; i++) {
@@ -241,7 +244,7 @@ var moveZeroes = function (nums) {
   }
 };
 
-// 解法3：暴力破解法 loop 时间复杂度O(n^2)
+// 暴力破解法 loop 时间复杂度O(n^2)
 var moveZeroes = function (nums) {
   for (let i = 0; i < nums.length - 1; i++) {
     if (nums[i] != 0) continue;
@@ -254,8 +257,6 @@ var moveZeroes = function (nums) {
     }
   }
 };
-
-// 解法4：使用一个额外数组 时间复杂度O(n) 空间复杂度O(n)
 
 //
 // -------divider-------
@@ -355,7 +356,7 @@ logs：10
 [✔️]2021.01.19
 */
 
-// 解法1：对数组去重以后在比较length
+// 去重。对数组去重以后在比较length
 /**
  * @param {number[]} nums
  * @return {boolean}
@@ -367,7 +368,7 @@ var containsDuplicate = function (nums) {
   return new Set(nums).size !== nums.length;
 };
 
-// 解法2：暴力破解法。把每个元素都排查一遍。
+// 暴力破解法。把每个元素都排查一遍。
 var containsDuplicate = function (nums) {
   for (let i = 0; i < nums.length; i++) {
     if (nums.indexOf(nums[i]) !== nums.lastIndexOf(nums[i])) {
@@ -377,7 +378,8 @@ var containsDuplicate = function (nums) {
   return false;
 };
 
-// 解法3：使用排序。排序之后对比相邻元素，看是否重复。时间复杂度取决于排序效率：使用快排O(nlogn)
+// 使用排序。时间复杂度O(n)
+// 排序之后对比相邻元素，看是否重复。
 var containsDuplicate = function (nums) {
   nums.sort((a, b) => a - b);
   for (let i = 0; i < nums.length - 1; i++) {
@@ -386,7 +388,7 @@ var containsDuplicate = function (nums) {
   return false;
 };
 
-// 解法4：使用hash。空间换时间，时间复杂度O(n)、空间复杂度O(n)
+// 使用hash。空间换时间，时间复杂度O(n)、空间复杂度O(n)
 var containsDuplicate = function (nums) {
   let set = new Set();
   for (let i = 0; i < nums.length; i++) {
