@@ -690,6 +690,7 @@ logs：01
  * @return {string[]}
  */
 var summaryRanges = function (nums) {
+  if (!nums || nums.length <= 1) return nums;
   let result = [];
   let j = 0;
   for (let i = 1; i <= nums.length; i++) {
@@ -1273,7 +1274,6 @@ KthLargest.prototype.add = function (val) {
 /*
 【滑动窗口最大值】【hard】
 https://leetcode-cn.com/problems/sliding-window-maximum/
-https://time.geekbang.org/course/detail/100019701-41559
 给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
 返回滑动窗口中的最大值。
 
@@ -1911,7 +1911,6 @@ var reverseKGroup = function (head, k) {
 /* 
 【有效的字母异位词】
 https://leetcode-cn.com/problems/valid-anagram/
-https://time.geekbang.org/course/detail/100019701-42702
 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
 说明:
 你可以假设字符串只包含小写字母。
@@ -2045,7 +2044,6 @@ var twoSum = function (nums, target) {
 /* 
 【三数之和】
 https://leetcode-cn.com/problems/3sum/
-https://time.geekbang.org/course/detail/100019701-42705
 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 注意：答案中不可以包含重复的三元组。
 
@@ -2728,7 +2726,6 @@ var isValidBST = function (root) {
 /*
 【二叉搜索树的最近公共祖先】
 https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
-https://time.geekbang.org/course/detail/100019701-42708
 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
@@ -2959,7 +2956,6 @@ var invertTree = function (root) {
 /*
 【Pow(x, n)】
 https://leetcode-cn.com/problems/powx-n/
-https://time.geekbang.org/course/detail/130-42711
 实现 pow(x, n) ，即计算 x 的 n 次幂函数。
 
 示例 1:
@@ -3036,7 +3032,6 @@ var myPow = function (x, n) {
 /*
 【多数元素、求众数】
 https://leetcode-cn.com/problems/majority-element/
-https://time.geekbang.org/course/detail/100019701-42713
 给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于【n/2】的元素。
 你可以假设数组是非空的，并且给定的数组【总是存在】多数元素。
 
@@ -3370,7 +3365,6 @@ graph.addEdge('C', 'G');
 console.log(graph.adjList);
 
 // DFS写法
-// https://time.geekbang.org/course/detail/100019701-42717
 visited = new Set();
 function dfs(node, visited) {
   visited.add(node);
@@ -3659,12 +3653,215 @@ var deserialize = function (data) {
   }
 };
 
-/**
- * Your functions will be called as such:
- * deserialize(serialize(root));
- */
+//
+// -------divider-------
+//
 
-// BFS(广度优先搜索)。
+/*
+【在每个树行中找最大值】
+https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
+您需要在二叉树的每一行中找到最大的值。示例：
+
+输入: 
+          1
+         / \
+        3   2
+       / \   \  
+      5   3   9 
+
+输出: [1, 3, 9]
+
+logs：01
+[✔️]2021.02.01
+*/
+// BFS 时间复杂度O(n)
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var largestValues = function (root) {
+  if (!root) return [];
+  let queue = [];
+  let result = [];
+  queue.push(root);
+
+  while (queue.length) {
+    let temp = [];
+    for (let i = 0, len = queue.length; i < len; i++) {
+      let node = queue.shift();
+      temp.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(Math.max(...temp));
+  }
+  return result;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【岛屿数量】
+https://leetcode-cn.com/problems/number-of-islands/
+给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
+岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
+此外，你可以假设该网格的四条边均被水包围。
+
+示例 1：
+输入：grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+输出：1
+
+示例 2：
+输入：grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+输出：3
+*/
+
+//
+// -------divider-------
+//
+
+/*
+【扫雷游戏】
+https://leetcode-cn.com/problems/minesweeper/description/
+让我们一起来玩扫雷游戏！
+
+给定一个代表游戏板的二维字符矩阵。 'M' 代表一个未挖出的地雷，'E' 代表一个未挖出的空方块，'B' 代表没有相邻（上，下，左，右，和所有4个对角线）地雷的已挖出的空白方块，数字（'1' 到 '8'）表示有多少地雷与这块已挖出的方块相邻，'X' 则表示一个已挖出的地雷。
+现在给出在所有未挖出的方块中（'M'或者'E'）的下一个点击位置（行和列索引），根据以下规则，返回相应位置被点击后对应的面板：
+
+如果一个地雷（'M'）被挖出，游戏就结束了- 把它改为 'X'。
+如果一个没有相邻地雷的空方块（'E'）被挖出，修改它为（'B'），并且所有和其相邻的未挖出方块都应该被递归地揭露。
+如果一个至少与一个地雷相邻的空方块（'E'）被挖出，修改它为数字（'1'到'8'），表示相邻地雷的数量。
+如果在此次点击中，若无更多方块可被揭露，则返回面板。
+ 
+示例 1：
+输入: 
+[['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'M', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E']]
+
+Click : [3,0]
+
+输出: 
+[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'M', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+*/
+
+//
+// -------divider-------
+//
+
+/*
+【单词接龙】
+https://leetcode-cn.com/problems/word-ladder/
+
+字典 wordList 中从单词 beginWord 和 endWord 的 转换序列 是一个按下述规格形成的序列：
+
+序列中第一个单词是 beginWord 。
+序列中最后一个单词是 endWord 。
+每次转换只能改变一个字母。
+转换过程中的中间单词必须是字典 wordList 中的单词。
+给你两个单词 beginWord 和 endWord 和一个字典 wordList ，找到从 beginWord 到 endWord 的 最短转换序列 中的 单词数目 。如果不存在这样的转换序列，返回 0。
+
+示例 1：
+输入：beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+输出：5
+解释：一个最短转换序列是 "hit" -> "hot" -> "dot" -> "dog" -> "cog", 返回它的长度 5。
+
+示例 2：
+输入：beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+输出：0
+解释：endWord "cog" 不在字典中，所以无法进行转换。
+*/
+
+//
+// -------divider-------
+//
+
+/*
+【单词接龙II】
+https://leetcode-cn.com/problems/word-ladder-ii/description/
+给定两个单词（beginWord 和 endWord）和一个字典 wordList，找出所有从 beginWord 到 endWord 的最短转换序列。转换需遵循如下规则：
+每次转换只能改变一个字母。
+转换后得到的单词必须是字典中的单词。
+
+说明:
+如果不存在这样的转换序列，返回一个空列表。
+所有单词具有相同的长度。
+所有单词只由小写字母组成。
+字典中不存在重复的单词。
+你可以假设 beginWord 和 endWord 是非空的，且二者不相同。
+
+示例 1:
+输入:
+beginWord = "hit",
+endWord = "cog",
+wordList = ["hot","dot","dog","lot","log","cog"]
+输出:
+[
+  ["hit","hot","dot","dog","cog"],
+  ["hit","hot","lot","log","cog"]
+]
+
+示例 2:
+输入:
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log"]
+输出: []
+
+解释: endWord "cog" 不在字典中，所以不存在符合要求的转换序列。
+*/
+
+//
+// -------divider-------
+//
+
+/*
+【最小基因变化】
+一条基因序列由一个带有8个字符的字符串表示，其中每个字符都属于 "A", "C", "G", "T"中的任意一个。
+假设我们要调查一个基因序列的变化。一次基因变化意味着这个基因序列中的一个字符发生了变化。
+例如，基因序列由"AACCGGTT" 变化至 "AACCGGTA" 即发生了一次基因变化。
+与此同时，每一次基因变化的结果，都需要是一个合法的基因串，即该结果属于一个基因库。
+现在给定3个参数 — start, end, bank，分别代表起始基因序列，目标基因序列及基因库，请找出能够使起始基因序列变化为目标基因序列所需的最少变化次数。如果无法实现目标变化，请返回 -1。
+
+注意：
+起始基因序列默认是合法的，但是它并不一定会出现在基因库中。
+如果一个起始基因序列需要多次变化，那么它每一次变化之后的基因序列都必须是合法的。
+假定起始基因序列与目标基因序列是不一样的。
+
+示例 1：
+start: "AACCGGTT"
+end:   "AACCGGTA"
+bank: ["AACCGGTA"]
+返回值: 1
+
+示例 2：
+start: "AACCGGTT"
+end:   "AAACGGTA"
+bank: ["AACCGGTA", "AACCGCTA", "AAACGGTA"]
+返回值: 2
+
+示例 3：
+start: "AAAAACCC"
+end:   "AACCCCCC"
+bank: ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
+返回值: 3
+*/
 
 //
 // -------divider-------
@@ -3940,7 +4137,6 @@ function binarySearch(array, value) {
 /*
 【二分搜索的变形①】
 查找【第一个】值等于给定值的元素，返回索引
-https://time.geekbang.org/column/article/42733
 
 logs：5
 [✔️]2020.06.21
@@ -3978,7 +4174,6 @@ const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 /*
 【二分搜索的变形②】
 查找【最后一个】值等于给定值的元素，返回索引
-https://time.geekbang.org/column/article/42733
 
 logs：5
 [✔️]2020.06.22
@@ -4017,7 +4212,6 @@ const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 /*
 【二分搜索的变形③】
 查找第一个大于等于给定值的元素，返回索引
-https://time.geekbang.org/column/article/42733
 
 logs：5
 [✔️]2020.06.22
@@ -4053,7 +4247,6 @@ const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
 /*
 【二分搜索的变形④】
 查找最后一个小于等于给定值的元素，返回索引
-https://time.geekbang.org/column/article/42733
 
 logs：5
 [✔️]2020.06.22
@@ -4089,7 +4282,6 @@ console.log(test);
 /*
 【x的平方根】
 https://leetcode-cn.com/problems/sqrtx/
-https://time.geekbang.org/course/detail/130-67641
 实现 int sqrt(int x) 函数。
 计算并返回 x 的平方根，其中 x 是非负整数。
 由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
@@ -4144,7 +4336,6 @@ var mySqrt = function (x) {
 /*
 【实现 Trie (字典树)】
 https://leetcode-cn.com/problems/implement-trie-prefix-tree/
-https://time.geekbang.org/course/detail/130-67644
 实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。
 
 示例:
@@ -4171,7 +4362,6 @@ logs：0
 /*
 【单词搜索】
 https://leetcode-cn.com/problems/word-search/
-https://time.geekbang.org/course/detail/130-67643
 实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。
 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
@@ -4207,7 +4397,6 @@ logs：0
 /*
 【位的个数】
 https://leetcode-cn.com/problems/number-of-1-bits/
-https://time.geekbang.org/course/detail/130-67646
 编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。
 
 示例 1：
@@ -4279,7 +4468,6 @@ logs：0
 /*
 【N皇后】困难
 https://leetcode-cn.com/problems/n-queens/
-https://time.geekbang.org/course/detail/130-67638
 n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
 
 logs：0
@@ -4419,7 +4607,6 @@ logs：0
 
 /*
 【棋牌问题】
-https://time.geekbang.org/course/detail/130-69764
 迷宫从左上角走到右下角共有多少种走法
 
 logs：0
