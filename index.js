@@ -680,8 +680,9 @@ https://leetcode-cn.com/problems/summary-ranges/
 输入：nums = [0]
 输出：["0"]
 
-logs：01
+logs：02
 [✔️]2021.01.27
+[✔️]2021.02.02
 */
 
 // 双指针。时间复杂度O(n)、空间复杂度O(n)
@@ -690,7 +691,6 @@ logs：01
  * @return {string[]}
  */
 var summaryRanges = function (nums) {
-  if (!nums || nums.length <= 1) return nums;
   let result = [];
   let j = 0;
   for (let i = 1; i <= nums.length; i++) {
@@ -2465,8 +2465,9 @@ https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 输入：root = []
 输出：[]
 
-logs：01
+logs：02
 [✔️]2021.01.18
+[✔️]2021.02.02
 */
 
 // 递归
@@ -2474,7 +2475,7 @@ logs：01
  * @param {TreeNode} root
  * @return {number[]}
  */
-var inOrderTraversal = function (root) {
+var inorderTraversal = function (root) {
   let result = [];
   helper(root);
   return result;
@@ -2491,7 +2492,7 @@ var inOrderTraversal = function (root) {
  * @param {TreeNode} root
  * @return {number[]}
  */
-var inOrderTraversal = function (root) {
+var inorderTraversal = function (root) {
   const result = [];
   const stack = [];
   while (root || stack.length) {
@@ -2499,9 +2500,9 @@ var inOrderTraversal = function (root) {
       stack.push(root);
       root = root.left;
     }
-    root = stack.pop();
-    result.push(root.val);
-    root = root.right;
+    let node = stack.pop();
+    result.push(node.val);
+    root = node.right;
   }
   return result;
 };
@@ -3671,8 +3672,9 @@ https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
 
 输出: [1, 3, 9]
 
-logs：01
+logs：02
 [✔️]2021.02.01
+[✔️]2021.02.02
 */
 // BFS 时间复杂度O(n)
 /**
