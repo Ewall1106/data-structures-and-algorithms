@@ -2571,8 +2571,9 @@ https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 输入：root = [1,null,3,2,4,null,5,6]
 输出：[[1],[3,2,4],[5,6]]
 
-logs：01
+logs：02
 [✔️]2021.01.19
+[✔️]2021.02.04
 */
 
 // 迭代 BFS 时间复杂度O(n) 空间复杂度O(n)
@@ -2922,8 +2923,9 @@ https://leetcode-cn.com/problems/invert-binary-tree/
  / \   / \
 9   6 3   1
 
-logs：01
+logs：02
 [✔️]2021.01.24
+[✔️]2021.02.04
 */
 
 // 递归 时间复杂度O(n)
@@ -3227,20 +3229,20 @@ logs：01
 var subsets = function (nums) {
   if (!nums || !nums.length) return [];
   let result = [];
-  dfs(nums, [], 0);
+  dfs([], 0);
   return result;
 
-  function dfs(nums, list, index) {
+  function dfs(list, index) {
     if (index === nums.length) {
       result.push(list.slice());
       return;
     }
     // 不选择这个数
-    dfs(nums, list, index + 1);
+    dfs(list, index + 1);
     // 选择并保存这个数
     list.push(nums[index]);
     // 继续考察下一个数
-    dfs(nums, list, index + 1);
+    dfs(list, index + 1);
     // 因为list是个堆变量，所以本层递归结束后要去掉最后一个值
     list.pop();
   }
