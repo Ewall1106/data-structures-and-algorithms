@@ -2516,8 +2516,9 @@ var inorderTraversal = function (root) {
 https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
 给定一个 N 叉树，返回其节点值的后序遍历。
 
-logs：01
+logs：02
 [✔️]2021.01.18
+[✔️]2021.02.03
 */
 
 // 递归
@@ -3224,7 +3225,7 @@ logs：01
  * @return {number[][]}
  */
 var subsets = function (nums) {
-  if (nums == null) return [];
+  if (!nums || !nums.length) return [];
   let result = [];
   dfs(nums, [], 0);
   return result;
@@ -3280,6 +3281,14 @@ var subsets = function (nums) {
 //
 
 /*
+【子集 II】
+*/
+
+//
+// -------divider-------
+//
+
+/*
 【全排列】
 https://leetcode-cn.com/problems/permutations/
 给定一个 没有重复 数字的序列，返回其所有可能的全排列。示例:
@@ -3296,9 +3305,28 @@ https://leetcode-cn.com/problems/permutations/
 ]
 
 logs：01
-[✔️]2021.01.26
+[✔️]2021.02.04
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+var permute = function (nums) {
+  if (!nums || !nums.length) return [];
+  let result = [];
+  dfs([]);
+  return result;
+
+  function dfs(list) {
+    if (list.length === nums.length) {
+      result.push(list.slice());
+    } else {
+      for (let i = 0; i < nums.length; i++) {
+        if (list.includes(nums[i])) continue;
+        list.push(nums[i]);
+        dfs(list);
+        list.pop();
+      }
+    }
+  }
+};
 
 //
 // -------divider-------
@@ -3307,7 +3335,7 @@ logs：01
 /*
 【全排列 II】
 https://leetcode-cn.com/problems/permutations-ii/
-给定一个可包含重复数字的序列 nums ，按任意顺序返回所有不重复的全排列。
+给定一个可包含重复数字的序列nums，按任意顺序返回所有不重复的全排列。
 
 示例 1：
 输入：nums = [1,1,2]
@@ -3316,7 +3344,35 @@ https://leetcode-cn.com/problems/permutations-ii/
 示例 2：
 输入：nums = [1,2,3]
 输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+logs：01
+[✔️]2021.02.04
 */
+// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+var permuteUnique = function (nums) {
+  if (!nums || !nums.length) return [];
+  nums.sort((a, b) => a - b);
+  let result = [];
+  dfs([], []);
+  return result;
+
+  function dfs(list, used) {
+    if (list.length === nums.length) {
+      result.push(list.slice());
+    } else {
+      for (let i = 0; i < nums.length; i++) {
+        if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+          continue;
+        }
+        used[i] = true;
+        list.push(nums[i]);
+        dfs(list, used);
+        used[i] = false;
+        list.pop();
+      }
+    }
+  }
+};
 
 //
 // -------divider-------
