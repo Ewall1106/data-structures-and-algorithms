@@ -3222,10 +3222,6 @@ logs：01
 // https://leetcode-cn.com/problems/subsets/solution/shou-hua-tu-jie-zi-ji-hui-su-fa-xiang-jie-wei-yun-/
 // 输入：[1,2,3]
 // 输出：[[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]]
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
 var subsets = function (nums) {
   if (!nums || !nums.length) return [];
   let result = [];
@@ -3248,6 +3244,25 @@ var subsets = function (nums) {
   }
 };
 
+// 全排列
+// input: [1,2,3]
+// output: [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+var subsets = function (nums) {
+  if (!nums || !nums.length) return [];
+  let result = [];
+  dfs([], 0);
+  return result;
+
+  function dfs(list, index) {
+    result.push(list.slice());
+    for (let i = index; i < nums.length; i++) {
+      list.push(nums[i]);
+      dfs(list, i + 1);
+      list.pop();
+    }
+  }
+};
+
 // 迭代。时间复杂度O(n)、 空间复杂度O(n)
 // 重复将新的元素加入到上一个结果集中的每个子集当中去，形成n个新的子集，再全部加入到结果集中去。
 // nums：[1,2,3]
@@ -3262,10 +3277,6 @@ var subsets = function (nums) {
 // i = 2
 // sub = [3],[1,3],[2,3],[1,2,3]
 // res = [ [],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3] ]
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
 var subsets = function (nums) {
   let res = [[]];
   for (let i = 0; i < nums.length; i++) {
@@ -3319,13 +3330,13 @@ var permute = function (nums) {
   function dfs(list) {
     if (list.length === nums.length) {
       result.push(list.slice());
-    } else {
-      for (let i = 0; i < nums.length; i++) {
-        if (list.includes(nums[i])) continue;
-        list.push(nums[i]);
-        dfs(list);
-        list.pop();
-      }
+      return;
+    }
+    for (let i = 0; i < nums.length; i++) {
+      if (list.includes(nums[i])) continue;
+      list.push(nums[i]);
+      dfs(list);
+      list.pop();
     }
   }
 };
@@ -3361,17 +3372,18 @@ var permuteUnique = function (nums) {
   function dfs(list, used) {
     if (list.length === nums.length) {
       result.push(list.slice());
-    } else {
-      for (let i = 0; i < nums.length; i++) {
-        if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
-          continue;
-        }
-        used[i] = true;
-        list.push(nums[i]);
-        dfs(list, used);
-        used[i] = false;
-        list.pop();
+      return;
+    }
+    for (let i = 0; i < nums.length; i++) {
+      // 当前数在所在重复数集合中是「从左往右第一个未被填过的数字」
+      if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+        continue;
       }
+      used[i] = true;
+      list.push(nums[i]);
+      dfs(list, used);
+      used[i] = false;
+      list.pop();
     }
   }
 };
