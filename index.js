@@ -3204,8 +3204,8 @@ var combine = function (n, k) {
 /*
 【子集】
 https://leetcode-cn.com/problems/subsets/
-给你一个整数数组 nums，数组中的元素互不相同 。返回该数组所有可能的子集（幂集）。
-解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+给你一个整数数组 nums，数组中的元素互不相同。返回该数组所有可能的子集（幂集）。
+解集【不能】包含重复的子集。你可以按【任意顺序】返回解集。
 
 示例 1：
 输入：nums = [1,2,3]
@@ -3245,7 +3245,7 @@ var subsets = function (nums) {
   }
 };
 
-// 全排列
+// 全排列 DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 // input: [1,2,3]
 // output: [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
 var subsets = function (nums) {
@@ -3437,6 +3437,7 @@ var permuteUnique = function (nums) {
 https://leetcode-cn.com/problems/combination-sum/
 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
 candidates 中的数字可以无限制重复被选取。
+
 说明：
 所有数字（包括 target）都是正整数。
 解集不能包含重复的组合。 
@@ -3487,6 +3488,101 @@ var combinationSum = function (candidates, target) {
     }
   }
 };
+
+//
+// -------divider-------
+//
+
+/*
+【组合总和 II】
+https://leetcode-cn.com/problems/combination-sum-ii/
+给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+candidates 中的每个数字在每个组合中只能使用一次。
+
+说明：
+所有数字（包括目标数）都是正整数。
+解集不能包含重复的组合。 
+
+示例 1:
+输入: candidates = [10,1,2,7,6,1,5], target = 8,
+所求解集为:
+[
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
+]
+
+示例 2:
+输入: candidates = [2,5,2,1,2], target = 5,
+所求解集为:
+[
+  [1,2,2],
+  [5]
+]
+
+logs：01
+[✔️]2021.02.18
+*/
+// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+var combinationSum2 = function (candidates, target) {
+  if (!candidates || !candidates.length) return [];
+  candidates.sort((a, b) => a - b);
+  let result = [];
+  dfs([], target, 0);
+  return result;
+
+  function dfs(list, remain, index) {
+    if (remain < 0) return;
+    if (remain === 0) {
+      result.push(list.slice());
+      return;
+    }
+    for (let i = index; i < candidates.length; i++) {
+      if (i > index && candidates[i] === candidates[i - 1]) continue;
+      list.push(candidates[i]);
+      dfs(list, remain - candidates[i], i + 1);
+      list.pop();
+    }
+  }
+};
+
+/*
+【组合总和 II】
+
+logs：01
+[✔️]2021.02.18
+*/
+// DFS+回溯。
+var letterCombinations = function (digits) {
+  if (!digits) return [];
+  const result = [];
+  const map = {
+    2: 'abc',
+    3: 'def',
+    4: 'ghi',
+    5: 'jkl',
+    6: 'mno',
+    7: 'pqrs',
+    8: 'tuv',
+    9: 'wxyz',
+  };
+  dfs('', 0);
+  return result;
+
+  function dfs(s, index) {
+    if (index > digits.length - 1) {
+      result.push(s);
+      return;
+    }
+    const letters = map[digits[index]];
+    for (let i = 0; i < letters.length; i++) {
+      dfs(s + letters[i], index + 1);
+    }
+  }
+};
+
+// 排列组合
 
 //
 // -------divider-------
