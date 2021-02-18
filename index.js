@@ -3154,54 +3154,6 @@ var generateParenthesis = function (n) {
 //
 
 /*
-【组合】
-https://leetcode-cn.com/problems/combinations/
-
-给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
-示例:
-
-输入: n = 4, k = 2
-输出:
-[[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
-
-logs：01
-[✔️]2021.01.25
-*/
-// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
-// 输入：4 2
-// 输出：[[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
-/**
- * @param {number} n
- * @param {number} k
- * @return {number[][]}
- */
-var combine = function (n, k) {
-  const result = [];
-  dfs(1, []);
-  return result;
-
-  function dfs(index, list) {
-    // list长度加上剩余区间[index, n]的长度小于k
-    if (list.length + (n - index + 1) < k) {
-      return;
-    }
-    // 记录合法的答案
-    if (list.length == k) {
-      result.push(list.slice());
-      return;
-    }
-    list.push(index); // 选择这个数
-    dfs(index + 1, list); // 基于该选择，继续往下递归，考察下一个数
-    list.pop(); // 上面的递归结束，撤销该选择，不选这个数
-    dfs(index + 1, list); // 不选这个数，继续往下递归，考察下一个数
-  }
-};
-
-//
-// -------divider-------
-//
-
-/*
 【子集】
 https://leetcode-cn.com/problems/subsets/
 给你一个整数数组 nums，数组中的元素互不相同。返回该数组所有可能的子集（幂集）。
@@ -3245,7 +3197,7 @@ var subsets = function (nums) {
   }
 };
 
-// 全排列 DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+// 全排列+DFS+回溯。
 // input: [1,2,3]
 // output: [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
 var subsets = function (nums) {
@@ -3344,7 +3296,7 @@ var subsetsWithDup = function (nums) {
 /*
 【全排列】
 https://leetcode-cn.com/problems/permutations/
-给定一个 没有重复 数字的序列，返回其所有可能的全排列。示例:
+给定一个【没有重复】数字的序列，返回其所有可能的全排列。示例:
 
 输入: [1,2,3]
 输出:
@@ -3433,6 +3385,75 @@ var permuteUnique = function (nums) {
 //
 
 /*
+【组合】
+https://leetcode-cn.com/problems/combinations/
+
+给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+示例:
+
+输入: n = 4, k = 2
+输出:
+[[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+
+logs：02
+[✔️]2021.01.25
+[✔️]2021.02.18
+*/
+// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+var combine = function (n, k) {
+  const result = [];
+  dfs([], 1); // 从1开始算
+  return result;
+
+  function dfs(list, index) {
+    // 记录合法的答案
+    if (list.length === k) {
+      result.push(list.slice());
+      return;
+    }
+    for (let i = index; i <= n; i++) {
+      list.push(i);
+      dfs(list, i + 1);
+      list.pop();
+    }
+  }
+};
+
+// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+// 输入：4 2
+// 输出：[[3,4],[2,4],[2,3],[1,4],[1,3],[1,2]]
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function (n, k) {
+  const result = [];
+  dfs(1, []);
+  return result;
+
+  function dfs(index, list) {
+    // list长度加上剩余区间[index, n]的长度小于k
+    if (list.length + (n - index + 1) < k) {
+      return;
+    }
+    // 记录合法的答案
+    if (list.length == k) {
+      result.push(list.slice());
+      return;
+    }
+    list.push(index); // 选择这个数
+    dfs(index + 1, list); // 基于该选择，继续往下递归，考察下一个数
+    list.pop(); // 上面的递归结束，撤销该选择，不选这个数
+    dfs(index + 1, list); // 不选这个数，继续往下递归，考察下一个数
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
 【组合总和】
 https://leetcode-cn.com/problems/combination-sum/
 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
@@ -3462,7 +3483,7 @@ candidates 中的数字可以无限制重复被选取。
 logs：01
 [✔️]2021.02.05
 */
-// 递归 全排列
+// 递归、全排列
 /**
  * @param {number[]} candidates
  * @param {number} target
