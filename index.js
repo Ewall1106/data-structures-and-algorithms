@@ -57,12 +57,13 @@ var largestRectangleArea = function (heights) {
   let area = 0;
   for (let i = 0; i < heights.length; i++) {
     // 枚举高
-    let h = heights[i];
+    let h = heights[i]; // 最高点
     let left = (right = i);
-    // 确定左右边界
+    // 确定左边界
     while (left - 1 >= 0 && heights[left - 1] >= h) {
       left--;
     }
+    // 确定右边界
     while (right + 1 < heights.length && heights[right + 1] >= h) {
       right++;
     }
@@ -684,6 +685,7 @@ logs：03
 [✔️]2021.01.27
 [✔️]2021.02.02
 [✔️]2021.02.17
+[✔️]2021.02.20
 */
 
 // 双指针。时间复杂度O(n)、空间复杂度O(n)
@@ -696,7 +698,9 @@ var summaryRanges = function (nums) {
   let j = 0;
   for (let i = 1; i <= nums.length; i++) {
     if (nums[i] - nums[i - 1] !== 1) {
-      result.push(nums[j] + (i - j === 1 ? '' : '->' + nums[i - 1]));
+      result.push(
+        i - j === 1 ? `${nums[i - 1]}` : `${nums[j]}->${nums[i - 1]}`
+      );
       j = i;
     }
   }
@@ -2466,9 +2470,10 @@ https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 输入：root = []
 输出：[]
 
-logs：02
+logs：03
 [✔️]2021.01.18
 [✔️]2021.02.02
+[✔️]2021.02.20
 */
 
 // 递归
@@ -3572,7 +3577,7 @@ var combinationSum2 = function (candidates, target) {
 【电话号码的字母组合】
 https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/
 
-给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按【任意顺序】返回。
 给出数字到字母的映射如下（与电话按键相同）。
 
 注意 1 不对应任何字母。
@@ -3981,10 +3986,11 @@ https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
 
 输出: [1, 3, 9]
 
-logs：03
+logs：04
 [✔️]2021.02.01
 [✔️]2021.02.02
 [✔️]2021.02.17
+[✔️]2021.02.20
 */
 // BFS 时间复杂度O(n)
 /**
