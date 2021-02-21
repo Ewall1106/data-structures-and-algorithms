@@ -4788,8 +4788,55 @@ logs：0
 https://leetcode-cn.com/problems/n-queens/
 n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
 
-logs：0
+logs：1
+[✔️]2021.02.21
 */
+
+// 递归 回溯。
+const solveNQueens = (n) => {
+  if (n < 1) return []
+  // 定义棋盘
+  let board = new Array(n);
+  for (let i = 0; i < n; i++) {
+      board[i] = new Array(n).fill('.');
+  }
+  let cols = new Set(); // 列
+  let pie = new Set(); // 撇
+  let na = new Set(); // 捺
+  let result = [];
+  dfs(0);
+  return result;
+
+  function dfs(row) {
+      // 到达最后一层
+      // --- recursion terminator ---
+      if (row === n) {
+          let stringsBoard = board.slice();
+          for (let i = 0; i < n; i++) {
+              stringsBoard[i] = stringsBoard[i].join('');
+          }
+          result.push(stringsBoard);
+          return;
+      }
+      for (let col = 0; col < n; col++) {
+          // 如果当前点的所在的列、所在的对角线都有皇后，即跳过
+          if (cols.has(col) || pie.has(row + col) || na.has(row - col)) {
+              continue
+          }
+          board[row][col] = 'Q';  // 放置皇后
+          cols.add(col);          // 记录放了皇后的列
+          pie.add(row + col);     // 记录放了皇后的正对角线
+          na.add(row - col);     // 记录放了皇后的负对角线
+          dfs(row + 1);
+          // --- reverse state ---
+          board[row][col] = '.';  // 撤销该点的皇后
+          cols.delete(col);       // 对应的记录也删一下
+          pie.delete(row + col);
+          na.delete(row - col);
+
+      }
+  };
+};
 
 //
 // -------divider-------
