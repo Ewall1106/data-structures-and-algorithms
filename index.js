@@ -4104,7 +4104,43 @@ https://leetcode-cn.com/problems/word-ladder/
 输入：beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
 输出：0
 解释：endWord "cog" 不在字典中，所以无法进行转换。
+
+logs：01
+[✔️]2021.02.22
 */
+// DFS。时间复杂度：O(n*c)
+// https://leetcode-cn.com/problems/word-ladder/solution/shou-hua-tu-jie-127-dan-ci-jie-long-bfsde-dian-x-2/
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */
+var ladderLength = function (beginWord, endWord, wordList) {
+  let wordSet = new Set(wordList);
+  let queue = [];
+  queue.push([beginWord, 1]);
+
+  while (queue.length) {
+    let [word, level] = queue.shift(); // 当前出列的单词
+    if (word == endWord) {
+      return level;
+    }
+    for (let i = 0; i < word.length; i++) {
+      // 遍历当前单词的所有字符（26个字母）
+      for (let c = 97; c <= 122; c++) {
+        let newWord =
+          word.slice(0, i) + String.fromCharCode(c) + word.slice(i + 1); // 形成新词
+        if (wordSet.has(newWord)) {
+          // 单词表里有这个新词
+          queue.push([newWord, level + 1]); // 作为下一层的词入列
+          wordSet.delete(newWord); // 避免该词重复入列
+        }
+      }
+    }
+  }
+  return 0;
+};
 
 //
 // -------divider-------
@@ -4179,8 +4215,37 @@ start: "AAAAACCC"
 end:   "AACCCCCC"
 bank: ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
 返回值: 3
-*/
 
+logs：01
+[✔️]2021.02.22
+*/
+// BFS
+/**
+ * @param {string} start
+ * @param {string} end
+ * @param {string[]} bank
+ * @return {number}
+ */
+var minMutation = function (start, end, bank) {
+  let bankSet = new Set(bank);
+  if (!bankSet.has(end)) return -1;
+  let queue = [[start, 0]];
+  let dna = ['A', 'C', 'G', 'T'];
+  while (queue.length) {
+    let [node, count] = queue.shift();
+    if (node === end) return count;
+    for (let i = 0; i < node.length; i++) {
+      for (let j = 0; j < dna.length; j++) {
+        let s = node.slice(0, i) + dna[j] + node.slice(i + 1);
+        if (bankSet.has(s)) {
+          queue.push([s, count + 1]);
+          bankSet.delete(s);
+        }
+      }
+    }
+  }
+  return -1;
+};
 //
 // -------divider-------
 //
@@ -4788,54 +4853,62 @@ logs：0
 https://leetcode-cn.com/problems/n-queens/
 n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
 
+输入：n = 4
+输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+解释：如上图所示，4 皇后问题存在两个不同的解法。
+
 logs：1
 [✔️]2021.02.21
 */
 
 // 递归 回溯。
-const solveNQueens = (n) => {
-  if (n < 1) return []
+/**
+ * @param {number} n
+ * @return {string[][]}
+ */
+var solveNQueens = function (n) {
+  if (n < 1) return [];
   // 定义棋盘
   let board = new Array(n);
   for (let i = 0; i < n; i++) {
-      board[i] = new Array(n).fill('.');
+    board[i] = new Array(n).fill('.');
   }
   let cols = new Set(); // 列
   let pie = new Set(); // 撇
   let na = new Set(); // 捺
   let result = [];
-  dfs(0);
+  dfs(board, 0);
   return result;
 
-  function dfs(row) {
-      // 到达最后一层
-      // --- recursion terminator ---
-      if (row === n) {
-          let stringsBoard = board.slice();
-          for (let i = 0; i < n; i++) {
-              stringsBoard[i] = stringsBoard[i].join('');
-          }
-          result.push(stringsBoard);
-          return;
+  function dfs(board, row) {
+    // 到达最后一层
+    // --- recursion terminator ---
+    if (row === n) {
+      let stringsBoard = board.slice();
+      for (let i = 0; i < n; i++) {
+        stringsBoard[i] = stringsBoard[i].join('');
       }
-      for (let col = 0; col < n; col++) {
-          // 如果当前点的所在的列、所在的对角线都有皇后，即跳过
-          if (cols.has(col) || pie.has(row + col) || na.has(row - col)) {
-              continue
-          }
-          board[row][col] = 'Q';  // 放置皇后
-          cols.add(col);          // 记录放了皇后的列
-          pie.add(row + col);     // 记录放了皇后的正对角线
-          na.add(row - col);     // 记录放了皇后的负对角线
-          dfs(row + 1);
-          // --- reverse state ---
-          board[row][col] = '.';  // 撤销该点的皇后
-          cols.delete(col);       // 对应的记录也删一下
-          pie.delete(row + col);
-          na.delete(row - col);
-
+      result.push(stringsBoard);
+      return;
+    }
+    for (let col = 0; col < n; col++) {
+      // 如果当前点的所在的列、所在的对角线都有皇后，即跳过
+      if (cols.has(col) || pie.has(row + col) || na.has(row - col)) {
+        continue;
       }
-  };
+      board[row][col] = 'Q'; // 放置皇后
+      cols.add(col); // 记录放了皇后的列
+      pie.add(row + col); // 记录放了皇后的正对角线
+      na.add(row - col); // 记录放了皇后的负对角线
+      // --- drill down ---
+      dfs(board, row + 1);
+      // --- reverse state ---
+      board[row][col] = '.'; // 撤销该点的皇后
+      cols.delete(col); // 对应的记录也删一下
+      pie.delete(row + col);
+      na.delete(row - col);
+    }
+  }
 };
 
 //
