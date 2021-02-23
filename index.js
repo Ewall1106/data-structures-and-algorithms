@@ -4044,7 +4044,12 @@ https://leetcode-cn.com/problems/number-of-islands/
   ["0","0","0","1","1"]
 ]
 输出：3
+
+logs：01
+[✔️]2021.02.23
 */
+// DFS+递归
+// https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
 
 //
 // -------divider-------
@@ -4105,10 +4110,11 @@ https://leetcode-cn.com/problems/word-ladder/
 输出：0
 解释：endWord "cog" 不在字典中，所以无法进行转换。
 
-logs：01
+logs：02
 [✔️]2021.02.22
+[✔️]2021.02.23
 */
-// DFS。时间复杂度：O(n*c)
+// BFS。时间复杂度：O(n*c)
 // https://leetcode-cn.com/problems/word-ladder/solution/shou-hua-tu-jie-127-dan-ci-jie-long-bfsde-dian-x-2/
 /**
  * @param {string} beginWord
@@ -4118,23 +4124,26 @@ logs：01
  */
 var ladderLength = function (beginWord, endWord, wordList) {
   let wordSet = new Set(wordList);
+  if (!wordSet.has(endWord)) return 0;
+
   let queue = [];
   queue.push([beginWord, 1]);
 
   while (queue.length) {
-    let [word, level] = queue.shift(); // 当前出列的单词
-    if (word == endWord) {
-      return level;
-    }
-    for (let i = 0; i < word.length; i++) {
-      // 遍历当前单词的所有字符（26个字母）
-      for (let c = 97; c <= 122; c++) {
-        let newWord =
-          word.slice(0, i) + String.fromCharCode(c) + word.slice(i + 1); // 形成新词
-        if (wordSet.has(newWord)) {
-          // 单词表里有这个新词
-          queue.push([newWord, level + 1]); // 作为下一层的词入列
-          wordSet.delete(newWord); // 避免该词重复入列
+    for (let i = 0, length = queue.length; i < length; i++) {
+      let [word, level] = queue.shift();
+      if (word == endWord) return level;
+
+      for (let j = 0; j < word.length; j++) {
+        // 26个字母
+        for (let k = 97; k <= 122; k++) {
+          // 组合新词
+          let s = word.slice(0, j) + String.fromCharCode(k) + word.slice(j + 1);
+          // wordSet里有
+          if (wordSet.has(s)) {
+            queue.push([s, level + 1]); // 作为下一层的词入列
+            wordSet.delete(s); // 避免该词重复入列
+          }
         }
       }
     }
@@ -4187,6 +4196,7 @@ wordList = ["hot","dot","dog","lot","log"]
 
 /*
 【最小基因变化】
+https://leetcode-cn.com/problems/minimum-genetic-mutation/
 一条基因序列由一个带有8个字符的字符串表示，其中每个字符都属于 "A", "C", "G", "T"中的任意一个。
 假设我们要调查一个基因序列的变化。一次基因变化意味着这个基因序列中的一个字符发生了变化。
 例如，基因序列由"AACCGGTT" 变化至 "AACCGGTA" 即发生了一次基因变化。
@@ -4216,8 +4226,9 @@ end:   "AACCCCCC"
 bank: ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
 返回值: 3
 
-logs：01
+logs：02
 [✔️]2021.02.22
+[✔️]2021.02.23
 */
 // BFS
 /**
@@ -4229,23 +4240,28 @@ logs：01
 var minMutation = function (start, end, bank) {
   let bankSet = new Set(bank);
   if (!bankSet.has(end)) return -1;
+
   let queue = [[start, 0]];
   let dna = ['A', 'C', 'G', 'T'];
+
   while (queue.length) {
-    let [node, count] = queue.shift();
-    if (node === end) return count;
-    for (let i = 0; i < node.length; i++) {
-      for (let j = 0; j < dna.length; j++) {
-        let s = node.slice(0, i) + dna[j] + node.slice(i + 1);
-        if (bankSet.has(s)) {
-          queue.push([s, count + 1]);
-          bankSet.delete(s);
+    for (let i = 0, length = queue.length; i < length; i++) {
+      let [node, count] = queue.shift();
+      if (node === end) return count;
+      for (let j = 0; j < node.length; j++) {
+        for (let k = 0; k < dna.length; k++) {
+          let s = node.slice(0, j) + dna[k] + node.slice(j + 1);
+          if (bankSet.has(s)) {
+            queue.push([s, count + 1]);
+            bankSet.delete(s);
+          }
         }
       }
     }
   }
   return -1;
 };
+
 //
 // -------divider-------
 //
@@ -4857,11 +4873,12 @@ n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并�
 输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
 解释：如上图所示，4 皇后问题存在两个不同的解法。
 
-logs：1
+logs：2
 [✔️]2021.02.21
+[✔️]2021.02.23
 */
 
-// 递归 回溯。
+// 递归+DFS+回溯。
 /**
  * @param {number} n
  * @return {string[][]}
@@ -4892,6 +4909,7 @@ var solveNQueens = function (n) {
       return;
     }
     for (let col = 0; col < n; col++) {
+      // ---- process current ---
       // 如果当前点的所在的列、所在的对角线都有皇后，即跳过
       if (cols.has(col) || pie.has(row + col) || na.has(row - col)) {
         continue;
@@ -4908,6 +4926,7 @@ var solveNQueens = function (n) {
       pie.delete(row + col);
       na.delete(row - col);
     }
+    // return undefined
   }
 };
 
