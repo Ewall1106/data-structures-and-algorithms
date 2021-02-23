@@ -4045,11 +4045,167 @@ https://leetcode-cn.com/problems/number-of-islands/
 ]
 输出：3
 
+----------------- 岛屿问题核心DFS代码 -----------------
+function dfs(grid, r, c) {
+  // 判断坐标(r, c)是否在网格中
+  if (!(r >= 0 && r < grid.length && c >= 0 && c < grid[0].length)) {
+    return;
+  }
+
+  // 如果这个格子不是岛屿，直接返回
+  if (grid[r][c] != '1') {
+    return;
+  }
+
+  // 将格子标记为「已遍历过」
+  grid[r][c] = '2';
+
+  // 访问上、下、左、右四个相邻结点
+  dfs(grid, r - 1, c);
+  dfs(grid, r + 1, c);
+  dfs(grid, r, c - 1);
+  dfs(grid, r, c + 1);
+}
+------------------------------------------------------
+
 logs：01
 [✔️]2021.02.23
 */
-// DFS+递归
+// DFS+递归。时间复杂度：O(MN)、空间复杂度：O(MN)
 // https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var numIslands = function (grid) {
+  let count = 0;
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      if (grid[i][j] == '1') {
+        count++;
+        dfs(grid, i, j);
+      }
+    }
+  }
+  return count;
+
+  function dfs(grid, r, c) {
+    // 判断坐标(r, c)是否在网格中
+    if (!(r >= 0 && r < grid.length && c >= 0 && c < grid[0].length)) {
+      return;
+    }
+    // 如果这个格子不是岛屿，直接返回
+    if (grid[r][c] != '1') {
+      return;
+    }
+    // 将格子标记为「已遍历过」
+    grid[r][c] = '2';
+    // 访问上、下、左、右四个相邻结点
+    dfs(grid, r - 1, c);
+    dfs(grid, r + 1, c);
+    dfs(grid, r, c - 1);
+    dfs(grid, r, c + 1);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【岛屿的最大面积】
+https://leetcode-cn.com/problems/max-area-of-island/
+
+给定一个包含了一些 0 和 1 的非空二维数组 grid 。
+一个 岛屿 是由一些相邻的 1 (代表土地) 构成的组合，这里的「相邻」要求两个 1 必须在水平或者竖直方向上相邻。你可以假设 grid 的四个边缘都被 0（代表水）包围着。
+找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为 0 。)
+
+示例 1:
+[[0,0,1,0,0,0,0,1,0,0,0,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,1,1,0,1,0,0,0,0,0,0,0,0],
+ [0,1,0,0,1,1,0,0,1,0,1,0,0],
+ [0,1,0,0,1,1,0,0,1,1,1,0,0],
+ [0,0,0,0,0,0,0,0,0,0,1,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+对于上面这个给定矩阵应返回 6。注意答案不应该是 11 ，因为岛屿只能包含水平或垂直的四个方向的 1 。
+
+示例 2:
+[[0,0,0,0,0,0,0,0]]
+对于上面这个给定的矩阵, 返回 0。
+
+logs：01
+[✔️]2021.02.23
+*/
+// DFS。时间复杂度：O(MN)、空间复杂度：O(MN)
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var maxAreaOfIsland = function (grid) {
+  let result = 0;
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      if (grid[i][j] === 1) {
+        let area = dfs(grid, i, j);
+        result = Math.max(result, area);
+      }
+    }
+  }
+  return result;
+
+  function dfs(grid, r, c) {
+    // 判断坐标(r, c)是否在网格中
+    if (!(r >= 0 && r < grid.length && c >= 0 && c < grid[0].length)) {
+      return 0;
+    }
+    // 如果这个格子不是岛屿，直接返回
+    if (grid[r][c] !== 1) {
+      return 0;
+    }
+    // 将格子标记为「已遍历过」
+    grid[r][c] = 2;
+    // 访问上、下、左、右四个相邻结点
+    return (
+      1 +
+      dfs(grid, r - 1, c) +
+      dfs(grid, r + 1, c) +
+      dfs(grid, r, c - 1) +
+      dfs(grid, r, c + 1)
+    );
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【最大人工岛】
+https://leetcode-cn.com/problems/making-a-large-island/
+
+在二维地图上， 0代表海洋， 1代表陆地，我们最多只能将一格 0 海洋变成 1变成陆地。
+进行填海之后，地图上最大的岛屿面积是多少？（上、下、左、右四个方向相连的 1 可形成岛屿）
+
+示例 1:
+输入: [[1, 0], [0, 1]]
+输出: 3
+解释: 将一格0变成1，最终连通两个小岛得到面积为 3 的岛屿。
+
+示例 2:
+输入: [[1, 1], [1, 0]]
+输出: 4
+解释: 将一格0变成1，岛屿的面积扩大为 4。
+
+示例 3:
+输入: [[1, 1], [1, 1]]
+输出: 4
+解释: 没有0可以让我们变成1，面积依然为 4。
+
+*/
+// 第一遍 DFS 遍历陆地格子，计算每个岛屿的面积并标记岛屿；第二遍 DFS 遍历海洋格子，观察每个海洋格子相邻的陆地格子。
+
 
 //
 // -------divider-------
