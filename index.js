@@ -4068,8 +4068,9 @@ function dfs(grid, r, c) {
 }
 ------------------------------------------------------
 
-logs：01
+logs：02
 [✔️]2021.02.23
+[✔️]2021.02.24
 */
 // DFS+递归。时间复杂度：O(MN)、空间复杂度：O(MN)
 // https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
@@ -4135,8 +4136,9 @@ https://leetcode-cn.com/problems/max-area-of-island/
 [[0,0,0,0,0,0,0,0]]
 对于上面这个给定的矩阵, 返回 0。
 
-logs：01
+logs：02
 [✔️]2021.02.23
+[✔️]2021.02.24
 */
 // DFS。时间复杂度：O(MN)、空间复杂度：O(MN)
 /**
