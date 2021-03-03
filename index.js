@@ -19,11 +19,12 @@ https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
-logs：4
+logs：5
 2021.01.19
 2021.01.22
 2021.02.01
 2021.02.24
+2021.03.03
 */
 
 // 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
@@ -4994,6 +4995,178 @@ logs：0
 */
 
 /*
+【分发饼干】
+https://leetcode-cn.com/problems/assign-cookies/description/
+假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。
+对每个孩子 i，都有一个胃口值 g[i]，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 j，都有一个尺寸 s[j] 。如果 s[j] >= g[i]，我们可以将这个饼干 j 分配给孩子 i ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值。
+
+ 
+示例 1:
+输入: g = [1,2,3], s = [1,1]
+输出: 1
+解释: 
+你有三个孩子和两块小饼干，3个孩子的胃口值分别是：1,2,3。
+虽然你有两块小饼干，由于他们的尺寸都是1，你只能让胃口值是1的孩子满足。
+所以你应该输出1。
+
+示例 2:
+输入: g = [1,2], s = [1,2,3]
+输出: 2
+解释: 
+你有两个孩子和三块小饼干，2个孩子的胃口值分别是1,2。
+你拥有的饼干数量和尺寸都足以让所有孩子满足。
+所以你应该输出2.
+
+logs：1
+[✔️]2021.03.03
+*/
+// 贪心算法+排序。时间复杂度O(n)
+/**
+ * @param {number[]} g
+ * @param {number[]} s
+ * @return {number}
+ */
+var findContentChildren = function (g, s) {
+  g.sort((a, b) => a - b);
+  s.sort((a, b) => a - b);
+  let count = 0;
+  let i = (j = 0);
+  while (i < g.length && j < s.length) {
+    if (g[i] <= s[j]) {
+      // 可以满足胃口，喂给小朋友
+      count++;
+      i++;
+      j++;
+    } else {
+      // 不满足胃口，查看下一块饼干
+      j++;
+    }
+  }
+  return count;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【跳跃游戏】
+https://leetcode-cn.com/problems/jump-game/
+给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+数组中的每个元素代表你在该位置可以跳跃的最大长度。
+判断你是否能够到达最后一个下标。
+
+示例 1：
+输入：nums = [2,3,1,1,4]
+输出：true
+解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
+
+示例 2：
+输入：nums = [3,2,1,0,4]
+输出：false
+解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ，所以永远不可能到达最后一个下标。
+
+logs：1
+[✔️]2021.03.03
+*/
+
+// 贪心算法。
+// 如果某一个作为【起跳点】的格子可以跳跃的距离是 3，那么表示后面 3 个格子都可以作为【起跳点】。
+// 可以对每一个能作为【起跳点】的格子都尝试跳一次，把【能跳到最远的距离】不断更新。
+// 如果可以一直跳到最后，就成功了。
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canJump = function (nums) {
+  let maxRange = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (i > maxRange) return false;
+    maxRange = Math.max(maxRange, i + nums[i]);
+  }
+  return true;
+};
+
+// BFS+回溯
+
+// 暴力破解法
+
+//
+// -------divider-------
+//
+
+/*
+【柠檬水找零】
+https://leetcode-cn.com/problems/lemonade-change/
+
+在柠檬水摊上，每一杯柠檬水的售价为 5 美元。
+顾客排队购买你的产品，（按账单 bills 支付的顺序）一次购买一杯。
+每位顾客只买一杯柠檬水，然后向你付 5 美元、10 美元或 20 美元。你必须给每个顾客正确找零，也就是说净交易是每位顾客向你支付 5 美元。
+注意，一开始你手头没有任何零钱。
+如果你能给每位顾客正确找零，返回 true ，否则返回 false 。
+
+示例 1：
+输入：[5,5,5,10,20]
+输出：true
+解释：
+前 3 位顾客那里，我们按顺序收取 3 张 5 美元的钞票。
+第 4 位顾客那里，我们收取一张 10 美元的钞票，并返还 5 美元。
+第 5 位顾客那里，我们找还一张 10 美元的钞票和一张 5 美元的钞票。
+由于所有客户都得到了正确的找零，所以我们输出 true。
+
+示例 2：
+输入：[5,5,10]
+输出：true
+
+示例 3：
+输入：[10,10]
+输出：false
+
+示例 4：
+输入：[5,5,10,10,20]
+输出：false
+解释：
+前 2 位顾客那里，我们按顺序收取 2 张 5 美元的钞票。
+对于接下来的 2 位顾客，我们收取一张 10 美元的钞票，然后返还 5 美元。
+对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。
+由于不是每位顾客都得到了正确的找零，所以答案是 false。
+
+logs：1
+[✔️]2021.03.03
+*/
+// 贪心算法。
+/**
+ * @param {number[]} bills
+ * @return {boolean}
+ */
+var lemonadeChange = function (bills) {
+  let five = 0,
+    ten = 0;
+  for (let i = 0; i < bills.length; i++) {
+    let bill = bills[i];
+    if (bill === 5) five++;
+    if (bill === 10) {
+      five--;
+      ten++;
+    }
+    if (bill === 20) {
+      if (ten > 0) {
+        ten--;
+        five--;
+      } else {
+        five -= 3;
+      }
+    }
+    if (five < 0) return false;
+  }
+  return true;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【最长上升子序列】
 https://leetcode-cn.com/problems/longest-increasing-subsequence/
 给定一个无序的整数数组，找到其中最长上升子序列的长度。
@@ -5010,6 +5183,10 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 
 logs：0
 */
+
+//
+// -------divider-------
+//
 
 /*
 【杨辉三角】
@@ -5194,22 +5371,24 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 
 logs：0
 */
-// 解法1：暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
-// 解法2：贪心算法。时间复杂度：O(n)
+// 暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
+// 贪心算法。时间复杂度：O(n)
+// 只要后一天比前一天大，就买卖赚取利润
 /**
  * @param {number[]} prices
  * @return {number}
  */
 var maxProfit = function (prices) {
-  var j = 0;
-  for (var i = 0; i < prices.length - 1; i++) {
-    if (prices[i] < prices[i + 1]) {
-      j = j + prices[i + 1] - prices[i];
+  var max = 0;
+  for (var i = 1; i < prices.length; i++) {
+    if (prices[i] > prices[i - 1]) {
+      max += prices[i] - prices[i - 1];
     }
   }
-  return j;
+  return max;
 };
-// 解法3：动态规划。时间复杂度：O(n)
+
+// 动态规划。时间复杂度：O(n)
 
 //
 // -------divider-------
