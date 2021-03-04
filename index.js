@@ -3176,9 +3176,29 @@ https://leetcode-cn.com/problems/subsets/
 输入：nums = [0]
 输出：[[],[0]]
 
-logs：01
+logs：02
 [✔️]2021.01.25
+[✔️]2021.03.04
 */
+// 全排列+DFS+回溯。
+// input: [1,2,3]
+// output: [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+var subsets = function (nums) {
+  if (!nums || !nums.length) return [];
+  let result = [];
+  dfs([], 0);
+  return result;
+
+  function dfs(list, index) {
+    result.push(list.slice());
+    for (let i = index; i < nums.length; i++) {
+      list.push(nums[i]);
+      dfs(list, i + 1);
+      list.pop();
+    }
+  }
+};
+
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 // 每个值有可选和可不选两种可能，类似于一棵树。
 // https://leetcode-cn.com/problems/subsets/solution/shou-hua-tu-jie-zi-ji-hui-su-fa-xiang-jie-wei-yun-/
@@ -3203,25 +3223,6 @@ var subsets = function (nums) {
     dfs(list, index + 1);
     // 因为list是个堆变量，所以本层递归结束后要去掉最后一个值
     list.pop();
-  }
-};
-
-// 全排列+DFS+回溯。
-// input: [1,2,3]
-// output: [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
-var subsets = function (nums) {
-  if (!nums || !nums.length) return [];
-  let result = [];
-  dfs([], 0);
-  return result;
-
-  function dfs(list, index) {
-    result.push(list.slice());
-    for (let i = index; i < nums.length; i++) {
-      list.push(nums[i]);
-      dfs(list, i + 1);
-      list.pop();
-    }
   }
 };
 
@@ -3258,7 +3259,7 @@ var subsets = function (nums) {
 /*
 【子集 II】
 https://leetcode-cn.com/problems/subsets-ii/
-给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+给定一个可能包含【重复元素】的整数数组 nums，返回该数组所有可能的子集（幂集）。
 说明：解集不能包含重复的子集。
 示例:
 输入: [1,2,2]
@@ -3272,8 +3273,9 @@ https://leetcode-cn.com/problems/subsets-ii/
   []
 ]
 
-logs：01
+logs：02
 [✔️]2021.02.05
+[✔️]2021.03.04
 */
 // 全排列
 /**
@@ -3321,7 +3323,7 @@ https://leetcode-cn.com/problems/permutations/
 logs：01
 [✔️]2021.02.04
 */
-// DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+// DFS+回溯+全排列。时间复杂度O(2^n)、空间复杂度O(n)
 var permute = function (nums) {
   if (!nums || !nums.length) return [];
   let result = [];
@@ -5017,7 +5019,7 @@ https://leetcode-cn.com/problems/assign-cookies/description/
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 
-logs：1
+logs：01
 [✔️]2021.03.03
 */
 // 贪心算法+排序。时间复杂度O(n)
@@ -5066,7 +5068,7 @@ https://leetcode-cn.com/problems/jump-game/
 输出：false
 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ，所以永远不可能到达最后一个下标。
 
-logs：1
+logs：01
 [✔️]2021.03.03
 */
 
@@ -5131,7 +5133,7 @@ https://leetcode-cn.com/problems/lemonade-change/
 对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。
 由于不是每位顾客都得到了正确的找零，所以答案是 false。
 
-logs：1
+logs：01
 [✔️]2021.03.03
 */
 // 贪心算法。
