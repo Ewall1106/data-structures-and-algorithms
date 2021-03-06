@@ -2959,12 +2959,52 @@ var invertTree = function (root) {
 /* -------------------------- 递归、分治、回溯 ---------------------------*/
 
 /* 
-  Tips：
+Tips：
   （1）对于递归代码，这种试图想清楚整个递和归过程的做法，实际上是进入了一个思维误区。很多时候，我们理解起来比较吃力，主要原因就是自己给自己制造了这种理解障碍。那正确的思维方式应该是怎样的呢？
   （2）如果一个问题 A 可以分解为若干子问题 B、C、D，你可以假设子问题 B、C、D 已经解决，在此基础上思考如何解决问题 A。而且，你只需要思考问题 A 与子问题 B、C、D 两层之间的关系即可，不需要一层一层往下思考子问题与子子问题，子子问题与子子子问题之间的关系。屏蔽掉递归细节，这样子理解起来就简单多了。
   （3）因此，编写递归代码的关键是，只要遇到递归，我们就把它抽象成一个递推公式，不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。
   （4）分治算法一般都是用递归来实现的。分治是一种解决问题的处理思想，递归是一种编程技巧。
   （5）分治是将大问题拆解为子问题后处理，然后将子结果合并为结果。回溯是列举所有的可能，错了就回退上一步或上几步，最后将正确的结果返回。
+
+// 递归模板
+function recursion(level, param) {
+  // terminator
+  if (level > MAX_LEVEL) {
+    // process result
+    return;
+  }
+
+  // process current logic
+  process(level, param);
+
+  // drill down
+  recursion(level + 1, newParam);
+
+  // restore current status
+}
+
+// 分治模板
+function divideConquer(problem, param1, param2) {
+  // terminator
+  if (problem === null) {
+    // print_result
+    return;
+  }
+
+  // prepare data
+  data = prepareData(problem);
+  subProblems = split_problem(problem, data);
+
+  // conquer subProblems
+  subResult1 = self.divideConquer(subProblems[0],p1,...)
+  subResult2 = self.divideConquer(subProblems[1],p1,...)
+  subResult3 = self.divideConquer(subProblems[2],p1,...)
+
+  // process and generate the final result
+  result = process_result(subResult1,subResult2,subResult3)
+
+  // revert the current level states
+}
 */
 
 /*
@@ -5534,7 +5574,7 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：4
+logs：04
 [✔️]2020.11.30
 [✔️]2020.12.02
 [✔️]2020.12.14
@@ -5562,6 +5602,42 @@ var climbStairs = function (n) {
 
 // 解法3：动态规划
 
+//
+// -------divider-------
+//
+
+/*
+【斐波那契数列】
+logs：01
+[✔️]2021.03.06
+*/
+// 暴力递归。时间复杂度O(2^n)
+var fibonacci = function (n) {
+  if (n <= 1) {
+    return n;
+  }
+  return fibonacci(n - 1) + fibonacci(n - 2);
+};
+
+// 记忆化搜索。时间复杂度O(n)
+// 加个缓存优化、自顶向下来思考解决问题
+var fibonacci = function (n, memo) {
+  if (n <= 1) {
+    return n;
+  }
+  // 如果此数没有缓存过
+  if (memo[n] === 0) {
+    memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
+  }
+  return memo[n];
+};
+
+// 自底向上进行递推。
+// var fibonacci = function (n, memo) {
+//   if (n <= 1) {
+//     return n;
+//   }
+// };
 //
 // -------divider-------
 //
