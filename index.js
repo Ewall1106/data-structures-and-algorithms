@@ -3320,8 +3320,9 @@ https://leetcode-cn.com/problems/permutations/
   [3,2,1]
 ]
 
-logs：01
+logs：02
 [✔️]2021.02.04
+[✔️]2021.03.05
 */
 // DFS+回溯+全排列。时间复杂度O(2^n)、空间复杂度O(n)
 var permute = function (nums) {
@@ -3406,9 +3407,10 @@ https://leetcode-cn.com/problems/combinations/
 输出:
 [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
 
-logs：02
+logs：03
 [✔️]2021.01.25
 [✔️]2021.02.18
+[✔️]2021.03.05
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 var combine = function (n, k) {
@@ -3467,7 +3469,7 @@ var combine = function (n, k) {
 /*
 【组合总和】
 https://leetcode-cn.com/problems/combination-sum/
-给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+给定一个【无重复元素】的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
 candidates 中的数字可以无限制重复被选取。
 
 说明：
@@ -3528,7 +3530,7 @@ var combinationSum = function (candidates, target) {
 /*
 【组合总和 II】
 https://leetcode-cn.com/problems/combination-sum-ii/
-给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+给定一个【有重复元素】数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
 candidates 中的每个数字在每个组合中只能使用一次。
 
 说明：
@@ -3557,6 +3559,7 @@ logs：01
 [✔️]2021.02.18
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
+// 考虑重复元素一定要优先排序，将重复的都放在一起，便于找到重复元素和剪枝。
 var combinationSum2 = function (candidates, target) {
   if (!candidates || !candidates.length) return [];
   candidates.sort((a, b) => a - b);
