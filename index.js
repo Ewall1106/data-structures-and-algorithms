@@ -218,7 +218,7 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：9
+logs：10
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
@@ -228,6 +228,7 @@ logs：9
 [✔️]2021.01.22
 [✔️]2021.01.28
 [✔️]2021.02.01
+[✔️]2021.03.12
 */
 // 使用一个额外数组。时间复杂度O(n)、空间复杂度O(n)
 // 双指针。时间复杂度O(n)
@@ -686,11 +687,12 @@ https://leetcode-cn.com/problems/summary-ranges/
 输入：nums = [0]
 输出：["0"]
 
-logs：05
+logs：06
 [✔️]2021.01.27
 [✔️]2021.02.02
 [✔️]2021.02.17
 [✔️]2021.02.20
+[✔️]2021.03.12
 [✔️]2021.03.09
 */
 
@@ -3691,6 +3693,7 @@ var letterCombinations = function (digits) {
 //
 
 /* -------------------------- 图、DFS、BFS ---------------------------*/
+/*
 // 使用邻接表的形式表示图
 class Graph {
   constructor() {
@@ -3733,7 +3736,7 @@ graph.addEdge('C', 'D');
 graph.addEdge('C', 'G');
 console.log(graph.adjList);
 
-// DFS写法
+// DFS写法模板
 visited = new Set();
 function dfs(node, visited) {
   visited.add(node);
@@ -3743,7 +3746,7 @@ function dfs(node, visited) {
   }
 }
 
-// BFS写法
+// BFS写法模板
 function BFS(graph, start, end) {
   visited = new Set();
   queue = [];
@@ -3760,6 +3763,7 @@ function BFS(graph, start, end) {
     queue.push(nodes);
   }
 }
+*/
 
 //
 // -------divider-------
@@ -3784,7 +3788,7 @@ https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
   [15,7]
 ]
 
-logs：9
+logs：10
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -3794,6 +3798,7 @@ logs：9
 [✔️]2020.11.26
 [✔️]2020.12.10
 [✔️]2020.12.25
+[✔️]2021.03.12
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -3864,7 +3869,7 @@ https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
    15   7
 返回它的最大深度 3 。
 
-logs：9
+logs：10
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -3874,6 +3879,7 @@ logs：9
 [✔️]2020.12.05
 [✔️]2020.12.10
 [✔️]2020.12.25
+[✔️]2021.03.12
 */
 
 // DFS、递归。时间复杂度O(n)
@@ -3915,7 +3921,7 @@ https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
    15   7
 返回它的最小深度  2.
 
-logs：9
+logs：10
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -3925,6 +3931,7 @@ logs：9
 [✔️]2020.12.05
 [✔️]2020.12.10
 [✔️]2020.12.25
+[✔️]2020.03.12
 */
 
 // DFS。时间复杂度O(n)
@@ -5067,8 +5074,9 @@ https://leetcode-cn.com/problems/assign-cookies/description/
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 
-logs：01
+logs：02
 [✔️]2021.03.03
+[✔️]2021.03.12
 */
 // 贪心算法+排序。时间复杂度O(n)
 /**
