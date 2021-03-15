@@ -5508,6 +5508,93 @@ logs：0
 //
 
 /*
+【不同路径】
+https://leetcode-cn.com/problems/unique-paths/
+
+一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
+问总共有多少条不同的路径？
+ 
+示例 1：
+输入：m = 3, n = 7
+输出：28
+
+示例 2：
+输入：m = 3, n = 2
+输出：3
+解释：
+从左上角开始，总共有 3 条路径可以到达右下角。
+1. 向右 -> 向下 -> 向下
+2. 向下 -> 向下 -> 向右
+3. 向下 -> 向右 -> 向下
+
+示例 3：
+输入：m = 7, n = 3
+输出：28
+
+logs：1
+[✔️]2021.03.15
+*/
+// 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
+// dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function (m, n) {
+  // 构建棋盘
+  let dp = new Array(m).fill(0);
+  for (let i = 0; i < m; i++) {
+    dp[i] = new Array(n).fill(0);
+  }
+  // 因为棋盘的最下一行和最右一列的步数是确定的只有一步
+  // 这里的话为了便于计算，将棋盘倒过来了，将【起点】作为【终点】，将【终点】作为【起点】
+  // [
+  //   [终,1,1,1,1,1,1],
+  //   [1,0,0,0,0,0,0],
+  //   [1,0,0,0,0,0,始]
+  // ]
+  for (let i = 0; i < m; i++) {
+    dp[i][0] = 1;
+  }
+  for (let j = 0; j < n; j++) {
+    dp[0][j] = 1;
+  }
+  // 递推计算
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+    }
+  }
+  return dp[m - 1][n - 1];
+};
+
+// 分治+记忆化搜索。时间复杂度O(mn)、空间复杂度O(mn)
+var uniquePaths = function (m, n) {
+  let board = new Array(m).fill(0);
+  for (let i = 0; i < m; i++) {
+    board[i] = new Array(n).fill(0);
+  }
+  return dfs(m - 1, n - 1, board);
+  function dfs(m, n, memo) {
+    // 越界
+    if (m < 0 || n < 0) return 0;
+    // 边界
+    if (m == 0 || n == 0) return 1;
+    // 缓存
+    if (memo[m][n] > 0) return memo[m][n];
+    // 计算
+    memo[m][n] = dfs(m - 1, n, memo) + dfs(m, n - 1, memo);
+    return memo[m][n];
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
 【棋牌问题】
 迷宫从左上角走到右下角共有多少种走法
 
