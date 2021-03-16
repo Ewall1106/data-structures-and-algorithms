@@ -940,12 +940,12 @@ var nextGreaterElement = function (nums1, nums2) {
   while (stack.length) {
     map.set(stack.shift(), -1);
   }
-  return nums1.map((item) => map.get(item));
+  return nums1.map(item => map.get(item));
 };
 
 // 解法2：暴力破解法。
 var nextGreaterElement = function (nums1, nums2) {
-  let result = nums1.map((item) => {
+  let result = nums1.map(item => {
     let index = nums2.indexOf(item);
     for (let i = index + 1; i < nums2.length; i++) {
       if (nums2[i] > nums2[index]) {
@@ -2226,7 +2226,7 @@ var fourSum = function (nums, target) {
               nums[i],
               nums[j],
               nums[k],
-              target - nums[i] - nums[j] - nums[k],
+              target - nums[i] - nums[j] - nums[k]
             ].sort();
             let key = value.join(',');
             // 去重（这里去重性能有点低，需要找个更好的方案优化一下）
@@ -2464,7 +2464,7 @@ console.log(tree.max());
 tree.remove(20);
 console.log(tree.max());
 console.log(tree.search(11));
-tree.inOrderTraverse((value) => console.log(value));
+tree.inOrderTraverse(value => console.log(value));
 
 //
 // -------divider-------
@@ -3669,7 +3669,7 @@ var letterCombinations = function (digits) {
     6: 'mno',
     7: 'pqrs',
     8: 'tuv',
-    9: 'wxyz',
+    9: 'wxyz'
   };
   dfs('', 0);
   return result;
@@ -5582,12 +5582,90 @@ var uniquePaths = function (m, n) {
     if (m < 0 || n < 0) return 0;
     // 边界
     if (m == 0 || n == 0) return 1;
-    // 缓存
+    // 是否缓存
     if (memo[m][n] > 0) return memo[m][n];
-    // 计算
+    // 添加缓存
     memo[m][n] = dfs(m - 1, n, memo) + dfs(m, n - 1, memo);
     return memo[m][n];
   }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【不同路径 II】
+https://leetcode-cn.com/problems/unique-paths-ii/
+一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？
+
+示例 1：
+输入：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+输出：2
+解释：
+3x3 网格的正中间有一个障碍物。
+从左上角到右下角一共有 2 条不同的路径：
+1. 向右 -> 向右 -> 向下 -> 向下
+2. 向下 -> 向下 -> 向右 -> 向右
+
+示例 2：
+输入：obstacleGrid = [[0,1],[0,0]]
+输出：1
+
+logs：01
+[✔️]2021.03.16
+*/
+//
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function (obstacleGrid) {
+  // 出发点就被障碍堵住
+  if (obstacleGrid[0][0] == 1) return 0;
+  // 绘制棋盘
+  let rows = obstacleGrid.length;
+  let cols = obstacleGrid[0].length;
+  let dp = new Array(rows).fill(0);
+  for (let i = 0; i < rows; i++) {
+    dp[i] = new Array(cols).fill(0);
+  }
+  // 因为棋盘的最下一行和最右一列的步数是确定的只有一步
+  // 这里的话为了便于计算，将棋盘倒过来了，将起点作为终点，将终点作为起点
+  // [
+  //   [终,1,1,1,1,1,1],
+  //   [1,0,0,0,0,0,0],
+  //   [1,0,0,0,0,0,始]
+  // ]
+  for (let i = 0; i < rows; i++) {
+    // 如果边界路上有障碍，那么后面的网格确认的一步便失效
+    if (obstacleGrid[i][0] === 1) {
+      dp[i][0] = 0;
+      break;
+    }
+    dp[i][0] = 1;
+  }
+  for (let j = 0; j < cols; j++) {
+    // 如果边界路上有障碍，那么后面的网格确认的一步便失效
+    if (obstacleGrid[0][j] === 1) {
+      dp[0][j] = 0;
+      break;
+    }
+    dp[0][j] = 1;
+  }
+  // 递推计算
+  for (let i = 1; i < rows; i++) {
+    for (let j = 1; j < cols; j++) {
+      if (obstacleGrid[i][j] === 1) {
+        dp[i][j] = 0;
+      } else {
+        dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+      }
+    }
+  }
+  return dp[rows - 1][cols - 1];
 };
 
 //
@@ -5603,9 +5681,9 @@ logs：0
 
 // 动态规划
 // dp(i, j) = dp(i+1, j) + dp(i, j+1)
-let countPath = (mat) => {
-  let rows = mat.length,
-    cols = mat[0].length;
+let countPath = mat => {
+  let rows = mat.length;
+  let cols = mat[0].length;
   let opt = new Array(rows).fill(0).map(() => {
     return new Array(cols).fill(0);
   });
@@ -5638,7 +5716,7 @@ let mat = [
   [0, 0, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 1, 1, 0, 1, 0],
   [0, 1, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]
 ];
 console.log(countPath(mat)); // 27
 
@@ -5680,18 +5758,38 @@ logs：04
 [✔️]2020.12.14
 [✔️]2020.12.24
 */
-// 解法1：递归。时间复杂度 O(2^n)
+// 递归。时间复杂度 O(2^n)
 var climbStairs = function (n) {
   if (n <= 2) return n;
   return climbStairs(n - 1) + climbStairs(n - 2);
 };
 
-// 解法2：回溯。时间复杂度 O(n)
+// 自顶向下递归+记忆化搜索。时间复杂度O(n)、空间复杂度O(n)
+var climbStairs = function (n) {
+  return helper(n, [0, 1, 2]);
+  function helper(n, memo) {
+    if (!memo[n]) {
+      memo[n] = helper(n - 1, memo) + helper(n - 2, memo);
+    }
+    return memo[n];
+  }
+};
+
+// 动态规划。时间复杂度 O(n)、空间复杂度O(n)
+// dp方程：F(n) = F(n-1) + F(n-2)
+var climbStairs = function (n) {
+  let arr = [0, 1, 2];
+  for (let i = 3; i <= n; i++) {
+    arr[i] = arr[i - 1] + arr[i - 2];
+  }
+  return arr[n];
+};
+
+// 不需要开额外数组来存中间状态 时间复杂度 O(n)、时间复杂度O(1)
 var climbStairs = function (n) {
   if (n <= 2) return n;
-  let f1 = 1,
-    f2 = 2,
-    f3 = 3;
+  // prettier-ignore
+  let f1 = 1, f2 = 2, f3 = 3
   for (let i = 3; i <= n; i++) {
     f3 = f1 + f2;
     f1 = f2;
@@ -5699,8 +5797,6 @@ var climbStairs = function (n) {
   }
   return f3;
 };
-
-// 解法3：动态规划
 
 //
 // -------divider-------
