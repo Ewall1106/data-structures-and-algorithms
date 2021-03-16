@@ -5617,7 +5617,7 @@ https://leetcode-cn.com/problems/unique-paths-ii/
 logs：01
 [✔️]2021.03.16
 */
-//
+// 动态方程。时间复杂度：O(mn)、空间复杂度：O(m)
 /**
  * @param {number[][]} obstacleGrid
  * @return {number}
@@ -5667,58 +5667,6 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
   }
   return dp[rows - 1][cols - 1];
 };
-
-//
-// -------divider-------
-//
-
-/*
-【棋牌问题】
-迷宫从左上角走到右下角共有多少种走法
-
-logs：0
-*/
-
-// 动态规划
-// dp(i, j) = dp(i+1, j) + dp(i, j+1)
-let countPath = mat => {
-  let rows = mat.length;
-  let cols = mat[0].length;
-  let opt = new Array(rows).fill(0).map(() => {
-    return new Array(cols).fill(0);
-  });
-
-  for (let i = rows - 1; i >= 0; --i) {
-    for (let j = cols - 1; j >= 0; --j) {
-      if (mat[i][j] === 1) {
-        // 障碍物
-        opt[i][j] = 0;
-      } else if (i === rows - 1 && j === cols - 1) {
-        // 终点
-        opt[i][j] = 0;
-      } else if (i === rows - 1 || j === cols - 1) {
-        // 下边缘 & 右边缘
-        opt[i][j] = 1;
-      } else {
-        // 递推
-        opt[i][j] = opt[i + 1][j] + opt[i][j + 1];
-      }
-    }
-  }
-  return opt[0][0];
-};
-
-let mat = [
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 1, 0, 0, 0],
-  [1, 0, 1, 0, 0, 1, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 1, 0, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]
-];
-console.log(countPath(mat)); // 27
 
 //
 // -------divider-------
