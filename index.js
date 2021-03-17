@@ -19,13 +19,14 @@ https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
-logs：6
+logs：7
 2021.01.19
 2021.01.22
 2021.02.01
 2021.02.24
 2021.03.03
 2021.03.08
+2021.03.17
 */
 
 // 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
@@ -66,8 +67,8 @@ var largestRectangleArea = function (heights) {
     while (left - 1 >= 0 && heights[left - 1] >= h) {
       left--;
     }
-    // 确定右边界
-    while (right + 1 < heights.length && heights[right + 1] >= h) {
+    // 确定右边界（注意一下：heights.length-1才是数组最后一项）
+    while (right + 1 <= heights.length - 1 && heights[right + 1] >= h) {
       right++;
     }
     // 计算面积
@@ -2481,13 +2482,14 @@ https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 输入：root = []
 输出：[]
 
-logs：03
+logs：04
 [✔️]2021.01.18
 [✔️]2021.02.02
 [✔️]2021.02.20
+[✔️]2021.03.17
 */
 
-// 递归
+// 递归 时间复杂度O(n) 空间复杂度O(n)
 /**
  * @param {TreeNode} root
  * @return {number[]}
@@ -3975,8 +3977,9 @@ https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
 输入：root = [1]
 输出：[1]
 
-logs：01
+logs：02
 [✔️]2021.01.25
+[✔️]2021.03.17
 */
 
 // DFS(深度优先搜索)。时间复杂度O(n)、空间复杂度O(n)
@@ -4019,7 +4022,6 @@ var deserialize = function (data) {
   return buildTree(data);
 
   function buildTree() {
-    if (!data.length) return null;
     const value = data.shift();
     if (value == 'x') return null;
     const root = new TreeNode(value);
@@ -4047,11 +4049,12 @@ https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
 
 输出: [1, 3, 9]
 
-logs：04
+logs：05
 [✔️]2021.02.01
 [✔️]2021.02.02
 [✔️]2021.02.17
 [✔️]2021.02.20
+[✔️]2021.03.17
 */
 // BFS 时间复杂度O(n)
 /**
