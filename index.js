@@ -5459,11 +5459,47 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 
 logs：0
 */
-// 动态规划
+// 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
+// https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
 // DP方程：如果最后一个字符不相同，那么就取各自删掉最后一个字符的最长公共子序列；如果最后一个字符相同，去掉相同字符且+1即可。
 //        if(s1[s1.length-1] !== s2[s2.length-1]) Math.max(LCS(s1-1, s2), LCS(s1, s2-1))
-//        if(s1[s1.length-1] === s2[s2.length-1])  LCS(s1-1, s2-1) + 1
+//        if(s1[s1.length-1] === s2[s2.length-1]) LCS(s1-1, s2-1) + 1
+/**
+ * @param {string} text1 "abcde"
+ * @param {string} text2 "ace"
+ * @return {number}
+ */
+var longestCommonSubsequence = function (text1, text2) {
+  let m = text1.length;
+  let n = text2.length;
+  // [[0,0,0,0],
+  //  [0,0,0,0],
+  //  [0,0,0,0],
+  //  [0,0,0,0],
+  //  [0,0,0,0],
+  //  [0,0,0,0]]
+  let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(0));
 
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (text1[i - 1] == text2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+      }
+    }
+  }
+  //      a c e
+  //  [[0,0,0,0],
+  // a [0,1,1,1],
+  // b [0,1,1,1],
+  // c [0,1,2,2],
+  // d [0,1,2,2],
+  // e [0,1,2,3]]
+  return dp[m][n];
+};
+
+// 暴力破解
 
 //
 // -------divider-------
