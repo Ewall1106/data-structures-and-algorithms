@@ -5748,6 +5748,51 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
 //
 
 /*
+【三角形最小路径和】
+https://leetcode-cn.com/problems/triangle/description/
+给定一个三角形 triangle ，找出自顶向下的最小路径和。
+每一步只能移动到下一行中相邻的结点上。相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。也就是说，如果正位于当前行的下标 i ，那么下一步可以移动到下一行的下标 i 或 i + 1 。
+
+示例 1：
+输入：triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+输出：11
+解释：如下面简图所示：
+   2
+  3 4
+ 6 5 7
+4 1 8 3
+自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。
+
+示例 2：
+输入：triangle = [[-10]]
+输出：-10
+
+logs：01
+[✔️]2021.03.23
+*/
+// 动态规划。时间复杂度O(mn) 空间复杂度O(mn) 自底向上
+// DP方程：f[i][j]=min(f[i−1][j−1],f[i−1][j])+c[i][j]
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function (triangle) {
+  let dp = triangle.slice();
+  // 从倒数第二行开始算
+  for (let i = triangle.length - 2; i >= 0; i--) {
+    for (let j = triangle[i].length - 1; j >= 0; j--) {
+      // [i][j]的左下点和右下点是[i + 1][j]和[i + 1][j + 1]
+      dp[i][j] += Math.min(dp[i + 1][j], dp[i + 1][j + 1]);
+    }
+  }
+  return dp[0][0];
+};
+
+//
+// -------divider-------
+//
+
+/*
 【爬楼梯】
 https://leetcode-cn.com/problems/climbing-stairs/
 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
