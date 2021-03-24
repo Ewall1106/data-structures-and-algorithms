@@ -5450,27 +5450,6 @@ var maxProfit = function (prices) {
 //
 
 /*
-【最大子序和】
-https://leetcode-cn.com/problems/maximum-subarray/
-给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-
-示例:
-输入: [-2,1,-3,4,-1,2,1,-5,4],
-输出: 6
-解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-
-进阶:
-如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的分治法求解。
-
-logs：0
-*/
-// 解法1：动态规划
-
-//
-// -------divider-------
-//
-
-/*
 【最长上升子序列】
 https://leetcode-cn.com/problems/longest-increasing-subsequence/
 给定一个无序的整数数组，找到其中最长上升子序列的长度。
@@ -5494,6 +5473,8 @@ logs：0
 
 /*
 【最大子序和】
+https://leetcode-cn.com/problems/maximum-subarray/
+
 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
 
 示例:
@@ -5501,11 +5482,26 @@ logs：0
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：0
+logs：01
+[✔️]2021.03.24
 */
 
-// 解法1：动态规划
-// 解法2：贪心算法
+// 动态规划 时间复杂度O(n)、空间复杂度O(n)
+// dp方程：dp[i] = Math.max(nums[i], nums[i] + dp[i-1])
+// 最大子序和 = 当前元素就是最大的(假如前面都是负数) Or 前面的加上当前的元素 => 取两者之间的最大值。
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function (nums) {
+  // new Array(nums.length).fill(0)
+  // 复用nums只不过简化操作，反正里面的值是要被重写的
+  let dp = nums.slice();
+  for (let i = 1; i < nums.length; i++) {
+    dp[i] = Math.max(nums[i], nums[i] + dp[i - 1]);
+  }
+  return Math.max(...dp);
+};
 
 //
 // -------divider-------
@@ -5535,7 +5531,7 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：1
+logs：01
 [✔️]2021.03.23
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
@@ -5793,6 +5789,57 @@ var minimumTotal = function (triangle) {
 //
 
 /*
+【零钱兑换】
+https://leetcode-cn.com/problems/coin-change/description/
+给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+你可以认为每种硬币的数量是无限的。
+
+示例 1：
+输入：coins = [1, 2, 5], amount = 11
+输出：3 
+解释：11 = 5 + 5 + 1
+
+示例 2：
+输入：coins = [2], amount = 3
+输出：-1
+
+示例 3：
+输入：coins = [1], amount = 0
+输出：0
+
+logs：01
+[✔️]2021.03.24
+*/
+// 暴力破解
+// BFS
+// 动态规划 时间复杂度：O(sn) 其中s是金额，n是面额数、空间复杂度：O(s)
+// 跟爬楼梯问题类似，走到11阶可以走1or2or5步，一共有f(n) = f(n-1) + f(n-2) + f(n-5)种走法
+// 这里是求所需的最少硬币数，即f(n) = Math.min(f(n-1) + f(n-2) + f(n-5))
+/**
+ * @param {number[]} coins [1, 2, 5]
+ * @param {number} amount 11
+ * @return {number}
+ */
+var coinChange = function (coins, amount) {
+  // dp 数组初始化为 amount + 1, 因为凑成 amount 金额的硬币数最多只可能等于 amount（全用1元面值的硬币）
+  // 所以初始化为 amount+1 就相当于初始化为正无穷，便于后续取最小值
+  let dp = new Array(amount + 1).fill(amount + 1);
+  dp[0] = 0;
+  for (let i = 0; i < dp.length; i++) {
+    for (let j = 0; j < coins.length; j++) {
+      if (coins[j] <= i) {
+        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+      }
+    }
+  }
+  return dp[amount] === amount + 1 ? -1 : dp[amount];
+};
+
+//
+// -------divider-------
+//
+
+/*
 【爬楼梯】
 https://leetcode-cn.com/problems/climbing-stairs/
 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
@@ -5820,11 +5867,12 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：04
+logs：05
 [✔️]2020.11.30
 [✔️]2020.12.02
 [✔️]2020.12.14
 [✔️]2020.12.24
+[✔️]2021.03.23
 */
 // 递归。时间复杂度 O(2^n)
 var climbStairs = function (n) {
@@ -5833,14 +5881,12 @@ var climbStairs = function (n) {
 };
 
 // 自顶向下递归+记忆化搜索。时间复杂度O(n)、空间复杂度O(n)
-var climbStairs = function (n) {
-  return helper(n, [0, 1, 2]);
-  function helper(n, memo) {
-    if (!memo[n]) {
-      memo[n] = helper(n - 1, memo) + helper(n - 2, memo);
-    }
-    return memo[n];
+var climbStairs = function (n, memo = []) {
+  if (n <= 2) return n;
+  if (!memo[n]) {
+    memo[n] = climbStairs(n - 1, memo) + climbStairs(n - 2, memo);
   }
+  return memo[n];
 };
 
 // 动态规划。时间复杂度 O(n)、空间复杂度O(n)
@@ -5886,10 +5932,11 @@ F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
 输入：n = 5
 输出：5
 
-logs：03
+logs：04
 [✔️]2021.03.06
 [✔️]2021.03.11
 [✔️]2021.03.12
+[✔️]2021.03.23
 */
 // 通项公式法。时间复杂度O(1)（不展开、套数学公式即可）
 // 暴力递归。时间复杂度O(2^n)、空间复杂度O(n)
@@ -5928,9 +5975,10 @@ var fib = function (n) {
 };
 
 // 尾递归。时间复杂度O(n)、空间复杂度O(1）
-// 尾调用：函数在最后一步调用另一个函数。尾递归：函数在最后一步调用自身。
+// 尾调用：函数在最后一步调用另一个函数。
+// 尾递归：函数在最后一步调用自身。
 // 尾递归（调用）由于是函数最后一步操作，不需要保存外层函数的执行上下文，所以调用栈不会溢出。（其实就是相当于一个for循环）
-// 很多宿主环境并未支持尾递归优化这个特性。
+// 问题：很多宿主环境并未支持尾递归优化这个特性。
 // https://ruanyifeng.com/blog/2015/04/tail-call.html
 function fib(n, a = 1, b = 1) {
   if (n <= 0) return 0;
