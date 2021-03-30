@@ -5390,9 +5390,30 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：0
+logs：1
+[✔️]2021.03.30
 */
-// 动态规划。O(n)
+// 动态规划。O(n*2)
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  let len = prices.length;
+  if (len <= 1) return 0;
+
+  let dp = Array.from(new Array(len), () => []);
+  // 初始化：因为第1天的时候，前一天i-1是负数，这个边界条件要处理
+  dp[0][0] = 0;
+  dp[0][1] = -prices[0];
+  // 从2天开始算
+  for (let i = 1; i < len; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][1], -prices[i]); // 无须dp[i-1][0] - prices[i]，因为是一锤子买卖，不需要累计前面所获得的利润。
+  }
+  return dp[len - 1][0];
+};
+
 // DFS。时间复杂度O(2^n)
 // 贪心算法。时间复杂度O(n)
 
@@ -5426,9 +5447,31 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：0
+logs：1
+[✔️]2021.03.30
 */
 // 暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
+// 动态规划。时间复杂度：O(n*2)
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  let len = prices.length;
+  if (len <= 1) return 0;
+
+  let dp = Array.from(new Array(len), () => []);
+  // 初始化：因为第1天的时候，前一天i-1是负数，这个边界条件要处理
+  dp[0][0] = 0;
+  dp[0][1] = -prices[0];
+  // 从2天开始算
+  for (let i = 1; i < len; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+  }
+  return dp[len - 1][0];
+};
+
 // 贪心算法。时间复杂度：O(n)
 // 只要后一天比前一天大，就买卖赚取利润
 /**
@@ -5444,8 +5487,6 @@ var maxProfit = function (prices) {
   }
   return max;
 };
-
-// 动态规划。时间复杂度：O(n)
 
 //
 // -------divider-------
@@ -5474,23 +5515,34 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/
 输出：2
 解释：在第 1 天 (股票价格 = 2) 的时候买入，在第 2 天 (股票价格 = 4) 的时候卖出，这笔交易所能获得利润 = 4-2 = 2 。
 
+PS：买和卖算1次交易
+
 logs：01
 [✔️]2021.03.25
 */
-// 动态规划。
+// 动态规划。时间复杂度O(n*2*k) 空间复杂度O(n*2*k)
+// https://labuladong.github.io/algo/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%B3%BB%E5%88%97/%E5%9B%A2%E7%81%AD%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98.html
 // 第i天的的状态可能是：dp[第i天][手上有没有股][与买卖条件k次的关系]
 //
-//                           |- dp[i-1][0] 前一天我手上没有股的状态的值                            |
+//                           |- dp[i-1][0] 前一天我手上没有股的状态的利润值、不动，不做任何操作        |
 // 这天我手上没有股：dp[i][0] = |                                                                 - 两个状态之间的max值
 //                           |- dp[i-1][1] + pries[i] 前一天手上有股的状态的值+今天我卖掉这一股的值和 |
 //
-//                           |- dp[i-1][1] 前一天我手上有股的状态的值，今天不动，不做任何操作。        |
+//                           |- dp[i-1][1] 前一天我手上有股的状态的利润值，今天不动，不做任何操作。     |
 // 这一天我手上有股：dp[i][1] = |                                                                 - 两个状态之间的max值
-//                           |- dp[i-1][0] - pries[i] 前一天没股，今天我要买入，所以利润变少了、相减  |
+//                           |- dp[i-1][0] - pries[i] 前一天没股的利润值 - 今天我买入一股后所剩的利润 |
 //                              —————————————————————
 //                              在买的时候还需要一维来记录与买卖条件k次的关系（小于k才可以买）
 //
-// dp方程：
+// dp方程：dp[i][0][k] = MAX{ dp[i-1][0][k], dp[i-1][1][k-1] + a[i]} （只有卖出才需k-1）
+//        dp[i][1][k] = MAX{ dp[i-1][1][k], dp[i-1][0][k] - a[i]}   （买入不需要k-1，因为买和卖算1次交易）
+//        结果result = Max{ dp[n-1], 0, {0...k} } 最后一天手上没有股且交易了k次后的最大值
+//
+// 状态方程：
+//  for 状态1 in 状态1的所有取值：
+//     for 状态2 in 状态2的所有取值：
+//         for ...
+//             dp[状态1][状态2][...] = 择优(选择1，选择2...)
 
 //
 // -------divider-------
@@ -5576,8 +5628,9 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：01
+logs：02
 [✔️]2021.03.24
+[✔️]2021.03.25
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
