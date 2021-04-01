@@ -5503,8 +5503,46 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/
 解释：在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。
      随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。
 
-logs：0
+logs：1
+[✔️]2021.04.01
 */
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  let len = prices.length,
+    max_k = 2;
+  if (len <= 1) return 0;
+
+  // dp数组定义
+  let dp = [];
+  for (let i = 0; i < prices.length; i++) {
+    dp.push([]);
+    for (let j = 0; j < 2; j++) {
+      dp[i].push([]);
+      for (let k = 0; k <= max_k; k++) {
+        dp[i][j].push(0);
+      }
+    }
+  }
+
+  // 初始化第一天的值
+  for (let k = 0; k <= max_k; k++) {
+    dp[0][0][k] = 0;
+    dp[0][1][k] = -prices[0];
+  }
+
+  // 状态方程
+  for (let i = 1; i < prices.length; i++) {
+    for (let k = 1; k <= max_k; k++) {
+      dp[i][0][k] = Math.max(dp[i - 1][0][k], dp[i - 1][1][k] + prices[i]);
+      dp[i][1][k] = Math.max(dp[i - 1][1][k], dp[i - 1][0][k - 1] - prices[i]);
+    }
+  }
+
+  return dp[len - 1][0][2];
+};
 
 /*
 【买卖股票的最佳时机 IV】
@@ -5534,8 +5572,8 @@ logs：01
 //                              —————————————————————
 //                              在买的时候还需要一维来记录与买卖条件k次的关系（小于k才可以买）
 //
-// dp方程：dp[i][0][k] = MAX{ dp[i-1][0][k], dp[i-1][1][k-1] + a[i]} （只有卖出才需k-1）
-//        dp[i][1][k] = MAX{ dp[i-1][1][k], dp[i-1][0][k] - a[i]}   （买入不需要k-1，因为买和卖算1次交易）
+// dp方程：dp[i][0][k] = MAX{ dp[i-1][0][k], dp[i - 1][1][k] + prices[i]}
+//        dp[i][1][k] = MAX{ dp[i-1][1][k], dp[i - 1][0][k - 1] - prices[i]}
 //        结果result = Max{ dp[n-1], 0, {0...k} } 最后一天手上没有股且交易了k次后的最大值
 //
 // 状态方程：
@@ -5543,6 +5581,38 @@ logs：01
 //     for 状态2 in 状态2的所有取值：
 //         for ...
 //             dp[状态1][状态2][...] = 择优(选择1，选择2...)
+var maxProfit = function (k, prices) {
+  let len = prices.length,
+    max_k = k;
+  if (len <= 1) return 0;
+
+  // dp数组定义
+  let dp = [];
+  for (let i = 0; i < prices.length; i++) {
+    dp.push([]);
+    for (let j = 0; j < 2; j++) {
+      dp[i].push([]);
+      for (let k = 0; k <= max_k; k++) {
+        dp[i][j].push(0);
+      }
+    }
+  }
+
+  // 初始化第一天的值
+  for (let k = 0; k <= max_k; k++) {
+    dp[0][0][k] = 0;
+    dp[0][1][k] = -prices[0];
+  }
+
+  // 状态方程
+  for (let i = 1; i < prices.length; i++) {
+    for (let k = 1; k <= max_k; k++) {
+      dp[i][0][k] = Math.max(dp[i - 1][0][k], dp[i - 1][1][k] + prices[i]);
+      dp[i][1][k] = Math.max(dp[i - 1][1][k], dp[i - 1][0][k - 1] - prices[i]);
+    }
+  }
+  return dp[len - 1][0][k];
+};
 
 //
 // -------divider-------
@@ -5562,8 +5632,29 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 输出: 3 
 解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]
 
-logs：0
+logs：1
+[✔️]2021.04.01
 */
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  let len = prices.length;
+  if (len <= 1) return 0;
+
+  let dp = Array.from(new Array(len), () => []);
+  // 初始化：因为第1天的时候，前一天i-1是负数，这个边界条件要处理
+  dp[0][0] = 0;
+  dp[0][1] = -prices[0];
+  // 从2天开始算
+  for (let i = 1; i < len; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+    // 因为有冷冻期，所以第i天选择【买入】的时候，要从 i-2 的状态转移，而不是 i-1
+    dp[i][1] = Math.max(dp[i - 1][1], (i > 1 ? dp[i - 2][0] : 0) - prices[i]);
+  }
+  return dp[len - 1][0];
+};
 
 //
 // -------divider-------
@@ -5588,8 +5679,29 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transactio
 在此处卖出 prices[5] = 9
 总利润: ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
 
-logs：0
+logs：1
+[✔️]2021.04.01
 */
+/**
+ * @param {number[]} prices
+ * @param {number} fee
+ * @return {number}
+ */
+var maxProfit = function (prices, fee) {
+  let len = prices.length;
+  if (len <= 1) return 0;
+
+  let dp = Array.from(new Array(len), () => []);
+  // 初始化：因为第1天的时候，前一天i-1是负数，这个边界条件要处理
+  dp[0][0] = 0;
+  dp[0][1] = -prices[0] - fee;
+  // 从2天开始算
+  for (let i = 1; i < len; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i] - fee); // 只要把手续费从利润中减去即可
+  }
+  return dp[len - 1][0];
+};
 
 //
 // -------divider-------
