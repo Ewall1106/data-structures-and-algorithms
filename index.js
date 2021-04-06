@@ -19,7 +19,7 @@ https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
-logs：7
+logs：8
 2021.01.19
 2021.01.22
 2021.02.01
@@ -27,6 +27,7 @@ logs：7
 2021.03.03
 2021.03.08
 2021.03.17
+2021.04.06
 */
 
 // 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
@@ -5720,13 +5721,14 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
-进阶: 你能将算法的时间复杂度降低到 O(n*logn) 吗?
 
-logs：01
+logs：02
 [✔️]2021.04.01
+[✔️]2021.04.06
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
+// 这个动图还可以：https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-er-fen-cha-zhao-tan-xin-suan-fa-p/
 // dp方程： for(0 -> len-1)
 //            dp[i] = max{dp[j]} + 1
 //                    j = 0 -> i-1 并且 a[j] < a[i]
@@ -5736,20 +5738,20 @@ logs：01
  */
 var lengthOfLIS = function (nums) {
   if (!nums || !nums.length) return 0;
-  let result = 1;
 
-  let dp = Array.from(new Array(nums.length), () => 1);
+  let result = 1;
+  let dp = new Array(nums.length).fill(1);
 
   for (let i = 1; i < nums.length; i++) {
     for (let j = 0; j < i; j++) {
-      if (nums[j] < nums[i]) {
+      if (nums[i] > nums[j]) {
         dp[i] = Math.max(dp[i], dp[j] + 1);
       }
     }
     result = Math.max(result, dp[i]);
   }
 
-  return rlt;
+  return result;
 };
 
 //
@@ -5767,9 +5769,10 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：02
+logs：03
 [✔️]2021.03.24
 [✔️]2021.03.25
+[✔️]2021.04.06
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
@@ -5817,8 +5820,9 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：01
+logs：02
 [✔️]2021.03.23
+[✔️]2021.04.06
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
 // https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
