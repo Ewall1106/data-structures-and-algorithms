@@ -6060,8 +6060,9 @@ https://leetcode-cn.com/problems/triangle/description/
 输入：triangle = [[-10]]
 输出：-10
 
-logs：01
+logs：02
 [✔️]2021.03.23
+[✔️]2021.04.08
 */
 // 动态规划。时间复杂度O(mn) 空间复杂度O(mn) 自底向上
 // DP方程：f[i][j]=min(f[i−1][j−1],f[i−1][j])+c[i][j]
@@ -6104,31 +6105,35 @@ https://leetcode-cn.com/problems/coin-change/description/
 输入：coins = [1], amount = 0
 输出：0
 
-logs：01
+logs：02
 [✔️]2021.03.24
+[✔️]2021.04.08
 */
 // 暴力破解
 // BFS
 // 动态规划 时间复杂度：O(sn) 其中s是金额，n是面额数、空间复杂度：O(s)
-// 跟爬楼梯问题类似，走到11阶可以走1or2or5步，一共有f(n) = f(n-1) + f(n-2) + f(n-5)种走法
-// 这里是求所需的最少硬币数，即f(n) = Math.min(f(n-1) + f(n-2) + f(n-5))
 /**
  * @param {number[]} coins [1, 2, 5]
  * @param {number} amount 11
  * @return {number}
  */
+// 跟爬楼梯问题类似，走到11阶可以走1or2or5步，一共有f(n) = f(n-1) + f(n-2) + f(n-5)种走法
+// 凑成n所需的最少硬币数，即f(n) = Math.min(f(n-1) + f(n-2) + f(n-5))
 var coinChange = function (coins, amount) {
-  // dp 数组初始化为 amount + 1, 因为凑成 amount 金额的硬币数最多只可能等于 amount（全用1元面值的硬币）
+  // dp数组初始化为 amount+1, 因为凑成 amount 金额的硬币数最多只可能等于 amount（全用1元面值的硬币）
   // 所以初始化为 amount+1 就相当于初始化为正无穷，便于后续取最小值
-  let dp = new Array(amount + 1).fill(amount + 1);
-  dp[0] = 0;
-  for (let i = 0; i < dp.length; i++) {
+  let dp = new Array(amount + 1).fill(amount + 1); // 
+  dp[0] = 0; // dp：[0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]
+  for (let i = 1; i < dp.length; i++) {
     for (let j = 0; j < coins.length; j++) {
       if (i - coins[j] >= 0) {
+        //dp方程：dp[i] = Math.min(之前填满面额i元最少需要的硬币, 填满面额(i-coin)元需要的硬币+当前硬币)
         dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
       }
     }
   }
+  //      0元1元2元3元.....................11元
+  // dp：[0, 1, 1, 2, 2, 1, 2, 2, 3, 3, 2, 3]
   return dp[amount] === amount + 1 ? -1 : dp[amount];
 };
 
@@ -6164,12 +6169,13 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：05
+logs：06
 [✔️]2020.11.30
 [✔️]2020.12.02
 [✔️]2020.12.14
 [✔️]2020.12.24
 [✔️]2021.03.23
+[✔️]2021.04.08
 */
 // 递归。时间复杂度 O(2^n)
 var climbStairs = function (n) {
@@ -6229,11 +6235,12 @@ F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
 输入：n = 5
 输出：5
 
-logs：04
+logs：05
 [✔️]2021.03.06
 [✔️]2021.03.11
 [✔️]2021.03.12
 [✔️]2021.03.23
+[✔️]2021.04.08
 */
 // 通项公式法。时间复杂度O(1)（不展开、套数学公式即可）
 // 暴力递归。时间复杂度O(2^n)、空间复杂度O(n)
