@@ -1334,7 +1334,7 @@ var maxSlidingWindow = function (nums, k) {
   let deque = [];
   for (let i = 0; i < nums.length; i++) {
     deque.push(nums[i]);
-    if (i >= k - 1) {
+    if (i + 1 >= k) {
       result.push(Math.max(...deque));
       deque.shift();
     }
@@ -1355,16 +1355,16 @@ var maxSlidingWindow = function (nums, k) {
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
-    // i >= k：保证已经往右移了k+1位了
+    // i+1 > k：保证已经往右移了k+1位了
     // deque[deque.length - 1] <= i - k：因为右边维护的最大值，如果出界了就踢掉
-    if (i >= k && deque[deque.length - 1] <= i - k) deque.pop();
+    if (i + 1 > k && deque[deque.length - 1] <= i - k) deque.pop();
     // 最大值永远是【右边】的值，对于进来的新值进行判断
     while (deque.length && nums[i] >= nums[deque[0]]) {
       deque.shift();
     }
     deque.unshift(i);
     // 保证往右移动了k位，将队列右侧最大值放入结果
-    if (i >= k - 1) {
+    if (i + 1 >= k) {
       result.push(nums[deque[deque.length - 1]]);
     }
   }
@@ -1402,6 +1402,7 @@ var maxSlidingWindow = function (nums, k) {
   [✔️]2021.01.09
   [✔️]2021.01.23
   [✔️]2021.03.02
+  [✔️]2021.04.10
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -1477,8 +1478,7 @@ var swapPairs = function (head) {
 
 // 递归：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(N)，递归过程使用的堆栈空间。
 var swapPairs = function (head) {
-  if (!head) return null;
-  if (!head.next) return head;
+  if (!head || !head.next) return head;
   let temp = head.next;
   head.next = swapPairs(temp.next); // 假设是ABCDEF,递归将A指向C，C指向E
   temp.next = head; // 再把B指向A、D指向C、F指向E
@@ -1578,7 +1578,7 @@ var mergeTwoLists = function (l1, l2) {
   输出：false
   解释：链表中没有环。
 
-  logs：10
+  logs：11
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
@@ -1589,6 +1589,7 @@ var mergeTwoLists = function (l1, l2) {
   [✔️]2020.09.24
   [✔️]2020.12.18
   [✔️]2021.01.11
+  [✔️]2021.04.10
 */
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
@@ -1648,7 +1649,7 @@ var hasCycle = function (head) {
   输出：no cycle
   解释：链表中没有环。
 
-  logs：10
+  logs：11
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.06.08
@@ -1659,20 +1660,33 @@ var hasCycle = function (head) {
   [✔️]2020.10.09
   [✔️]2020.12.22
   [✔️]2021.01.12
+  [✔️]2021.04.10
 */
+// 快慢指针。时间复杂度O(n) 空间复杂度O(1)
+var detectCycle = function (head) {
+  let isCycle = false;
+  let slow = (fast = head);
+  // 是否存在环
+  while (slow && fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) {
+      isCycle = true;
+      break;
+    }
+  }
+  if (!isCycle) return null;
+  // 存在环，把一个节点重置到首节点，然后只走一步，相等节点即所求
+  slow = head;
+  while (slow != fast) {
+    slow = slow.next;
+    fast = fast.next;
+  }
+  return slow;
+};
 
-// 解法1：迭代，给每个经过的元素添加flag标识。时间复杂度：O(n)，空间复杂度O(1)
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
+// 迭代。给每个经过的元素添加flag标识。时间复杂度：O(n)，空间复杂度O(1)
+// （改变了链表结构，不符合题目要求）
 var detectCycle = function (head) {
   while (head && head.next) {
     if (head.flag) {
@@ -1685,7 +1699,7 @@ var detectCycle = function (head) {
   return null;
 };
 
-// 解法2：Set。时间复杂度：O(n)，空间复杂度O(n)
+// Set。时间复杂度：O(n)，空间复杂度O(n)
 var detectCycle = function (head) {
   let hash = new Set();
   while (head && head.next) {
@@ -4940,7 +4954,7 @@ logs：4
 [✔️]2020.11.27
 [✔️]2020.12.03
 */
-// 解法1：二分查找
+// 二分查找
 var mySqrt = function (x) {
   if (x == 0 || x == 1) return x;
   let low = 1;
@@ -4959,8 +4973,6 @@ var mySqrt = function (x) {
   }
   return res;
 };
-
-// 解法2：牛顿迭代法
 
 //
 // -------divider-------
