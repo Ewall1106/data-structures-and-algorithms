@@ -1230,7 +1230,7 @@ kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 
-logs：9
+logs：10
 [✔️]2020.05.26
 [✔️]2020.06.02
 [✔️]2020.06.04
@@ -1240,6 +1240,7 @@ logs：9
 [✔️]2020.09.24
 [✔️]2020.11.05
 [✔️]2020.11.19
+[✔️]2021.04.13
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：O(log2^k)
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -1315,7 +1316,7 @@ https://leetcode-cn.com/problems/sliding-window-maximum/
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：9
+logs：10
 [✔️]2020.05.28
 [✔️]2020.05.28
 [✔️]2020.06.04
@@ -1325,6 +1326,7 @@ logs：9
 [✔️]2020.09.26
 [✔️]2020.11.09
 [✔️]2020.12.25
+[✔️]2021.04.13
 */
 // 暴力破解法 时间复杂度：O(n*k) 空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
@@ -1388,7 +1390,7 @@ var maxSlidingWindow = function (nums, k) {
   输入: 1->2->3->4->5->NULL
   输出: 5->4->3->2->1->NULL
 
-  logs：13
+  logs：15
   [✔️]2020.04.19
   [✔️]2020.04.20
   [✔️]2020.04.29
@@ -1403,6 +1405,7 @@ var maxSlidingWindow = function (nums, k) {
   [✔️]2021.01.23
   [✔️]2021.03.02
   [✔️]2021.04.10
+  [✔️]2021.04.13
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -1480,7 +1483,7 @@ var swapPairs = function (head) {
 var swapPairs = function (head) {
   if (!head || !head.next) return head;
   let temp = head.next;
-  head.next = swapPairs(temp.next); // 假设是ABCDEF,递归将A指向C，C指向E
+  head.next = swapPairs(head.next.next); // 假设是ABCDEF,递归将A指向C，C指向E
   temp.next = head; // 再把B指向A、D指向C、F指向E
   return temp;
 };
@@ -1498,7 +1501,7 @@ var swapPairs = function (head) {
   输入：1->2->4, 1->3->4
   输出：1->1->2->3->4->4
 
-  logs：9
+  logs：10
   [✔️]2020.05.25
   [✔️]2020.06.02
   [✔️]2020.06.04
@@ -1508,6 +1511,7 @@ var swapPairs = function (head) {
   [✔️]2020.10.26
   [✔️]2020.11.27
   [✔️]2020.12.18
+  [✔️]2021.04.13
 */
 
 // Recursion。时间复杂度O(m+n)
@@ -1649,7 +1653,7 @@ var hasCycle = function (head) {
   输出：no cycle
   解释：链表中没有环。
 
-  logs：11
+  logs：12
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.06.08
@@ -1661,6 +1665,7 @@ var hasCycle = function (head) {
   [✔️]2020.12.22
   [✔️]2021.01.12
   [✔️]2021.04.10
+  [✔️]2021.04.13
 */
 // 快慢指针。时间复杂度O(n) 空间复杂度O(1)
 var detectCycle = function (head) {
@@ -1730,7 +1735,7 @@ https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 进阶：
 你能尝试使用一趟扫描实现吗？
 
-logs：9
+logs：11
 [✔️]2020.05.25
 [✔️]2020.06.08
 [✔️]2020.06.09
@@ -1740,9 +1745,43 @@ logs：9
 [✔️]2020.09.28
 [✔️]2020.11.23
 [✔️]2020.12.28
+[✔️]2021.04.13
 */
+// 快慢指针 不需要额外的哑结点 时间复杂度O(n)
+var removeNthFromEnd = function (head, n) {
+  let slow = (fast = head);
+  while (n != 0) {
+    fast = fast.next;
+    n--;
+  }
+  if (fast == null) return head.next; // The head need to be removed, do it.
+  while (fast && fast.next) {
+    fast = fast.next;
+    slow = slow.next;
+  }
+  slow.next = slow.next.next;
+  return head;
+};
 
-// 解法1：两次遍历。时间复杂度O(n)
+// 快慢指针 使用哑结点 时间复杂度O(n)
+var removeNthFromEnd = function (head, n) {
+  let prev = new ListNode(null);
+  prev.next = head;
+  let slow = (fast = prev);
+  while (n != 0) {
+    fast = fast.next; // 快指针先走n步
+    n--;
+  }
+  // 之后快慢指针共同向前移动，此时二者的距离为n，当 fast 到达尾部时，end 的位置恰好为倒数第n的那个节点
+  while (fast && fast.next) {
+    fast = fast.next;
+    slow = slow.next;
+  }
+  slow.next = slow.next.next;
+  return prev.next;
+};
+
+// 两次遍历 时间复杂度O(n)
 var removeNthFromEnd = function (head, n) {
   // 设置一个哑节点位于作为辅助。哑结点用来简化某些极端情况，例如列表中只含有一个结点、或需要删除列表的头部
   const preHead = new ListNode(null);
@@ -1762,36 +1801,6 @@ var removeNthFromEnd = function (head, n) {
     length--;
   }
   temp.next = temp.next.next;
-  return preHead.next;
-};
-
-// 解法2：双指针。时间复杂度O(n)
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} head
- * @param {number} n
- * @return {ListNode}
- */
-var removeNthFromEnd = function (head, n) {
-  let preHead = new ListNode(null);
-  preHead.next = head;
-  let fast = (slow = preHead);
-  while (n != 0) {
-    fast = fast.next; // 快指针先走n步
-    n--;
-  }
-  // 之后快慢指针共同向前移动，此时二者的距离为n，当 fast 到达尾部时，end 的位置恰好为倒数第n的那个节点
-  while (fast && fast.next) {
-    fast = fast.next;
-    slow = slow.next;
-  }
-  slow.next = slow.next.next;
   return preHead.next;
 };
 
@@ -1817,7 +1826,7 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
 输出：此列表中的结点 4 (序列化形式：[4,5,6])
 由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
 
-logs：9
+logs：10
 [✔️]2020.05.25
 [✔️]2020.06.08
 [✔️]2020.06.09
@@ -1827,9 +1836,20 @@ logs：9
 [✔️]2020.10.12
 [✔️]2020.11.12
 [✔️]2020.12.22
+[✔️]2021.04.13
 */
+// 双指针。时间复杂度O(n)、空间复杂度O(1)
+// 用两个指针 slow 与 fast 一起遍历链表。slow 一次走一步，fast 一次走两步。那么当 fast 到达链表的末尾时，slow 必然位于中间。
+var middleNode = function (head) {
+  let slow = (fast = head);
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return slow;
+};
 
-// 解法1：使用数组。时间复杂度：O(n)、空间复杂度O(n)
+// 使用数组。时间复杂度：O(n)、空间复杂度O(n)
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -1850,7 +1870,7 @@ var middleNode = function (head) {
   return result[Math.floor(result.length / 2)];
 };
 
-// 解法2：单指针。时间复杂度：O(n)、空间复杂度O(1)
+// 单指针。时间复杂度：O(n)、空间复杂度O(1)
 // 两次遍历，第一次遍历时，我们统计链表中的元素个数 N；第二次遍历时，我们遍历到第 N/2 个元素。
 var middleNode = function (head) {
   let temp = head;
@@ -1865,17 +1885,6 @@ var middleNode = function (head) {
     j++;
   }
   return temp;
-};
-
-// 解法3：双指针。时间复杂度O(n)、空间复杂度O(1)
-// 用两个指针 slow 与 fast 一起遍历链表。slow 一次走一步，fast 一次走两步。那么当 fast 到达链表的末尾时，slow 必然位于中间。
-var middleNode = function (head) {
-  let slow = (fast = head);
-  while (fast && fast.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-  return slow;
 };
 
 //
@@ -1904,20 +1913,26 @@ logs：8
 [✔️]2020.11.02
 [✔️]2020.12.10
 */
+// 递归
+var reverseKGroup = function (head, k) {
+  let temp = head;
+  // 判断下一组反转是否满足条件
+  for (let i = 0; i < k; i++) {
+    if (temp == null) return head;
+    temp = temp.next;
+  }
+  // 局部反转
+  let prev = reverseKGroup(temp, k);
+  for (let i = 0; i < k; i++) {
+    let next = head.next;
+    head.next = prev;
+    prev = head;
+    head = next;
+  }
+  return prev;
+};
 
-// 解法1：递归。
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} head
- * @param {number} k
- * @return {ListNode}
- */
+// 递归
 var reverseKGroup = function (head, k) {
   if (head == null || head.next == null) return head; // 递归终止条件
 
