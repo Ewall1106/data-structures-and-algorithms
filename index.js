@@ -1488,6 +1488,25 @@ var swapPairs = function (head) {
   return temp;
 };
 
+// 使用k个一组翻转链表的解题思路
+var swapPairs = function (head, k = 2) {
+  let temp = head;
+  // 判断下一组反转是否满足条件
+  for (let i = 0; i < k; i++) {
+    if (temp == null) return head;
+    temp = temp.next;
+  }
+  // 局部反转
+  let prev = swapPairs(temp, k);
+  for (let i = 0; i < k; i++) {
+    let next = head.next;
+    head.next = prev;
+    prev = head;
+    head = next;
+  }
+  return prev;
+};
+
 //
 // -------divider-------
 //
@@ -1903,7 +1922,7 @@ k 是一个正整数，它的值小于或等于链表的长度。
 当 k = 2 时，应当返回: 2->1->4->3->5
 当 k = 3 时，应当返回: 3->2->1->4->5
 
-logs：8
+logs：9
 [✔️]2020.06.03
 [✔️]2020.06.09
 [✔️]2020.06.24
@@ -1912,8 +1931,21 @@ logs：8
 [✔️]2020.07.28
 [✔️]2020.11.02
 [✔️]2020.12.10
+[✔️]2021.04.14
 */
-// 递归
+// 递归 不使用额外节点
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head [1,2,3,4,5]
+ * @param {number} k 2
+ * @return {ListNode}
+ */
 var reverseKGroup = function (head, k) {
   let temp = head;
   // 判断下一组反转是否满足条件
@@ -1932,20 +1964,17 @@ var reverseKGroup = function (head, k) {
   return prev;
 };
 
-// 递归
+// 递归 使用额外节点
 var reverseKGroup = function (head, k) {
-  if (head == null || head.next == null) return head; // 递归终止条件
-
-  let prev = new ListNode(null);
-  let temp = head;
-
   // 判断下一组反转是否满足条件
+  let temp = head;
   for (let i = 0; i < k; i++) {
     if (temp == null) return head;
     temp = temp.next;
   }
 
   // 局部反转
+  let prev = new ListNode(null);
   temp = head;
   for (let i = 0; i < k; i++) {
     let next = temp.next;
@@ -1981,7 +2010,7 @@ https://leetcode-cn.com/problems/valid-anagram/
 输入: s = "rat", t = "car"
 输出: false
 
-logs：9
+logs：10
 [✔️]2020.05.12
 [✔️]2020.06.10
 [✔️]2020.06.29
@@ -1991,6 +2020,7 @@ logs：9
 [✔️]2020.10.24
 [✔️]2020.11.02
 [✔️]2021.01.08
+[✔️]2021.04.14
 */
 
 // 解法1：sort排序，对两个单词进行排序，如果排完序以后全等，那么则为true。时间复杂度：用快排O(n*log(n))
@@ -2048,7 +2078,7 @@ https://leetcode-cn.com/problems/two-sum/
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
 
-logs：9
+logs：10
 [✔️]2020.05.07
 [✔️]2020.05.22
 [✔️]2020.05.29
@@ -2058,6 +2088,7 @@ logs：9
 [✔️]2020.10.14
 [✔️]2020.11.30
 [✔️]2020.12.29
+[✔️]2021.04.14
 */
 
 // 解法1：暴力破解法。使用两个for循环，如果相加等于target值则return，时间复杂度为O(n^2)
@@ -2111,7 +2142,7 @@ https://leetcode-cn.com/problems/3sum/
   [-1, -1, 2]
 ]
 
-logs：10
+logs：11
 [✔️]2020.05.21
 [✔️]2020.05.29
 [✔️]2020.06.01
@@ -2122,61 +2153,9 @@ logs：10
 [✔️]2020.12.05
 [✔️]2020.12.29
 [✔️]2021.04.09
+[✔️]2021.04.14
 */
-
-// 解法1：暴力求解（会超时），三个for循环。时间复杂度：O(n^3)
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
-var threeSum = function (nums) {
-  if (nums == null || nums.length < 3) return [];
-
-  let map = {};
-  for (let i = 0; i < nums.length; i++) {
-    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
-    for (let j = i + 1; j < nums.length; j++) {
-      for (let k = j + 1; k < nums.length; k++) {
-        if (nums[i] + nums[j] + nums[k] === 0) {
-          let value = [nums[i], nums[j], nums[k]].sort();
-          let key = value.join(',');
-          // 去重
-          if (!Object.keys(map).includes(key)) {
-            map[key] = value;
-          }
-        }
-      }
-    }
-  }
-  // Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值。
-  return Object.values(map);
-};
-
-// 解法2：loops+set，由于c = -(a+b)时满足条件，所以将a、b双层循环一下并将其放到set中。时间复杂度O(n^2)、空间复杂度O(n)
-var threeSum = function (nums) {
-  if (nums == null || nums.length < 3) return [];
-  let result = [];
-  nums.sort((a, b) => a - b);
-
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] > 0) break; // 因为已经排序好，如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
-    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
-    let hash = new Map();
-    for (let j = i + 1; j < nums.length; j++) {
-      if (hash.has(nums[j])) {
-        if (hash.get(nums[j]) == 0) {
-          result.push([nums[i], nums[j], -nums[i] - nums[j]]);
-          hash.set(nums[j], 1); // 去重 [0,0,0,0]
-        }
-      } else {
-        hash.set(-nums[i] - nums[j], 0);
-      }
-    }
-  }
-  return result;
-};
-
-// 解法3：排序+双指针。时间复杂度O(n^2)、空间复杂度O(1)
+// 排序+双指针。时间复杂度O(n^2)、空间复杂度O(n)
 /**
  * @param {number[]} nums
  * @return {number[][]}
@@ -2211,6 +2190,54 @@ var threeSum = function (nums) {
   return res;
 };
 
+// 暴力求解（会超时），三个for循环。时间复杂度：O(n^3)
+var threeSum = function (nums) {
+  if (nums == null || nums.length < 3) return [];
+
+  let map = {};
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+    for (let j = i + 1; j < nums.length; j++) {
+      for (let k = j + 1; k < nums.length; k++) {
+        if (nums[i] + nums[j] + nums[k] === 0) {
+          let value = [nums[i], nums[j], nums[k]].sort();
+          let key = value.join(',');
+          // 去重
+          if (!Object.keys(map).includes(key)) {
+            map[key] = value;
+          }
+        }
+      }
+    }
+  }
+  // Object.values()返回一个数组，其元素是在对象上找到的可枚举属性值。
+  return Object.values(map);
+};
+
+// loops+set，由于c = -(a+b)时满足条件，所以将a、b双层循环一下并将其放到set中。时间复杂度O(n^2)、空间复杂度O(n)
+var threeSum = function (nums) {
+  if (nums == null || nums.length < 3) return [];
+  let result = [];
+  nums.sort((a, b) => a - b);
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > 0) break; // 因为已经排序好，如果 nums[i]大于 0，则三数之和必然无法等于 0，结束循环
+    if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+    let hash = new Map();
+    for (let j = i + 1; j < nums.length; j++) {
+      if (hash.has(nums[j])) {
+        if (hash.get(nums[j]) == 0) {
+          result.push([nums[i], nums[j], -nums[i] - nums[j]]);
+          hash.set(nums[j], 1); // 去重 [0,0,0,0]
+        }
+      } else {
+        hash.set(-nums[i] - nums[j], 0);
+      }
+    }
+  }
+  return result;
+};
+
 //
 // -------divider-------
 //
@@ -2232,7 +2259,7 @@ https://leetcode-cn.com/problems/4sum/
   [-2,  0, 0, 2]
 ]
 
-logs：9
+logs：10
 [✔️]2020.05.22
 [✔️]2020.06.11
 [✔️]2020.08.05
@@ -2242,9 +2269,48 @@ logs：9
 [✔️]2020.11.09
 [✔️]2020.12.05
 [✔️]2020.12.30
+[✔️]2021.04.14
 */
-// 解法1：暴力求解。时间复杂度O(n^4)
-// 解法2：使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
+// 暴力求解。时间复杂度O(n^4)
+// 排序+双指针。时间复杂度O(n^3)
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function (nums, target) {
+  if (!nums || nums.length < 4) return [];
+  let result = [];
+
+  nums.sort((a, b) => a - b);
+
+  for (let i = 0; i < nums.length - 1; i++) {
+    // if (nums[i] > 0) break 这里不加这个剪枝是因为题目并没有跟前面一样说target是0
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    for (let j = i + 1; j < nums.length; j++) {
+      if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+      let l = j + 1;
+      let r = nums.length - 1;
+      while (l < r) {
+        let sum = nums[i] + nums[j] + nums[l] + nums[r];
+        if (sum === target) {
+          result.push([nums[i], nums[j], nums[l], nums[r]]);
+          while (l < r && nums[l] === nums[l + 1]) l++;
+          while (l < r && nums[r] === nums[r - 1]) r--;
+          l++;
+          r--;
+        } else if (sum < target) {
+          l++;
+        } else {
+          r--;
+        }
+      }
+    }
+  }
+  return result;
+};
+
+// 使用set。空间换时间，时间复杂度O(n^3)、空间复杂度O(n)
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -2283,44 +2349,6 @@ var fourSum = function (nums, target) {
     }
   }
   return Object.values(result);
-};
-
-// 解法3：排序+双指针。时间复杂度O(n^3)
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[][]}
- */
-var fourSum = function (nums, target) {
-  if (!nums || nums.length < 4) return [];
-  let result = [];
-
-  nums.sort((a, b) => a - b);
-
-  for (let i = 0; i < nums.length - 1; i++) {
-    // if (nums[i] > 0) break; 这里不加这个剪枝是因为题目并没有跟前面一样说target是0
-    if (i > 0 && nums[i] === nums[i - 1]) continue;
-    for (let j = i + 1; j < nums.length; j++) {
-      if (j > i + 1 && nums[j] === nums[j - 1]) continue;
-      let l = j + 1;
-      let r = nums.length - 1;
-      while (l < r) {
-        let sum = nums[i] + nums[j] + nums[l] + nums[r];
-        if (sum === target) {
-          result.push([nums[i], nums[j], nums[l], nums[r]]);
-          while (l < r && nums[l] === nums[l + 1]) l++;
-          while (l < r && nums[r] === nums[r - 1]) r--;
-          l++;
-          r--;
-        } else if (sum < target) {
-          l++;
-        } else {
-          r--;
-        }
-      }
-    }
-  }
-  return result;
 };
 
 //
