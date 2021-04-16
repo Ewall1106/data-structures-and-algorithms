@@ -1922,7 +1922,7 @@ k 是一个正整数，它的值小于或等于链表的长度。
 当 k = 2 时，应当返回: 2->1->4->3->5
 当 k = 3 时，应当返回: 3->2->1->4->5
 
-logs：9
+logs：10
 [✔️]2020.06.03
 [✔️]2020.06.09
 [✔️]2020.06.24
@@ -1932,6 +1932,7 @@ logs：9
 [✔️]2020.11.02
 [✔️]2020.12.10
 [✔️]2021.04.14
+[✔️]2021.04.16
 */
 // 递归 不使用额外节点
 /**
@@ -2550,11 +2551,12 @@ https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 输入：root = []
 输出：[]
 
-logs：04
+logs：05
 [✔️]2021.01.18
 [✔️]2021.02.02
 [✔️]2021.02.20
 [✔️]2021.03.17
+[✔️]2021.04.16
 */
 
 // 递归 时间复杂度O(n) 空间复杂度O(n)
@@ -2603,9 +2605,10 @@ var inorderTraversal = function (root) {
 https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
 给定一个 N 叉树，返回其节点值的后序遍历。
 
-logs：02
+logs：03
 [✔️]2021.01.18
 [✔️]2021.02.03
+[✔️]2021.04.16
 */
 
 // 递归
@@ -2658,9 +2661,10 @@ https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 输入：root = [1,null,3,2,4,null,5,6]
 输出：[[1],[3,2,4],[5,6]]
 
-logs：02
+logs：03
 [✔️]2021.01.19
 [✔️]2021.02.04
+[✔️]2021.04.16
 */
 
 // 迭代 BFS 时间复杂度O(n) 空间复杂度O(n)
@@ -2764,6 +2768,7 @@ logs：9
  */
 var isValidBST = function (root) {
   let prev = -Infinity;
+  return helper(root);
 
   function helper(root) {
     if (root == null) return true;
@@ -2776,8 +2781,6 @@ var isValidBST = function (root) {
     let right = helper(root.right);
     return left && mid && right;
   }
-
-  return helper(root);
 };
 
 // 使用递归。时间复杂度：O(n)
@@ -2933,7 +2936,6 @@ logs：8
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function (root, p, q) {
-  //如果当前结点root等于null，则直接返回null；如果 root等于p或者q，那返回p或者q
   if (root == null || root == p || root == q) return root;
   let left = lowestCommonAncestor(root.left, p, q); // 遍历左子树
   let right = lowestCommonAncestor(root.right, p, q); // 遍历右子树
