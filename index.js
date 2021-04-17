@@ -3179,7 +3179,7 @@ https://leetcode-cn.com/problems/majority-element/
 输入: [2,2,1,1,1,2,2]
 输出: 2
 
-logs：9
+logs：10
 [✔️]2020.05.29
 [✔️]2020.06.12
 [✔️]2020.07.14
@@ -3189,6 +3189,7 @@ logs：9
 [✔️]2020.11.26
 [✔️]2020.12.09
 [✔️]2020.12.23
+[✔️]2020.04.17
 */
 
 // 解法1：暴力破解。即枚举数组中的每个元素，再遍历一遍数组统计其出现次数。时间复杂度为O(N^2)
@@ -3248,7 +3249,7 @@ https://leetcode-cn.com/problems/generate-parentheses/
 输入：n = 3
 输出：["((()))","(()())","(())()","()(())","()()()"]
 
-logs：9
+logs：10
 [✔️]2020.06.16
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -3258,6 +3259,7 @@ logs：9
 [✔️]2021.01.07
 [✔️]2021.01.24
 [✔️]2021.01.28
+[✔️]2021.04.17
 */
 
 // 递归、DFS 时间复杂度 O(2^n)
@@ -3287,7 +3289,7 @@ var generateParenthesis = function (n) {
 /*
 【子集】
 https://leetcode-cn.com/problems/subsets/
-给你一个整数数组 nums，数组中的元素互不相同。返回该数组所有可能的子集（幂集）。
+给你一个整数数组 nums，数组中的元素【互不相同】。返回该数组所有可能的子集（幂集）。
 解集【不能】包含重复的子集。你可以按【任意顺序】返回解集。
 
 示例 1：
@@ -3298,10 +3300,11 @@ https://leetcode-cn.com/problems/subsets/
 输入：nums = [0]
 输出：[[],[0]]
 
-logs：03
+logs：04
 [✔️]2021.01.25
 [✔️]2021.03.04
 [✔️]2021.03.19
+[✔️]2021.04.17
 */
 // 全排列+DFS+回溯。
 // input: [1,2,3]
@@ -3396,9 +3399,10 @@ https://leetcode-cn.com/problems/subsets-ii/
   []
 ]
 
-logs：02
+logs：03
 [✔️]2021.02.05
 [✔️]2021.03.04
+[✔️]2021.04.17
 */
 // 全排列
 /**
@@ -3486,8 +3490,9 @@ https://leetcode-cn.com/problems/permutations-ii/
 输入：nums = [1,2,3]
 输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
 
-logs：01
+logs：02
 [✔️]2021.02.04
+[✔️]2021.04.17
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 var permuteUnique = function (nums) {
@@ -3531,10 +3536,11 @@ https://leetcode-cn.com/problems/combinations/
 输出:
 [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
 
-logs：03
+logs：04
 [✔️]2021.01.25
 [✔️]2021.02.18
 [✔️]2021.03.05
+[✔️]2021.04.17
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 var combine = function (n, k) {
@@ -3594,7 +3600,7 @@ var combine = function (n, k) {
 【组合总和】
 https://leetcode-cn.com/problems/combination-sum/
 给定一个【无重复元素】的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
-candidates 中的数字可以无限制重复被选取。
+【candidates 中的数字可以无限制重复被选取。】
 
 说明：
 所有数字（包括 target）都是正整数。
@@ -3617,8 +3623,9 @@ candidates 中的数字可以无限制重复被选取。
   [3,5]
 ]
 
-logs：01
+logs：02
 [✔️]2021.02.05
+[✔️]2021.04.17
 */
 // 递归、全排列
 /**
@@ -3628,7 +3635,6 @@ logs：01
  */
 var combinationSum = function (candidates, target) {
   if (!candidates || !candidates.length) return [];
-  candidates.sort((a, b) => a - b);
   let result = [];
   dfs([], target, 0);
   return result;
@@ -3641,7 +3647,7 @@ var combinationSum = function (candidates, target) {
     }
     for (let i = index; i < candidates.length; i++) {
       list.push(candidates[i]);
-      dfs(list, remain - candidates[i], i);
+      dfs(list, remain - candidates[i], i); // 这里传给下层的索引index没有+1：因为candidates中的数字可以无限制重复被选取。
       list.pop();
     }
   }
@@ -3655,7 +3661,7 @@ var combinationSum = function (candidates, target) {
 【组合总和 II】
 https://leetcode-cn.com/problems/combination-sum-ii/
 给定一个【有重复元素】数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
-candidates 中的每个数字在每个组合中只能使用一次。
+【candidates 中的每个数字在每个组合中只能使用一次。】
 
 说明：
 所有数字（包括目标数）都是正整数。
@@ -3679,14 +3685,14 @@ candidates 中的每个数字在每个组合中只能使用一次。
   [5]
 ]
 
-logs：01
+logs：02
 [✔️]2021.02.18
+[✔️]2021.04.17
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
-// 考虑重复元素一定要优先排序，将重复的都放在一起，便于找到重复元素和剪枝。
 var combinationSum2 = function (candidates, target) {
   if (!candidates || !candidates.length) return [];
-  candidates.sort((a, b) => a - b);
+  candidates.sort((a, b) => a - b); // 考虑重复元素一定要优先排序，将重复的都放在一起，便于找到重复元素和剪枝。
   let result = [];
   dfs([], target, 0);
   return result;
@@ -3698,9 +3704,9 @@ var combinationSum2 = function (candidates, target) {
       return;
     }
     for (let i = index; i < candidates.length; i++) {
-      if (i > index && candidates[i] === candidates[i - 1]) continue;
+      if (i > index && candidates[i] === candidates[i - 1]) continue; // 对重复元素进行过滤，保证解集不能包含重复的组合
       list.push(candidates[i]);
-      dfs(list, remain - candidates[i], i + 1);
+      dfs(list, remain - candidates[i], i + 1); // i+1：因为candidates中的每个数字在每个组合中只能使用一次
       list.pop();
     }
   }
