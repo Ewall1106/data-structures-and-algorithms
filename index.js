@@ -5162,9 +5162,10 @@ https://leetcode-cn.com/problems/assign-cookies/description/
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 
-logs：02
+logs：03
 [✔️]2021.03.03
 [✔️]2021.03.12
+[✔️]2021.04.20
 */
 // 贪心算法+排序。时间复杂度O(n)
 /**
@@ -5198,7 +5199,7 @@ var findContentChildren = function (g, s) {
 /*
 【跳跃游戏】
 https://leetcode-cn.com/problems/jump-game/
-给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+给定一个非负整数数组nums，你最初位于数组的第一个下标 。
 数组中的每个元素代表你在该位置可以跳跃的最大长度。
 判断你是否能够到达最后一个下标。
 
@@ -5212,8 +5213,9 @@ https://leetcode-cn.com/problems/jump-game/
 输出：false
 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ，所以永远不可能到达最后一个下标。
 
-logs：01
+logs：02
 [✔️]2021.03.03
+[✔️]2021.04.20
 */
 
 // 贪心算法。
@@ -5227,7 +5229,7 @@ logs：01
 var canJump = function (nums) {
   let maxRange = 0;
   for (let i = 0; i < nums.length; i++) {
-    if (i > maxRange) return false;
+    if (i > maxRange) return false; // 当前位置能不能跳到，不用管nums[i]这个表示能跳多远的值
     maxRange = Math.max(maxRange, i + nums[i]);
   }
   return true;
@@ -5260,17 +5262,17 @@ logs：0
  * @return {number}
  */
 var jump = function (nums) {
-  let ans = 0;
+  let res = 0;
   let end = 0;
-  let maxPos = 0;
+  let max = 0;
   for (let i = 0; i < nums.length - 1; i++) {
-    maxPos = Math.max(nums[i] + i, maxPos);
-    if (i == end) {
-      end = maxPos;
-      ans++;
+    max = Math.max(nums[i] + i, max);
+    if (i === end) {
+      end = max;
+      res++;
     }
   }
-  return ans;
+  return res;
 };
 
 //
@@ -5313,8 +5315,9 @@ https://leetcode-cn.com/problems/lemonade-change/
 对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。
 由于不是每位顾客都得到了正确的找零，所以答案是 false。
 
-logs：01
+logs：02
 [✔️]2021.03.03
+[✔️]2021.04.20
 */
 // 贪心算法。
 /**
@@ -5474,8 +5477,9 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：01
+logs：02
 [✔️]2021.03.30
+[✔️]2021.04.20
 */
 // 动态规划。O(n*2)
 /**
@@ -5531,8 +5535,9 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：01
+logs：02
 [✔️]2021.03.30
+[✔️]2021.04.20
 */
 // 暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
 // 动态规划。时间复杂度：O(n*2)
@@ -5673,10 +5678,13 @@ var maxProfit = function (k, prices) {
   // dp数组定义
   let dp = [];
   for (let i = 0; i < prices.length; i++) {
+    // 这么多天
     dp.push([]);
     for (let j = 0; j < 2; j++) {
+      // 有股or每股
       dp[i].push([]);
       for (let k = 0; k <= max_k; k++) {
+        // 交易次数
         dp[i][j].push(0);
       }
     }
@@ -5716,8 +5724,9 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 输出: 3 
 解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]
 
-logs：01
+logs：02
 [✔️]2021.04.01
+[✔️]2021.04.20
 */
 /**
  * @param {number[]} prices
@@ -5763,8 +5772,9 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transactio
 在此处卖出 prices[5] = 9
 总利润: ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
 
-logs：01
+logs：02
 [✔️]2021.04.01
+[✔️]2021.04.10
 */
 /**
  * @param {number[]} prices
@@ -5805,36 +5815,31 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：02
+logs：03
 [✔️]2021.04.01
 [✔️]2021.04.06
+[✔️]2021.04.20
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
 // 这个动图还可以：https://leetcode-cn.com/problems/longest-increasing-subsequence/solution/dong-tai-gui-hua-er-fen-cha-zhao-tan-xin-suan-fa-p/
 // dp方程： for(0 -> len-1)
-//            dp[i] = max{dp[j]} + 1
-//                    j = 0 -> i-1 并且 a[j] < a[i]
+//            dp[i] = max{dp[j]} + 1 （j等于0-->i-1 并且 a[j]<a[i]）
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var lengthOfLIS = function (nums) {
   if (!nums || !nums.length) return 0;
-
-  let result = 1;
   let dp = new Array(nums.length).fill(1);
-
   for (let i = 1; i < nums.length; i++) {
     for (let j = 0; j < i; j++) {
       if (nums[i] > nums[j]) {
         dp[i] = Math.max(dp[i], dp[j] + 1);
       }
     }
-    result = Math.max(result, dp[i]);
   }
-
-  return result;
+  return Math.max(...dp);
 };
 
 //
