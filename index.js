@@ -5815,10 +5815,11 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：03
+logs：04
 [✔️]2021.04.01
 [✔️]2021.04.06
 [✔️]2021.04.20
+[✔️]2021.04.21
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
@@ -5832,6 +5833,7 @@ logs：03
 var lengthOfLIS = function (nums) {
   if (!nums || !nums.length) return 0;
   let dp = new Array(nums.length).fill(1);
+
   for (let i = 1; i < nums.length; i++) {
     for (let j = 0; j < i; j++) {
       if (nums[i] > nums[j]) {
@@ -5857,28 +5859,63 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：03
+logs：04
 [✔️]2021.03.24
 [✔️]2021.03.25
 [✔️]2021.04.06
+[✔️]2021.04.21
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
 // dp方程：dp[i] = Math.max(nums[i], nums[i] + dp[i-1])
 // 最大子序和 = 当前元素就是最大的(假如前面都是负数) Or 前面的加上当前的元素 => 取两者之间的最大值。
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var maxSubArray = function (nums) {
   // new Array(nums.length).fill(0)
   // 复用nums只不过简化操作，反正里面的值是要被重写的
-  let dp = nums.slice();
+  let dp = nums.slice(); // 总之思想就是开个一维数组，将nums中的每一项最大记录下来，后面的就可以根据前面的来求最大值，最后得到总的最大值。
   for (let i = 1; i < nums.length; i++) {
     dp[i] = Math.max(nums[i], nums[i] + dp[i - 1]);
   }
   return Math.max(...dp);
 };
+
+// 发散一下，假设求【非连续】的子数组的最大和
+// nums: [-2,1,-3,4,-1,2,1,-5,4]
+var maxSubArray = function (nums) {
+  let dp = nums.slice();
+  for (let i = 1; i < nums.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[j] > 0) {
+        dp[i] = Math.max(nums[i], nums[i] + dp[j]);
+      }
+    }
+  }
+  // dp: [-2,1,-2,5,4,7,8,3,12]
+  return Math.max(...dp);
+};
+
+//
+// -------divider-------
+//
+
+/*
+【乘积最大子数组】
+https://leetcode-cn.com/problems/maximum-subarray/
+给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+
+示例 1:
+输入: [2,3,-2,4]
+输出: 6
+解释: 子数组 [2,3] 有最大乘积 6。
+
+示例 2:
+输入: [-2,0,-1]
+输出: 0
+解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
+
+logs：1
+[✔️]2021.04.21
+*/
 
 //
 // -------divider-------
