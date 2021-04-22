@@ -5802,7 +5802,7 @@ var maxProfit = function (prices, fee) {
 //
 
 /*
-【最长上升子序列】
+【最长递增子序列】
 https://leetcode-cn.com/problems/longest-increasing-subsequence/
 给定一个无序的整数数组，找到其中最长上升子序列的长度。
 
@@ -5815,11 +5815,12 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：04
+logs：05
 [✔️]2021.04.01
 [✔️]2021.04.06
 [✔️]2021.04.20
 [✔️]2021.04.21
+[✔️]2021.04.22
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
@@ -5859,11 +5860,12 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：04
+logs：05
 [✔️]2021.03.24
 [✔️]2021.03.25
 [✔️]2021.04.06
 [✔️]2021.04.21
+[✔️]2021.04.22
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
@@ -5900,8 +5902,8 @@ var maxSubArray = function (nums) {
 
 /*
 【乘积最大子数组】
-https://leetcode-cn.com/problems/maximum-subarray/
-给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+https://leetcode-cn.com/problems/maximum-product-subarray/
+给你一个整数数组 nums ，请你找出数组中乘积最大的【连续】子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
 
 示例 1:
 输入: [2,3,-2,4]
@@ -5916,6 +5918,46 @@ https://leetcode-cn.com/problems/maximum-subarray/
 logs：1
 [✔️]2021.04.21
 */
+var maxProduct = function (nums) {
+  const dp_max = nums.slice(); // 记录最大值
+  const dp_min = nums.slice(); // 因为负负得正，所以还需要开一维来记录最小值
+  for (let i = 1; i < nums.length; ++i) {
+    if (nums[i] > 0) {
+      dp_max[i] = Math.max(nums[i], dp_max[i - 1] * nums[i]); // 正的最大值
+      dp_min[i] = Math.min(nums[i], dp_min[i - 1] * nums[i]); // 负的最小值
+    } else {
+      dp_max[i] = Math.max(nums[i], dp_min[i - 1] * nums[i]); // 正的最大值（负负得正）
+      dp_min[i] = Math.min(nums[i], dp_max[i - 1] * nums[i]); // 负的最小值
+    }
+  }
+  return Math.max(...dp_max);
+};
+
+var maxProduct = function (nums) {
+  let dp = Array.from(new Array(nums.length), () => []);
+  // 0-表示正数 1-表示负数
+  let res = nums[0];
+  dp[0][0] = nums[0];
+  dp[0][1] = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    // 因为nums[i]有可能是正数，有可能是负数，所以要取三种状态的最大值
+    dp[i][0] = Math.max(
+      nums[i],
+      dp[i - 1][0] * nums[i],
+      dp[i - 1][1] * nums[i]
+    );
+    // 记录最小值，以便给下一个数求值
+    dp[i][1] = Math.min(
+      nums[i],
+      dp[i - 1][0] * nums[i],
+      dp[i - 1][1] * nums[i]
+    );
+    // 最后的最大值保存在正数状态数组里
+    res = Math.max(res, dp[i][0]);
+  }
+  return res;
+};
 
 //
 // -------divider-------
