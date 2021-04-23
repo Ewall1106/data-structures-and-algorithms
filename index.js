@@ -5915,8 +5915,9 @@ https://leetcode-cn.com/problems/maximum-product-subarray/
 输出: 0
 解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
 
-logs：1
+logs：2
 [✔️]2021.04.21
+[✔️]2021.04.23
 */
 var maxProduct = function (nums) {
   const dp_max = nums.slice(); // 记录最大值
@@ -5987,9 +5988,10 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：02
+logs：03
 [✔️]2021.03.23
 [✔️]2021.04.06
+[✔️]2021.04.23
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
 // https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
@@ -6060,8 +6062,9 @@ https://leetcode-cn.com/problems/unique-paths/
 输入：m = 7, n = 3
 输出：28
 
-logs：1
+logs：2
 [✔️]2021.03.15
+[✔️]2021.04.23
 */
 // 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
 // dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
