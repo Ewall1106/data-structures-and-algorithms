@@ -6223,9 +6223,10 @@ https://leetcode-cn.com/problems/triangle/description/
 输入：triangle = [[-10]]
 输出：-10
 
-logs：02
+logs：03
 [✔️]2021.03.23
 [✔️]2021.04.08
+[✔️]2021.04.25
 */
 // 动态规划。时间复杂度O(mn) 空间复杂度O(mn) 自底向上
 // DP方程：f[i][j]=min(f[i−1][j−1],f[i−1][j])+c[i][j]
@@ -6268,8 +6269,9 @@ https://leetcode-cn.com/problems/coin-change/description/
 输入：coins = [1], amount = 0
 输出：0
 
-logs：02
+logs：03
 [✔️]2021.03.24
+[✔️]2021.04.08
 [✔️]2021.04.08
 */
 // 暴力破解
@@ -6285,8 +6287,8 @@ logs：02
 var coinChange = function (coins, amount) {
   // dp数组初始化为 amount+1, 因为凑成 amount 金额的硬币数最多只可能等于 amount（全用1元面值的硬币）
   // 所以初始化为 amount+1 就相当于初始化为正无穷，便于后续取最小值
-  let dp = new Array(amount + 1).fill(amount + 1); //
-  dp[0] = 0; // dp：[0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]
+  let dp = new Array(amount + 1).fill(amount + 1); 
+  dp[0] = 0; // dp：[0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12] 每一项代表的是多少元
   for (let i = 1; i < dp.length; i++) {
     for (let j = 0; j < coins.length; j++) {
       if (i - coins[j] >= 0) {
