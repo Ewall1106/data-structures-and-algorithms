@@ -20,7 +20,7 @@ https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
-logs：8
+logs：9
 2021.01.19
 2021.01.22
 2021.02.01
@@ -29,6 +29,7 @@ logs：8
 2021.03.08
 2021.03.17
 2021.04.06
+2021.04.26
 */
 
 // 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
@@ -120,7 +121,7 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：8
+logs：9
 [✔️]2020.12.02
 [✔️]2021.01.04
 [✔️]2021.01.15
@@ -130,6 +131,7 @@ logs：8
 [✔️]2021.02.24
 [✔️]2021.03.09
 [✔️]2021.04.07
+[✔️]2021.04.26
 */
 
 // 辅助栈法
@@ -223,7 +225,7 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：11
+logs：12
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
@@ -235,6 +237,7 @@ logs：11
 [✔️]2021.02.01
 [✔️]2021.03.12
 [✔️]2021.04.07
+[✔️]2021.04.26
 */
 // 使用一个额外数组。时间复杂度O(n)、空间复杂度O(n)
 // 双指针。时间复杂度O(n)
@@ -466,13 +469,13 @@ logs：10
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var rotate = function (nums, k) {
-  let pre, temp;
+  let prev, temp;
   for (let i = 0; i < k; i++) {
-    pre = nums[nums.length - 1];
+    prev = nums[nums.length - 1];
     for (let j = 0; j < nums.length; j++) {
       temp = nums[j];
-      nums[j] = pre;
-      pre = temp;
+      nums[j] = prev;
+      prev = temp;
     }
   }
   return nums;
@@ -695,7 +698,7 @@ https://leetcode-cn.com/problems/summary-ranges/
 输入：nums = [0]
 输出：["0"]
 
-logs：08
+logs：09
 [✔️]2021.01.27
 [✔️]2021.02.02
 [✔️]2021.02.17
@@ -704,6 +707,7 @@ logs：08
 [✔️]2021.03.09
 [✔️]2021.04.07
 [✔️]2021.04.09
+[✔️]2021.04.26
 */
 
 // 双指针。时间复杂度O(n)、空间复杂度O(n)
@@ -1231,7 +1235,7 @@ kthLargest.add(10);  // returns 5
 kthLargest.add(9);   // returns 8
 kthLargest.add(4);   // returns 8
 
-logs：10
+logs：11
 [✔️]2020.05.26
 [✔️]2020.06.02
 [✔️]2020.06.04
@@ -1242,6 +1246,7 @@ logs：10
 [✔️]2020.11.05
 [✔️]2020.11.19
 [✔️]2021.04.13
+[✔️]2021.04.26
 */
 // 解法1：使用优先队列，小顶堆min-heap，堆的元素个数都为k个，然后对新进来的值进行判断操作。时间复杂度：O(log2^k)
 // 因为js没有内置min-heap这个数据结构，所以需要先自己造一个小顶堆。
@@ -1359,7 +1364,7 @@ var maxSlidingWindow = function (nums, k) {
 
   for (let i = 0; i < nums.length; i++) {
     // i+1 > k：保证已经往右移了k+1位了
-    // deque[deque.length - 1] <= i - k：因为右边维护的最大值，如果出界了就踢掉
+    // deque[deque.length - 1] <= i - k：因为右边维护的最大值，如果最大值出界了就踢掉
     if (i + 1 > k && deque[deque.length - 1] <= i - k) deque.pop();
     // 最大值永远是【右边】的值，对于进来的新值进行判断
     while (deque.length && nums[i] >= nums[deque[0]]) {
