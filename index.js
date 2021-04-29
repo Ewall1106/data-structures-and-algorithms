@@ -1363,7 +1363,7 @@ var maxSlidingWindow = function (nums, k) {
   let result = [];
 
   for (let i = 0; i < nums.length; i++) {
-    // i+1 > k：保证已经往右移了k+1位了
+    // i+1 > k：保证已经往右移了k+1位了（如果只是等于k的话就不用移除了，刚刚好）
     // deque[deque.length - 1] <= i - k：因为右边维护的最大值，如果最大值出界了就踢掉
     if (i + 1 > k && deque[deque.length - 1] <= i - k) deque.pop();
     // 最大值永远是【右边】的值，对于进来的新值进行判断
