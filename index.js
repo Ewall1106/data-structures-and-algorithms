@@ -15,8 +15,8 @@ LRU Cache
 
 /*
 【两个数组的交集 II】
-给定两个数组，编写一个函数来计算它们的交集。
 https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
+给定两个数组，编写一个函数来计算它们的交集。
  
 示例 1：
 输入：nums1 = [1,2,2,1], nums2 = [2,2]
@@ -26,8 +26,9 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
 输出：[4,9]
 
-logs：1
+logs：2
 2021.04.30
+2021.05.03
 */
 // 排序+双指针 时间复杂度O(mlogm+nlogn)
 /**
@@ -65,7 +66,7 @@ https://leetcode-cn.com/problems/largest-rectangle-in-histogram/
 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
-logs：9
+logs：10
 2021.01.19
 2021.01.22
 2021.02.01
@@ -75,6 +76,7 @@ logs：9
 2021.03.17
 2021.04.06
 2021.04.26
+2021.05.03
 */
 
 // 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
@@ -109,18 +111,14 @@ var largestRectangleArea = function (heights) {
   let area = 0;
   for (let i = 0; i < heights.length; i++) {
     // 枚举高
-    let h = heights[i]; // 最高点
-    let left = (right = i);
+    let h = heights[i];
+    let l = (r = i);
     // 确定左边界
-    while (left - 1 >= 0 && heights[left - 1] >= h) {
-      left--;
-    }
+    while (l - 1 >= 0 && heights[l - 1] >= h) l--;
     // 确定右边界（注意一下：heights.length-1才是数组最后一项）
-    while (right + 1 <= heights.length - 1 && heights[right + 1] >= h) {
-      right++;
-    }
+    while (r + 1 <= heights.length - 1 && heights[r + 1] >= h) r++;
     // 计算面积
-    area = Math.max(area, (right - left + 1) * h);
+    area = Math.max(area, (r - l + 1) * h);
   }
   return area;
 };
@@ -166,7 +164,7 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：9
+logs：10
 [✔️]2020.12.02
 [✔️]2021.01.04
 [✔️]2021.01.15
@@ -177,6 +175,7 @@ logs：9
 [✔️]2021.03.09
 [✔️]2021.04.07
 [✔️]2021.04.26
+[✔️]2021.05.03
 */
 
 // 辅助栈法
