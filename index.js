@@ -6497,6 +6497,95 @@ function fib(n, a = 1, b = 1) {
   return fib(n - 1, b, a + b); // 当函数return返回时，该函数的执行上下文就会从栈顶弹出
 }
 
+//
+// -------divider-------
+//
+
+/*
+【编辑距离】
+https://leetcode-cn.com/problems/edit-distance/
+给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数。
+
+你可以对一个单词进行如下三种操作：
+插入一个字符
+删除一个字符
+替换一个字符
+
+示例 1：
+输入：word1 = "horse", word2 = "ros"
+输出：3
+解释：
+horse -> rorse (将 'h' 替换为 'r')
+rorse -> rose (删除 'r')
+rose -> ros (删除 'e')
+
+示例 2：
+输入：word1 = "intention", word2 = "execution"
+输出：5
+解释：
+intention -> inention (删除 't')
+inention -> enention (将 'i' 替换为 'e')
+enention -> exention (将 'n' 替换为 'x')
+exention -> exection (将 'n' 替换为 'c')
+exection -> execution (插入 'u')
+
+logs：01
+[✔️]2021.04.25
+*/
+// 解法1：BFS 类似于【单词接龙】的题
+// 解法2：动态规划：
+// https://leetcode-cn.com/problems/edit-distance/solution/zi-di-xiang-shang-he-zi-ding-xiang-xia-by-powcai-3/
+// ① 状态定义：dp[i][j] i代表word1的前i个字符，j代表word2的前j个字符，dp[i][j]代表word1前i个字符转换成word2前j个字符需要最少步数。
+//
+//                       |- if (word1[i] == word2[j]) dp[i][j] = dp[i-1][j-1]
+// ② 状态方程：dp[i][j] = |
+//                       |- else dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
+//                                                   ------------  ----------  ----------
+//                                                   dp[i-1][j-1]到dp[i][j]需要进行【替换】操作
+//                                                                 dp[i-1][j]到dp[i][j]需要进行【删除】操作
+//                                                                             dp[i][j-1]到dp[i][j]需要进行【插入】操作
+// 以 word1="horse"，word2="ros"，且 dp[5][3] 为例：
+// dp[i-1][j-1]：dp[4][2] 代表 "hors" 转换成 "ro" 需要的最少步数，取这个子问题的已得解，然后替换word1最后一个字符"e"->"s"即可。
+// dp[i-1][j]：dp[3][3] 代表 "hors" 转换成 "ros" 需要的最少步数，取这个子问题的已得解，然后删除word1最后一个字符"e"即所求。
+// dp[i][j-1]：dp[4][2] 代表 "horse" 转换成 "ro" 需要的最少步数，取这个子问题的已得解，然后将最后一个字符"s"插入word1即可。
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var minDistance = function (word1, word2) {
+  let m = word1.length;
+  let n = word2.length;
+
+  let dp = new Array(m + 1);
+  for (let i = 0; i < dp.length; i++) {
+    dp[i] = new Array(n + 1).fill(0);
+  }
+
+  for (let i = 1; i <= m; i++) {
+    dp[i][0] = dp[i - 1][0] + 1;
+  }
+  for (let j = 1; j <= n; j++) {
+    dp[0][j] = dp[0][j - 1] + 1;
+  }
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (word1[i - 1] == word2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j]) + 1;
+      }
+    }
+  }
+
+  return dp[m][n];
+};
+
+//
+// -------divider-------
+//
+
 /* -------------------------- LRU Cache ---------------------------*/
 /*
 Least Recently Used Cache (最近最少使用)
