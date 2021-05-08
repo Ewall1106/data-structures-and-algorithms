@@ -5518,9 +5518,10 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：02
+logs：03
 [✔️]2021.03.30
 [✔️]2021.04.20
+[✔️]2021.05.08
 */
 // 动态规划。O(n*2)
 /**
@@ -5576,9 +5577,10 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：02
+logs：03
 [✔️]2021.03.30
 [✔️]2021.04.20
+[✔️]2021.05.08
 */
 // 暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
 // 动态规划。时间复杂度：O(n*2)
@@ -5590,7 +5592,7 @@ var maxProfit = function (prices) {
   let len = prices.length;
   if (len <= 1) return 0;
 
-  let dp = Array.from(new Array(len), () => []);
+  let dp = Array.from(new Array(len), () => []); 
   // 初始化：因为第1天的时候，前一天i-1是负数，这个边界条件要处理
   dp[0][0] = 0;
   dp[0][1] = -prices[0];
