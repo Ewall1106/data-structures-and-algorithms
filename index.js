@@ -9,6 +9,7 @@
 动态规划、贪心算法
 排序、搜索算法
 LRU Cache
+字符串
 */
 
 /* -------------------------- 数组、栈 ---------------------------*/
@@ -4185,13 +4186,14 @@ https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
 
 输出: [1, 3, 9]
 
-logs：06
+logs：07
 [✔️]2021.02.01
 [✔️]2021.02.02
 [✔️]2021.02.17
 [✔️]2021.02.20
 [✔️]2021.03.17
 [✔️]2021.04.19
+[✔️]2021.05.10
 */
 // BFS 时间复杂度O(n)
 /**
@@ -4470,10 +4472,11 @@ https://leetcode-cn.com/problems/word-ladder/
 输出：0
 解释：endWord "cog" 不在字典中，所以无法进行转换。
 
-logs：3
+logs：4
 [✔️]2021.02.22
 [✔️]2021.02.23
 [✔️]2021.03.01
+[✔️]2021.05.10
 */
 // BFS。时间复杂度：O(n*c)
 // https://leetcode-cn.com/problems/word-ladder/solution/shou-hua-tu-jie-127-dan-ci-jie-long-bfsde-dian-x-2/
@@ -5592,7 +5595,7 @@ var maxProfit = function (prices) {
   let len = prices.length;
   if (len <= 1) return 0;
 
-  let dp = Array.from(new Array(len), () => []); 
+  let dp = Array.from(new Array(len), () => []);
   // 初始化：因为第1天的时候，前一天i-1是负数，这个边界条件要处理
   dp[0][0] = 0;
   dp[0][1] = -prices[0];
@@ -5858,13 +5861,14 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：06
+logs：07
 [✔️]2021.04.01
 [✔️]2021.04.06
 [✔️]2021.04.20
 [✔️]2021.04.21
 [✔️]2021.04.22
 [✔️]2021.05.04
+[✔️]2021.05.10
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
@@ -5904,12 +5908,13 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：05
+logs：06
 [✔️]2021.03.24
 [✔️]2021.03.25
 [✔️]2021.04.06
 [✔️]2021.04.21
 [✔️]2021.04.22
+[✔️]2021.05.10
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
@@ -5959,9 +5964,10 @@ https://leetcode-cn.com/problems/maximum-product-subarray/
 输出: 0
 解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
 
-logs：2
+logs：3
 [✔️]2021.04.21
 [✔️]2021.04.23
+[✔️]2021.05.10
 */
 var maxProduct = function (nums) {
   const dp_max = nums.slice(); // 记录最大值
@@ -6032,10 +6038,11 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：03
+logs：04
 [✔️]2021.03.23
 [✔️]2021.04.06
 [✔️]2021.04.23
+[✔️]2021.05.10
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
 // https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
@@ -6378,7 +6385,7 @@ https://leetcode-cn.com/problems/climbing-stairs/
 
 递推公式：f(n) = f(n-1) + f(n-2)
 
-logs：07
+logs：08
 [✔️]2020.11.30
 [✔️]2020.12.02
 [✔️]2020.12.14
@@ -6386,6 +6393,7 @@ logs：07
 [✔️]2021.03.23
 [✔️]2021.04.08
 [✔️]2021.04.24
+[✔️]2021.05.10
 */
 // 递归。时间复杂度 O(2^n)
 var climbStairs = function (n) {
@@ -6651,3 +6659,35 @@ LRUCache.prototype.put = function (key, value) {
  * var param_1 = obj.get(key)
  * obj.put(key,value)
  */
+
+/* -------------------------- 字符串 ---------------------------*/
+
+/*
+【千位分隔数】
+https://leetcode-cn.com/problems/thousand-separator/
+给你一个整数 n，请你每隔三位添加点（即 "." 符号）作为千位分隔符，并将结果以字符串格式返回。
+
+示例 1：
+输入：n = 987
+输出："987"
+
+示例 2：
+输入：n = 1234
+输出："1.234"
+
+logs：01
+[✔️]2021.05.10
+*/
+/**
+ * @param {number} n
+ * @return {string}
+ */
+var thousandSeparator = function (n) {
+  let res = '',
+    s = String(n);
+  for (let i = 0; i < s.length; i++) {
+    if (i > 0 && (s.length - i) % 3 == 0) res += '.';
+    res += s[i];
+  }
+  return res;
+};
