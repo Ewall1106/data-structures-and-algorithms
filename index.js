@@ -1425,7 +1425,54 @@ var maxSlidingWindow = function (nums, k) {
   return result;
 };
 
-// 动态规划
+//
+// -------divider-------
+//
+
+/*
+【无重复字符的最长子串】
+https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+
+给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+
+示例 1:
+输入: s = "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+
+示例 2:
+输入: s = "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+
+示例 3:
+输入: s = "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
+
+logs：01
+[✔️]2021.05.13
+*/
+// 双指针 滑动窗口 O(n)
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function (s) {
+  if (s.length === 0) return 0;
+  let hash = new Map();
+  let max = 0;
+  let l = 0; // l相当于滑动窗口左下标，r相当于滑动窗口右下标
+  for (let r = 0; r < s.length; r++) {
+    if (hash.has(s.charAt(r))) {
+      l = Math.max(l, hash.get(s.charAt(r)) + 1); // 当发现重复元素时，窗口左指针右移
+    }
+    hash.set(s.charAt(r), r); // 设置or更新元素的下标位置
+    max = Math.max(max, r - l + 1);
+  }
+  return max;
+};
 
 //
 // -------divider-------
@@ -4286,10 +4333,11 @@ function dfs(grid, r, c) {
 }
 ------------------------------------------------------
 
-logs：03
+logs：04
 [✔️]2021.02.23
 [✔️]2021.02.24
 [✔️]2021.04.19
+[✔️]2021.05.13
 */
 // DFS+递归。时间复杂度：O(MN)、空间复杂度：O(MN)
 // https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
@@ -4535,45 +4583,6 @@ var ladderLength = function (beginWord, endWord, wordList) {
 //
 
 /*
-【单词接龙II】
-https://leetcode-cn.com/problems/word-ladder-ii/description/
-给定两个单词（beginWord 和 endWord）和一个字典 wordList，找出【所有】从 beginWord 到 endWord 的最短转换序列。转换需遵循如下规则：
-每次转换只能改变一个字母。
-转换后得到的单词必须是字典中的单词。
-
-说明:
-如果不存在这样的转换序列，返回一个空列表。
-所有单词具有相同的长度。
-所有单词只由小写字母组成。
-字典中不存在重复的单词。
-你可以假设 beginWord 和 endWord 是非空的，且二者不相同。
-
-示例 1:
-输入:
-beginWord = "hit",
-endWord = "cog",
-wordList = ["hot","dot","dog","lot","log","cog"]
-输出:
-[
-  ["hit","hot","dot","dog","cog"],
-  ["hit","hot","lot","log","cog"]
-]
-
-示例 2:
-输入:
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot","dot","dog","lot","log"]
-输出: []
-
-解释: endWord "cog" 不在字典中，所以不存在符合要求的转换序列。
-*/
-
-//
-// -------divider-------
-//
-
-/*
 【最小基因变化】
 https://leetcode-cn.com/problems/minimum-genetic-mutation/
 一条基因序列由一个带有8个字符的字符串表示，其中每个字符都属于 "A", "C", "G", "T"中的任意一个。
@@ -4654,7 +4663,7 @@ var minMutation = function (start, end, bank) {
 元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
 时间复杂度O(n^2)
 
-logs：10
+logs：11
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
@@ -4665,6 +4674,7 @@ logs：10
 [✔️]2020.08.21
 [✔️]2020.08.28
 [✔️]2020.10.12
+[✔️]2021.05.13
 */
 function bubbleSort(nums) {
   for (let i = 0; i < nums.length; i++) {
@@ -4702,14 +4712,14 @@ logs：10
 */
 function selectionSort(nums) {
   for (let i = 0; i < nums.length - 1; i++) {
-    let tempMin = i;
+    let index = i;
     for (let j = i; j < nums.length; j++) {
-      if (nums[tempMin] > nums[j]) {
-        tempMin = j;
+      if (nums[index] > nums[j]) {
+        index = j;
       }
     }
-    if (i !== tempMin) {
-      [nums[i], nums[tempMin]] = [nums[tempMin], nums[i]];
+    if (i !== index) {
+      [nums[i], nums[index]] = [nums[index], nums[i]];
     }
   }
   return nums;
@@ -5215,7 +5225,7 @@ logs：0
 【分发饼干】
 https://leetcode-cn.com/problems/assign-cookies/description/
 假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。
-对每个孩子 i，都有一个胃口值 g[i]，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 j，都有一个尺寸 s[j] 。如果 s[j] >= g[i]，我们可以将这个饼干 j 分配给孩子 i ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值。
+对每个孩子 i，都有一个胃口值 g[i]，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 j，都有一个尺寸 s[j]。如果 s[j] >= g[i]，我们可以将这个饼干 j 分配给孩子 i ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值。
 
  
 示例 1:
