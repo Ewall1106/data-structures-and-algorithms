@@ -5310,10 +5310,10 @@ logs：02
  * @return {boolean}
  */
 var canJump = function (nums) {
-  let maxRange = 0;
+  let max = 0;
   for (let i = 0; i < nums.length; i++) {
-    if (i > maxRange) return false; // 当前位置能不能跳到，不用管nums[i]这个表示能跳多远的值
-    maxRange = Math.max(maxRange, i + nums[i]);
+    if (i > max) return false; // 当前位置能不能跳到，nums[i]这个表示能跳多远的值
+    max = Math.max(max, i + nums[i]);
   }
   return true;
 };
@@ -5338,8 +5338,11 @@ https://leetcode-cn.com/problems/jump-game-ii/
 解释: 跳到最后一个位置的最小跳跃数是 2。
      从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
 
-logs：0
+logs：1
+[✔️]2021.05.15
 */
+// 贪心算法 时间复杂度O(n)
+// https://leetcode-cn.com/problems/jump-game-ii/solution/45-by-ikaruga/
 /**
  * @param {number[]} nums
  * @return {number}
@@ -5349,10 +5352,12 @@ var jump = function (nums) {
   let end = 0;
   let max = 0;
   for (let i = 0; i < nums.length - 1; i++) {
-    max = Math.max(nums[i] + i, max);
+    max = Math.max(nums[i] + i, max); // 能跳到最远的距离
+    // i表示起跳的【起点】
+    // 当起点=终点的时候 更新终点的位置
     if (i === end) {
-      end = max;
-      res++;
+      end = max; // 下一次起跳的【终点】的位置
+      res++; // 跳跃次数
     }
   }
   return res;
@@ -6777,4 +6782,100 @@ var reverse = function (x) {
   }
   let r = stack.join('') * sign;
   return r < Math.pow(-2, 31) || r > Math.pow(2, 31) - 1 ? 0 : r;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【最长公共前缀】
+https://leetcode-cn.com/problems/longest-common-prefix/
+
+编写一个函数来查找字符串数组中的最长公共前缀。
+如果不存在公共前缀，返回空字符串 ""。
+
+示例 1：
+输入：strs = ["flower","flow","flight"]
+输出："fl"
+
+示例 2：
+输入：strs = ["dog","racecar","car"]
+输出：""
+解释：输入不存在公共前缀。
+
+logs：01
+2021.05.15
+*/
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+// 时间复杂度：O(s) s为所有字符串的长度之和
+var longestCommonPrefix = function (strs) {
+  if (!strs || !strs.length) return '';
+  let prefix = strs[0];
+  for (let i = 1; i < strs.length; i++) {
+    // 必须满足prefix刚好匹配str的第一项
+    // 如果prefix不在str中，那么就逐个删除最后一个字符
+    // 如果prefix在str中，但是不在头部，那么也需要逐个删除
+    while (strs[i].indexOf(prefix) != 0) {
+      prefix = prefix.substr(0, prefix.length - 1);
+    }
+  }
+  return prefix;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【搜索插入位置】
+https://leetcode-cn.com/problems/search-insert-position/
+
+给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+你可以假设数组中无重复元素。
+
+示例 1:
+输入: [1,3,5,6], 5
+输出: 2
+示例 2:
+
+输入: [1,3,5,6], 2
+输出: 1
+
+logs：01
+2021.05.15
+*/
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+// 遍历 O(n)
+var searchInsert = function (nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] >= target) return i;
+  }
+  return nums.length;
+};
+
+// 二分 O(logn)
+var searchInsert = function (nums, target) {
+  let res = nums.length;
+  let l = 0;
+  let r = nums.length - 1;
+  while (l <= r) {
+    let mid = Math.floor((l + r) / 2);
+    if (nums[mid] === target) {
+      return mid;
+    } else if (nums[mid] > target) {
+      r = mid - 1;
+      res = mid;
+    } else {
+      l = mid + 1;
+    }
+  }
+  return res;
 };
