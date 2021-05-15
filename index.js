@@ -9,7 +9,7 @@
 动态规划、贪心算法
 排序、搜索算法
 LRU Cache
-字符串
+字符串、数字
 */
 
 /* -------------------------- 数组、栈 ---------------------------*/
@@ -1455,7 +1455,7 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 logs：01
 [✔️]2021.05.13
 */
-// 双指针 滑动窗口 O(n)
+// 双指针 滑动窗口 时间复杂度O(n) 空间复杂度O(n)
 /**
  * @param {string} s
  * @return {number}
@@ -6687,7 +6687,7 @@ LRUCache.prototype.put = function (key, value) {
  * obj.put(key,value)
  */
 
-/* -------------------------- 字符串 ---------------------------*/
+/* -------------------------- 字符串、数字 ---------------------------*/
 
 /*
 【千位分隔数】
@@ -6717,4 +6717,64 @@ var thousandSeparator = function (n) {
     res += s[i];
   }
   return res;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【整数反转】
+https://leetcode-cn.com/problems/reverse-integer/
+给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
+如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。
+假设环境不允许存储 64 位整数（有符号或无符号）。
+ 
+示例 1：
+输入：x = 123
+输出：321
+
+示例 2：
+输入：x = -123
+输出：-321
+
+示例 3：
+输入：x = 120
+输出：21
+
+logs：01
+2021.05.14
+*/
+/**
+ * @param {number} x
+ * @return {number}
+ */
+// 数字方法 时间复杂度O(log(x)) 空间复杂度O(1)
+var reverse = function (x) {
+  let rev = 0;
+  while (x != 0) {
+    // 获取x的最后1位数字
+    const digit = x % 10;
+    // 将数字digit推入rev中
+    rev = rev * 10 + digit;
+    // 更新x以便下轮获取倒数第2个数字（取整）
+    x = parseInt(x / 10);
+    // 条件判断
+    if (rev < Math.pow(-2, 31) || rev > Math.pow(2, 31) - 1) {
+      return 0;
+    }
+  }
+  return rev;
+};
+
+// 栈 时间复杂度O(n) 空间复杂度O(n)
+var reverse = function (x) {
+  let sign = x < 0 ? -1 : 1;
+  x = String(Math.abs(x));
+  let stack = [];
+  for (let i = 0; i < x.length; i++) {
+    stack.unshift(x.charAt(i));
+  }
+  let r = stack.join('') * sign;
+  return r < Math.pow(-2, 31) || r > Math.pow(2, 31) - 1 ? 0 : r;
 };
