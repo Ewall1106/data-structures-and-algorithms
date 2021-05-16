@@ -1480,31 +1480,82 @@ var lengthOfLongestSubstring = function (s) {
 //
 
 /* -------------------------- 链表 ---------------------------*/
-/* 
-  【反转链表】
-  https://leetcode-cn.com/problems/reverse-linked-list/
-  反转一个单链表
-  
-  示例：
-  输入: 1->2->3->4->5->NULL
-  输出: 5->4->3->2->1->NULL
 
-  logs：15
-  [✔️]2020.04.19
-  [✔️]2020.04.20
-  [✔️]2020.04.29
-  [✔️]2020.04.30
-  [✔️]2020.05.07
-  [✔️]2020.06.02
-  [✔️]2020.09.22
-  [✔️]2020.09.26
-  [✔️]2020.12.22
-  [✔️]2020.12.28
-  [✔️]2021.01.09
-  [✔️]2021.01.23
-  [✔️]2021.03.02
-  [✔️]2021.04.10
-  [✔️]2021.04.13
+/*
+【排序链表】
+https://leetcode-cn.com/problems/sort-list/
+给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。
+进阶：
+你可以在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序吗？
+
+输入：head = [-1,5,3,4,0]
+输出：[-1,0,3,4,5]
+
+logs：01
+[✔️]2020.05.16
+*/
+// 合并两个有序链表+归并排序
+// 时间复杂度O(nlogn) 空间复杂度O(n)
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var sortList = function (head) {
+  if (!head || !head.next) return head;
+  let fast = head,
+    slow = head;
+  while (fast.next && fast.next.next) {
+    fast = fast.next.next;
+    slow = slow.next;
+  }
+  let mid = slow.next; // 右半区
+  slow.next = null; // 左半区（将本head链表的中间往后节点都切掉）
+  return merge(sortList(head), sortList(mid));
+};
+
+// 合并两个有序链表
+function merge(l1, l2) {
+  if (!l1) return l2;
+  if (!l2) return l1;
+  if (l1.val < l2.val) {
+    // 如果 l1 的 val 值更小，则将 l1.next 与排序好的链表头相接
+    l1.next = merge(l1.next, l2);
+    return l1;
+  } else {
+    l2.next = merge(l1, l2.next);
+    return l2;
+  }
+}
+
+//
+// -------divider-------
+//
+
+/* 
+【反转链表】
+https://leetcode-cn.com/problems/reverse-linked-list/
+反转一个单链表
+  
+示例：
+输入: 1->2->3->4->5->NULL
+输出: 5->4->3->2->1->NULL
+
+logs：15
+[✔️]2020.04.19
+[✔️]2020.04.20
+[✔️]2020.04.29
+[✔️]2020.04.30
+[✔️]2020.05.07
+[✔️]2020.06.02
+[✔️]2020.09.22
+[✔️]2020.09.26
+[✔️]2020.12.22
+[✔️]2020.12.28
+[✔️]2021.01.09
+[✔️]2021.01.23
+[✔️]2021.03.02
+[✔️]2021.04.10
+[✔️]2021.04.13
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -3990,7 +4041,7 @@ https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
   [15,7]
 ]
 
-logs：10
+logs：11
 [✔️]2020.06.15
 [✔️]2020.06.20
 [✔️]2020.06.22
@@ -4001,6 +4052,7 @@ logs：10
 [✔️]2020.12.10
 [✔️]2020.12.25
 [✔️]2021.03.12
+[✔️]2021.05.16
 */
 // 解法1：BFS。时间复杂度O(n)
 /**
@@ -6693,6 +6745,40 @@ LRUCache.prototype.put = function (key, value) {
  */
 
 /* -------------------------- 字符串、数字 ---------------------------*/
+
+/*
+【只出现一次的数字】
+https://leetcode-cn.com/problems/single-number/
+
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+
+说明：
+你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+
+示例 1:
+输入: [2,2,1]
+输出: 1
+
+示例 2:
+输入: [4,1,2,1,2]
+输出: 4
+
+logs：01
+[✔️]2021.05.16
+*/
+// 排序+指针
+var singleNumber = function (nums) {
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] != nums[i - 1] && nums[i] != nums[i + 1]) {
+      return nums[i];
+    }
+  }
+};
+
+//
+// -------divider-------
+//
 
 /*
 【千位分隔数】
