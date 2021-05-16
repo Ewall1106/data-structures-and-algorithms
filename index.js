@@ -6965,3 +6965,93 @@ var searchInsert = function (nums, target) {
   }
   return res;
 };
+
+//
+// -------divider-------
+//
+
+/*
+【反转字符串中的单词 III】
+https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
+
+给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
+
+示例：
+输入："Let's take LeetCode contest"
+输出："s'teL ekat edoCteeL tsetnoc"
+
+logs：01
+2021.05.16
+*/
+/**
+ * @param {string} s
+ * @return {string}
+ */
+// 使用额外空间 时间复杂度O(n) 空间复杂度O(n)
+var reverseWords = function (s) {
+  let res = '';
+  let stack = s.split(' ');
+  for (let i = 0; i < stack.length; i++) {
+    for (let j = stack[i].length - 1; j >= 0; j--) {
+      res += stack[i][j];
+    }
+    i != stack.length - 1 && (res += ' ');
+  }
+  return res;
+};
+
+// 时间复杂度O(n) 空间复杂度O(1)
+var reverseWords = function (s) {
+  let res = '';
+  let word = '';
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === ' ') {
+      res += word + s[i];
+      word = '';
+    } else {
+      word = s[i] + word;
+    }
+  }
+  return res + word;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【扑克牌中的顺子】
+https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/
+从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。
+
+示例 1:
+输入: [1,2,3,4,5]
+输出: True
+
+示例 2:
+输入: [0,0,1,2,5]
+输出: True
+
+logs：01
+2021.05.16
+*/
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+// 时间复杂度O(n) 空间复杂度O(1)
+var isStraight = function (nums) {
+  nums.sort((a, b) => a - b);
+  let idx = 0; // 零的个数
+  let gap = 0;
+  while (nums[idx] === 0) {
+    idx++;
+  }
+  for (let i = idx + 1; i < nums.length; i++) {
+    if (nums[i] === nums[i - 1]) {
+      return false;
+    }
+    gap += nums[i] - nums[i - 1] - 1;
+  }
+  return idx >= gap;
+};
