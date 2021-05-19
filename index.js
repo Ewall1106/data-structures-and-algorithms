@@ -1463,9 +1463,10 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
 
-logs：02
+logs：03
 [✔️]2021.05.13
 [✔️]2021.05.17
+[✔️]2021.05.18
 */
 // 双指针 滑动窗口 时间复杂度O(n) 空间复杂度O(n)
 /**
@@ -4791,13 +4792,13 @@ logs：10
 */
 function insertionSort(nums) {
   for (let i = 1; i < nums.length; i++) {
-    let temp = nums[i];
+    let curr = nums[i];
     let j = i;
-    while (j > 0 && temp < nums[j - 1]) {
+    while (j > 0 && curr < nums[j - 1]) {
       nums[j] = nums[j - 1];
       j--;
     }
-    if (i != j) nums[j] = temp;
+    if (i != j) nums[j] = curr;
   }
   return nums;
 }
@@ -4921,7 +4922,7 @@ console.log(quickSort([4, 4, 52, 13, 5, 8, 91, 1]));
 
 /*
 【二分搜索】
-先排序，然后选择数组的中间值。  
+先【排序】，然后选择数组的中间值。  
 如果选中值是待搜索值，那么算法执行完毕（值找到了）。 
 如果待搜索值比选中值要小，则返回步骤 1 并在选中值左边的子数组中寻找（较小）。 
 如果待搜索值比选中值要大，则返回步骤 1 并在选种值右边的子数组中寻找（较大）。
@@ -4959,21 +4960,7 @@ function binarySearch(array, value) {
   return -1;
 }
 
-//
-// -------divider-------
-//
-
-/*
-【二分搜索的变形①】
-查找【第一个】值等于给定值的元素，返回索引
-
-logs：5
-[✔️]2020.06.21
-[✔️]2020.06.23
-[✔️]2020.08.21
-[✔️]2020.09.24
-[✔️]2020.10.14
-*/
+// 二分搜索的变形①：查找【第一个】值等于给定值的元素，返回索引
 function binarySearch1(nums, value) {
   nums.sort((a, b) => a - b);
   let low = 0;
@@ -4996,22 +4983,7 @@ function binarySearch1(nums, value) {
 }
 const test = binarySearch1([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 5
 
-//
-// -------divider-------
-//
-
-/*
-【二分搜索的变形②】
-查找【最后一个】值等于给定值的元素，返回索引
-
-logs：5
-[✔️]2020.06.22
-[✔️]2020.06.28
-[✔️]2020.08.24
-[✔️]2020.09.28
-[✔️]2020.12.14
-*/
-
+// 二分搜索的变形②：查找【最后一个】值等于给定值的元素，返回索引
 function binarySearch2(array, value) {
   array.sort((a, b) => a - b);
   let low = 0;
@@ -5034,22 +5006,7 @@ function binarySearch2(array, value) {
 }
 const test = binarySearch2([1, 2, 4, 5, 6, 8, 8, 8, 11, 18], 8); // 7
 
-//
-// -------divider-------
-//
-
-/*
-【二分搜索的变形③】
-查找第一个大于等于给定值的元素，返回索引
-
-logs：5
-[✔️]2020.06.22
-[✔️]2020.07.01
-[✔️]2020.09.08
-[✔️]2020.09.25
-[✔️]2021.01.05
-*/
-
+// 二分搜索的变形③：查找第一个大于等于给定值的元素，返回索引
 function binarySearch3(nums, value) {
   nums.sort((a, b) => a - b);
   let low = 0;
@@ -5069,22 +5026,7 @@ function binarySearch3(nums, value) {
 }
 const test = binarySearch3([1, 3, 5, 7, 9], 4); // 2
 
-//
-// -------divider-------
-//
-
-/*
-【二分搜索的变形④】
-查找最后一个小于等于给定值的元素，返回索引
-
-logs：5
-[✔️]2020.06.22
-[✔️]2020.06.04
-[✔️]2020.09.09
-[✔️]2020.12.01
-[✔️]2021.01.05
-*/
-
+// 二分搜索的变形④：查找最后一个小于等于给定值的元素，返回索引
 function binarySearch4(nums, value) {
   nums.sort((a, b) => a - b);
   let low = 0;
@@ -5125,13 +5067,14 @@ https://leetcode-cn.com/problems/sqrtx/
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
 
-logs：6
+logs：7
 [✔️]2020.11.10
 [✔️]2020.11.16
 [✔️]2020.11.27
 [✔️]2020.12.03
 [✔️]2021.04.18
 [✔️]2021.05.12
+[✔️]2021.05.17
 */
 // 二分查找
 var mySqrt = function (x) {
@@ -5282,10 +5225,11 @@ https://leetcode-cn.com/problems/assign-cookies/description/
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 
-logs：03
+logs：04
 [✔️]2021.03.03
 [✔️]2021.03.12
 [✔️]2021.04.20
+[✔️]2021.05.18
 */
 // 贪心算法+排序。时间复杂度O(n)
 /**
@@ -5510,10 +5454,11 @@ n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并�
 输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
 解释：如上图所示，4 皇后问题存在两个不同的解法。
 
-logs：03
+logs：04
 [✔️]2021.02.21
 [✔️]2021.02.23
 [✔️]2021.05.07
+[✔️]2021.05.18
 */
 // DFS+回溯。时间复杂度：O(N!)，其中 N 是皇后数量。
 /**
@@ -5590,10 +5535,11 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：03
+logs：04
 [✔️]2021.03.30
 [✔️]2021.04.20
 [✔️]2021.05.08
+[✔️]2021.05.18
 */
 // 动态规划。O(n*2)
 /**
@@ -5649,10 +5595,11 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：03
+logs：04
 [✔️]2021.03.30
 [✔️]2021.04.20
 [✔️]2021.05.08
+[✔️]2021.05.18
 */
 // 暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
 // 动态规划。时间复杂度：O(n*2)
@@ -5839,9 +5786,10 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 输出: 3 
 解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]
 
-logs：02
+logs：03
 [✔️]2021.04.01
 [✔️]2021.04.20
+[✔️]2021.05.18
 */
 /**
  * @param {number[]} prices
@@ -5887,9 +5835,10 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transactio
 在此处卖出 prices[5] = 9
 总利润: ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
 
-logs：02
+logs：03
 [✔️]2021.04.01
 [✔️]2021.04.10
+[✔️]2021.05.18
 */
 /**
  * @param {number[]} prices
@@ -5930,7 +5879,7 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：07
+logs：08
 [✔️]2021.04.01
 [✔️]2021.04.06
 [✔️]2021.04.20
@@ -5938,6 +5887,7 @@ logs：07
 [✔️]2021.04.22
 [✔️]2021.05.04
 [✔️]2021.05.10
+[✔️]2021.05.18
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
@@ -5977,13 +5927,14 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：06
+logs：07
 [✔️]2021.03.24
 [✔️]2021.03.25
 [✔️]2021.04.06
 [✔️]2021.04.21
 [✔️]2021.04.22
 [✔️]2021.05.10
+[✔️]2021.05.18
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
@@ -6033,10 +5984,11 @@ https://leetcode-cn.com/problems/maximum-product-subarray/
 输出: 0
 解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
 
-logs：3
+logs：4
 [✔️]2021.04.21
 [✔️]2021.04.23
 [✔️]2021.05.10
+[✔️]2021.05.18
 */
 var maxProduct = function (nums) {
   const dp_max = nums.slice(); // 记录最大值
@@ -6107,11 +6059,12 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：04
+logs：05
 [✔️]2021.03.23
 [✔️]2021.04.06
 [✔️]2021.04.23
 [✔️]2021.05.10
+[✔️]2021.05.18
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
 // https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
@@ -6182,9 +6135,10 @@ https://leetcode-cn.com/problems/unique-paths/
 输入：m = 7, n = 3
 输出：28
 
-logs：2
+logs：3
 [✔️]2021.03.15
 [✔️]2021.04.23
+[✔️]2021.05.18
 */
 // 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
 // dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
@@ -6265,8 +6219,9 @@ https://leetcode-cn.com/problems/unique-paths-ii/
 输入：obstacleGrid = [[0,1],[0,0]]
 输出：1
 
-logs：01
+logs：02
 [✔️]2021.03.16
+[✔️]2021.05.18
 */
 // 动态方程。时间复杂度：O(mn)、空间复杂度：O(mn)
 /**
@@ -6277,11 +6232,11 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
   // 出发点就被障碍堵住
   if (obstacleGrid[0][0] == 1) return 0;
   // 绘制棋盘
-  let rows = obstacleGrid.length;
-  let cols = obstacleGrid[0].length;
-  let dp = new Array(rows).fill(0);
-  for (let i = 0; i < rows; i++) {
-    dp[i] = new Array(cols).fill(0);
+  let m = obstacleGrid.length;
+  let n = obstacleGrid[0].length;
+  let dp = new Array(m).fill(0);
+  for (let i = 0; i < m; i++) {
+    dp[i] = new Array(n).fill(0);
   }
   // 因为棋盘的最下一行和最右一列的步数是确定的只有一步
   // 这里的话为了便于计算，将棋盘倒过来了，将起点作为终点，将终点作为起点
@@ -6290,25 +6245,19 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
   //   [1,0,0,0,0,0,0],
   //   [1,0,0,0,0,0,始]
   // ]
-  for (let i = 0; i < rows; i++) {
+  for (let i = 0; i < m; i++) {
     // 如果边界路上有障碍，那么后面的网格确认的一步便失效
-    if (obstacleGrid[i][0] === 1) {
-      dp[i][0] = 0;
-      break;
-    }
+    if (obstacleGrid[i][0] === 1) break;
     dp[i][0] = 1;
   }
-  for (let j = 0; j < cols; j++) {
+  for (let j = 0; j < n; j++) {
     // 如果边界路上有障碍，那么后面的网格确认的一步便失效
-    if (obstacleGrid[0][j] === 1) {
-      dp[0][j] = 0;
-      break;
-    }
+    if (obstacleGrid[0][j] === 1) break;
     dp[0][j] = 1;
   }
   // 递推计算
-  for (let i = 1; i < rows; i++) {
-    for (let j = 1; j < cols; j++) {
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
       if (obstacleGrid[i][j] === 1) {
         dp[i][j] = 0;
       } else {
@@ -6316,7 +6265,7 @@ var uniquePathsWithObstacles = function (obstacleGrid) {
       }
     }
   }
-  return dp[rows - 1][cols - 1];
+  return dp[m - 1][n - 1];
 };
 
 //
@@ -6343,10 +6292,11 @@ https://leetcode-cn.com/problems/triangle/description/
 输入：triangle = [[-10]]
 输出：-10
 
-logs：03
+logs：04
 [✔️]2021.03.23
 [✔️]2021.04.08
 [✔️]2021.04.25
+[✔️]2021.05.18
 */
 // 动态规划。时间复杂度O(mn) 空间复杂度O(mn) 自底向上
 // DP方程：f[i][j]=min(f[i−1][j−1],f[i−1][j])+c[i][j]
@@ -6412,7 +6362,7 @@ var coinChange = function (coins, amount) {
     for (let j = 0; j < coins.length; j++) {
       if (i - coins[j] >= 0) {
         // dp方程：dp[i] = Math.min(当前值, 填满面额(i-coin)元需要的最少硬币+1(当前硬币))
-        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+        dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1); // (i-coins[j])无论如何都是取位置i前面的值
       }
     }
   }
@@ -6980,7 +6930,7 @@ var reverseWords = function (s) {
     for (let j = stack[i].length - 1; j >= 0; j--) {
       res += stack[i][j];
     }
-    i != stack.length - 1 && (res += ' ');
+    i != stack.length - 1 && (res += ' '); // 最后一项不用加空格
   }
   return res;
 };
