@@ -6698,8 +6698,9 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：01
+logs：02
 [✔️]2021.05.16
+[✔️]2021.05.19
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -6730,6 +6731,7 @@ https://leetcode-cn.com/problems/thousand-separator/
 
 logs：01
 [✔️]2021.05.10
+[✔️]2021.05.19
 */
 /**
  * @param {number} n
@@ -6768,8 +6770,9 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：01
+logs：02
 2021.05.14
+2021.05.19
 */
 /**
  * @param {number} x
@@ -6825,8 +6828,9 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：01
+logs：02
 2021.05.15
+2021.05.19
 */
 /**
  * @param {string[]} strs
@@ -6855,7 +6859,7 @@ var longestCommonPrefix = function (strs) {
 【搜索插入位置】
 https://leetcode-cn.com/problems/search-insert-position/
 
-给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+给定一个【排序数组】和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
 你可以假设数组中无重复元素。
 
 示例 1:
@@ -6866,8 +6870,9 @@ https://leetcode-cn.com/problems/search-insert-position/
 输入: [1,3,5,6], 2
 输出: 1
 
-logs：01
+logs：02
 2021.05.15
+2021.05.19
 */
 /**
  * @param {number[]} nums
@@ -6882,7 +6887,7 @@ var searchInsert = function (nums, target) {
   return nums.length;
 };
 
-// 二分 O(logn)
+// 二分 O(logn) 题意中说明了是排序好的数组
 var searchInsert = function (nums, target) {
   let res = nums.length;
   let l = 0;
@@ -6915,8 +6920,9 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-logs：01
+logs：02
 2021.05.16
+2021.05.19
 */
 /**
  * @param {string} s
