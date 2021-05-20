@@ -5067,7 +5067,7 @@ https://leetcode-cn.com/problems/sqrtx/
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
 
-logs：7
+logs：8
 [✔️]2020.11.10
 [✔️]2020.11.16
 [✔️]2020.11.27
@@ -5075,6 +5075,7 @@ logs：7
 [✔️]2021.04.18
 [✔️]2021.05.12
 [✔️]2021.05.17
+[✔️]2021.05.20
 */
 // 二分查找
 var mySqrt = function (x) {
@@ -5225,11 +5226,12 @@ https://leetcode-cn.com/problems/assign-cookies/description/
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 
-logs：04
+logs：05
 [✔️]2021.03.03
 [✔️]2021.03.12
 [✔️]2021.04.20
 [✔️]2021.05.18
+[✔️]2021.05.20
 */
 // 贪心算法+排序。时间复杂度O(n)
 /**
@@ -5277,9 +5279,10 @@ https://leetcode-cn.com/problems/jump-game/
 输出：false
 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ，所以永远不可能到达最后一个下标。
 
-logs：02
+logs：03
 [✔️]2021.03.03
 [✔️]2021.04.20
+[✔️]2021.05.20
 */
 
 // 贪心算法。
@@ -5319,8 +5322,9 @@ https://leetcode-cn.com/problems/jump-game-ii/
 解释: 跳到最后一个位置的最小跳跃数是 2。
      从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
 
-logs：1
+logs：2
 [✔️]2021.05.15
+[✔️]2021.05.20
 */
 // 贪心算法 时间复杂度O(n)
 // https://leetcode-cn.com/problems/jump-game-ii/solution/45-by-ikaruga/
@@ -6973,8 +6977,9 @@ https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/
 输入: [0,0,1,2,5]
 输出: True
 
-logs：01
+logs：02
 2021.05.16
+2021.05.20
 */
 /**
  * @param {number[]} nums
