@@ -27,10 +27,11 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
 输出：[4,9]
 
-logs：3
+logs：4
 2021.04.30
 2021.05.03
 2021.05.17
+2021.05.23
 */
 // 排序+双指针 时间复杂度O(mlogm+nlogn)
 /**
@@ -272,7 +273,7 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：13
+logs：14
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
@@ -286,6 +287,7 @@ logs：13
 [✔️]2021.04.07
 [✔️]2021.04.26
 [✔️]2021.05.17
+[✔️]2021.05.23
 */
 // 使用一个额外数组。时间复杂度O(n)、空间复杂度O(n)
 // 双指针。时间复杂度O(n)
@@ -749,7 +751,7 @@ https://leetcode-cn.com/problems/summary-ranges/
 输入：nums = [0]
 输出：["0"]
 
-logs：11
+logs：12
 [✔️]2021.01.27
 [✔️]2021.02.02
 [✔️]2021.02.17
@@ -761,6 +763,7 @@ logs：11
 [✔️]2021.04.26
 [✔️]2021.05.14
 [✔️]2021.05.17
+[✔️]2021.05.23
 */
 
 // 双指针。时间复杂度O(n)、空间复杂度O(n)
@@ -855,7 +858,7 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
 你不需要考虑数组中超出新长度后面的元素。
 
-logs：11
+logs：12
 [✔️]2020.05.09
 [✔️]2020.05.10
 [✔️]2020.05.11
@@ -867,6 +870,7 @@ logs：11
 [✔️]2020.11.17
 [✔️]2021.03.09
 [✔️]2021.05.17
+[✔️]2021.05.23
 */
 
 // 解法：使用两个指针，如果相等就跳过。时间复杂度：O(n)
@@ -1106,7 +1110,7 @@ https://leetcode-cn.com/problems/valid-parentheses/
 输入: "{[]}"
 输出: true
 
-logs：10
+logs：11
 [✔️]2020.04.20
 [✔️]2020.05.08
 [✔️]2020.06.02
@@ -1117,6 +1121,7 @@ logs：10
 [✔️]2020.10.28
 [✔️]2020.11.18
 [✔️]2021.04.07
+[✔️]2021.05.23
 */
 
 // 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
@@ -1463,10 +1468,11 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
 
-logs：03
+logs：04
 [✔️]2021.05.13
 [✔️]2021.05.17
 [✔️]2021.05.18
+[✔️]2021.05.23
 */
 // 双指针 滑动窗口 时间复杂度O(n) 空间复杂度O(n)
 /**
@@ -1480,7 +1486,9 @@ var lengthOfLongestSubstring = function (s) {
   let l = 0; // l相当于滑动窗口左下标，r相当于滑动窗口右下标
   for (let r = 0; r < s.length; r++) {
     if (hash.has(s.charAt(r))) {
-      l = Math.max(l, hash.get(s.charAt(r)) + 1); // 当发现重复元素时，窗口左指针右移
+      // 当发现重复元素时，窗口左指针右移
+      // 为什么需要Math.max？当"abba"这种情形时，匹配到最后一个"a"的时候，l > hash.get('a')+1的值。
+      l = Math.max(l, hash.get(s.charAt(r)) + 1);
     }
     hash.set(s.charAt(r), r); // 设置or更新元素的下标位置
     max = Math.max(max, r - l + 1);
@@ -6702,9 +6710,10 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：02
+logs：03
 [✔️]2021.05.16
 [✔️]2021.05.19
+[✔️]2021.05.23
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -6733,9 +6742,10 @@ https://leetcode-cn.com/problems/thousand-separator/
 输入：n = 1234
 输出："1.234"
 
-logs：01
+logs：03
 [✔️]2021.05.10
 [✔️]2021.05.19
+[✔️]2021.05.23
 */
 /**
  * @param {number} n
@@ -6774,9 +6784,10 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：02
+logs：03
 2021.05.14
 2021.05.19
+2021.05.23
 */
 /**
  * @param {number} x
@@ -6791,7 +6802,7 @@ var reverse = function (x) {
     // 将数字digit推入rev中
     rev = rev * 10 + digit;
     // 更新x以便下轮获取倒数第2个数字（取整）
-    x = parseInt(x / 10);
+    x = parseInt(x / 10); // 不使用Math.floor的原因是：Math.floor(-12.3) = -13
     // 条件判断
     if (rev < Math.pow(-2, 31) || rev > Math.pow(2, 31) - 1) {
       return 0;
@@ -6832,9 +6843,10 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：02
+logs：03
 2021.05.15
 2021.05.19
+2021.05.23
 */
 /**
  * @param {string[]} strs
@@ -6874,9 +6886,10 @@ https://leetcode-cn.com/problems/search-insert-position/
 输入: [1,3,5,6], 2
 输出: 1
 
-logs：02
+logs：03
 2021.05.15
 2021.05.19
+2021.05.23
 */
 /**
  * @param {number[]} nums
