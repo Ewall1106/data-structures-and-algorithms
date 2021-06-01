@@ -6115,7 +6115,7 @@ var longestCommonSubsequence = function (text1, text2) {
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-      if (text1[i - 1] == text2[j - 1]) {
+      if (text1[i - 1] == text2[j - 1]) { // 取字符串索引位置要减一
         dp[i][j] = dp[i - 1][j - 1] + 1;
       } else {
         dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
@@ -6130,6 +6130,68 @@ var longestCommonSubsequence = function (text1, text2) {
   // d [0,1,2,2],
   // e [0,1,2,3]]
   return dp[m][n];
+};
+
+//
+// -------divider-------
+//
+
+/*
+【最长公共字串】
+求两个字符串的最长公共字串值。
+求：返回长度
+求：返回字串
+
+示例 1:
+输入：s1 = "abcde", s2 = "abce" 
+输出：3
+
+logs：05
+[✔️]2021.06.01
+*/
+// 动态规划
+var longestCommonSubstring = function (s1, s2) {
+  let m = s1.length;
+  let n = s2.length;
+  let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(0));
+
+  let max = 0
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (s1[i - 1] == s2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+        max = Math.max(max, dp[i][j])
+      }
+    }
+  }
+
+  return max;
+};
+
+// 返回具体的子串
+var longestCommonSubstring = function (s1, s2) {
+  let m = s1.length;
+  let n = s2.length;
+  let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(0));
+
+  let maxLen = 0;
+  let maxEnd = 0;
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (s1[i - 1] == s2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      }
+
+      if (dp[i][j] > maxLen) {
+        maxLen = dp[i][j];
+        maxEnd = i; // 以i位置结尾的字符
+      }
+    }
+  }
+
+  return s1.substring(maxEnd - maxLen, maxEnd);
 };
 
 //
@@ -7028,3 +7090,30 @@ var isStraight = function (nums) {
   }
   return idx >= gap;
 };
+
+
+//
+// -------divider-------
+//
+
+/*
+【最长回文子串】
+https://leetcode-cn.com/problems/longest-palindromic-substring/
+给你一个字符串 s，找到 s 中最长的回文子串。
+
+示例 1：
+输入：s = "babad"
+输出："bab"
+解释："aba" 同样是符合题意的答案。
+
+示例 2：
+输入：s = "cbbd"
+输出："bb"
+
+示例 3：
+输入：s = "a"
+输出："a"
+
+logs：01
+2021.06.01
+*/
