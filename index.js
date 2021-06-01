@@ -6149,7 +6149,7 @@ var longestCommonSubsequence = function (text1, text2) {
 logs：05
 [✔️]2021.06.01
 */
-// 动态规划
+// 动态规划 时间复杂度O(n^2)
 var longestCommonSubstring = function (s1, s2) {
   let m = s1.length;
   let n = s2.length;
@@ -6169,7 +6169,7 @@ var longestCommonSubstring = function (s1, s2) {
   return max;
 };
 
-// 返回具体的子串
+// 返回具体的子串 时间复杂度O(n^2)
 var longestCommonSubstring = function (s1, s2) {
   let m = s1.length;
   let n = s2.length;
@@ -6186,12 +6186,12 @@ var longestCommonSubstring = function (s1, s2) {
 
       if (dp[i][j] > maxLen) {
         maxLen = dp[i][j];
-        maxEnd = i; // 以i位置结尾的字符
+        maxEnd = i - 1; // 以 i 位置结尾的字符
       }
     }
   }
 
-  return s1.substring(maxEnd - maxLen, maxEnd);
+  return s1.substring(maxEnd - maxLen + 1, maxEnd + 1);
 };
 
 //
@@ -7117,3 +7117,129 @@ https://leetcode-cn.com/problems/longest-palindromic-substring/
 logs：01
 2021.06.01
 */
+// 动态规划
+var longestPalindrome = function (s) {
+  let s1 = s
+  let s2 = s.split('').reverse().join('');
+  let len = s.length;
+  let dp = Array.from(new Array(len + 1), () => new Array(len + 1).fill(0));
+
+  let maxLen = 0;
+  let maxEnd = 0;
+
+  for (let i = 1; i <= len; i++) {
+    for (let j = 1; j <= len; j++) {
+      if (s1[i - 1] === s2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      }
+
+      if (dp[i][j] > maxLen) {
+        let beforeRev = len - 1 - j; // 回文子串的起点
+        if (beforeRev + dp[i][j] === i - 1) { //判断下标是否对应
+          maxLen = dp[i][j];
+          maxEnd = i - 1;
+        }
+      }
+    }
+  }
+
+  return s1.substring(maxEnd - maxLen + 1, maxEnd + 1);
+};
+
+// 中心扩展法 时间复杂度O(n^2)
+var longestPalindrome = function (s) {
+  if (s.length <= 1) return s
+
+  let maxEnd = 0
+  let maxLen = 0
+
+  for (let i = 0; i < s.length - 1; i++) {
+    extendPalindrome(s, i, i) // odd 奇数
+    extendPalindrome(s, i, i + 1) // even 偶数
+  }
+
+  return s.substring(maxEnd, maxEnd + maxLen)
+
+  function extendPalindrome(s, l, r) {
+    while (l >= 0 && r < s.length && s.charAt(l) === s.charAt(r)) {
+      l--
+      r++
+    }
+    if (maxLen < r - l - 1) {
+      maxEnd = l + 1 // 最长回文子串的起点
+      maxLen = r - l - 1
+    }
+  }
+}
+
+
+//
+// -------divider-------
+//
+
+/*
+【字符串中的第一个唯一字符】
+https://leetcode-cn.com/problems/first-unique-character-in-a-string/
+给定一个字符串，找到它的第一个不重复的字符（唯一，后面也不能出现），并返回它的索引。如果不存在，则返回 -1。
+
+示例：
+s = "leetcode"
+返回 0
+
+s = "loveleetcode"
+返回 2
+
+logs：01
+2021.06.01
+*/
+// 使用hash 时间复杂度O(n)
+var firstUniqChar = function (s) {
+  const map = new Map();
+  for (i = 0; i < s.length; i++) {
+    map.has(s[i]) ? map.set(s[i], 2) : map.set(s[i], 1);
+  }
+  for (i = 0; i < s.length; i++) {
+    if (map.get(s[i]) === 1) return i;
+  }
+  return -1;
+};
+
+// 暴力破解法
+var firstUniqChar = function (s) {
+  for (i = 0; i < s.length; i++) {
+    if (s.indexOf(s[i]) === s.lastIndexOf(s[i])) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+
+/*
+【反转字符串】
+https://leetcode-cn.com/problems/reverse-string/
+编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。
+不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。
+你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。
+
+示例 1：
+输入：["h","e","l","l","o"]
+输出：["o","l","l","e","h"]
+
+logs：01
+2021.06.01
+*/
+// 双指针
+/**
+ * @param {character[]} s
+ * @return {void} Do not return anything, modify s in-place instead.
+ */
+var reverseString = function (s) {
+  let l = 0
+  let r = s.length - 1;
+  while (l < r) {
+    [s[l], s[r]] = [s[r], s[l]]
+    l++
+    r--
+  }
+};
