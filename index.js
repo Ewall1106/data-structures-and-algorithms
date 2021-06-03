@@ -3827,9 +3827,10 @@ https://leetcode-cn.com/problems/combination-sum/
   [3,5]
 ]
 
-logs：02
+logs：03
 [✔️]2021.02.05
 [✔️]2021.04.17
+[✔️]2021.06.02
 */
 // 递归、全排列
 /**
@@ -3851,7 +3852,7 @@ var combinationSum = function (candidates, target) {
     }
     for (let i = index; i < candidates.length; i++) {
       list.push(candidates[i]);
-      dfs(list, remain - candidates[i], i); // 这里传给下层的索引index没有+1：因为candidates中的数字可以无限制重复被选取。
+      dfs(list, remain - candidates[i], i); // 这里传给下层的索引没有+1：因为candidates中的数字可以无限制重复被选取。
       list.pop();
     }
   }
@@ -4024,6 +4025,7 @@ graph.addEdge('C', 'D');
 graph.addEdge('C', 'G');
 console.log(graph.adjList);
 
+
 // DFS写法模板
 visited = new Set();
 function dfs(node, visited) {
@@ -4033,6 +4035,7 @@ function dfs(node, visited) {
     if (!visited.has(next_node)) dfs(next_node, visited);
   }
 }
+
 
 // BFS写法模板
 function BFS(graph, start, end) {
@@ -4336,7 +4339,7 @@ https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
 
 输出: [1, 3, 9]
 
-logs：08
+logs：09
 [✔️]2021.02.01
 [✔️]2021.02.02
 [✔️]2021.02.17
@@ -4345,6 +4348,7 @@ logs：08
 [✔️]2021.04.19
 [✔️]2021.05.10
 [✔️]2021.05.17
+[✔️]2021.06.02
 */
 // BFS 时间复杂度O(n)
 /**
@@ -4422,11 +4426,12 @@ function dfs(grid, r, c) {
 }
 ------------------------------------------------------
 
-logs：04
+logs：05
 [✔️]2021.02.23
 [✔️]2021.02.24
 [✔️]2021.04.19
 [✔️]2021.05.13
+[✔️]2021.06.02
 */
 // DFS+递归。时间复杂度：O(MN)、空间复杂度：O(MN)
 // https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
@@ -4675,9 +4680,10 @@ end:   "AACCCCCC"
 bank: ["AAAACCCC", "AAACCCCC", "AACCCCCC"]
 返回值: 3
 
-logs：02
+logs：03
 [✔️]2021.02.22
 [✔️]2021.02.23
+[✔️]2021.06.02
 */
 // BFS
 /**
@@ -5089,7 +5095,7 @@ https://leetcode-cn.com/problems/sqrtx/
 说明: 8 的平方根是 2.82842..., 
      由于返回类型是整数，小数部分将被舍去。
 
-logs：8
+logs：9
 [✔️]2020.11.10
 [✔️]2020.11.16
 [✔️]2020.11.27
@@ -5098,6 +5104,7 @@ logs：8
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.20
+[✔️]2021.06.02
 */
 // 二分查找
 var mySqrt = function (x) {
@@ -5177,11 +5184,46 @@ board 和 word 中只包含大写和小写英文字母。
 1 <= board[i].length <= 200
 1 <= word.length <= 10^3
 
-
-logs：0
+logs：01
+[✔️]2021.06.03
 */
-
 // 解法1：DFS
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
+var exist = function (board, word) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[0].length; j++) {
+      if (board[i][j] != word[0]) continue;
+      if (dfs(board, i, j, word, 0)) return true;
+    }
+  }
+  return false;
+};
+
+function dfs(board, r, c, word, index) {
+  if (index === word.length) return true;
+  if (!(r >= 0 && r < board.length && c >= 0 && c < board[0].length)) {
+    return false;
+  }
+
+  if (board[r][c] === word[index]) {
+    let temp = board[r][c];
+    board[r][c] = '#';
+    let exist =
+      dfs(board, r - 1, c, word, index + 1) ||
+      dfs(board, r + 1, c, word, index + 1) ||
+      dfs(board, r, c - 1, word, index + 1) ||
+      dfs(board, r, c + 1, word, index + 1);
+    board[r][c] = temp;
+    return exist;
+  }
+
+  return false;
+}
+
 // 解法2：Trie
 
 //
@@ -6115,7 +6157,8 @@ var longestCommonSubsequence = function (text1, text2) {
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-      if (text1[i - 1] == text2[j - 1]) { // 取字符串索引位置要减一
+      if (text1[i - 1] == text2[j - 1]) {
+        // 取字符串索引位置要减一
         dp[i][j] = dp[i - 1][j - 1] + 1;
       } else {
         dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
@@ -6155,13 +6198,13 @@ var longestCommonSubstring = function (s1, s2) {
   let n = s2.length;
   let dp = Array.from(new Array(m + 1), () => new Array(n + 1).fill(0));
 
-  let max = 0
+  let max = 0;
 
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       if (s1[i - 1] == s2[j - 1]) {
         dp[i][j] = dp[i - 1][j - 1] + 1;
-        max = Math.max(max, dp[i][j])
+        max = Math.max(max, dp[i][j]);
       }
     }
   }
@@ -7091,7 +7134,6 @@ var isStraight = function (nums) {
   return idx >= gap;
 };
 
-
 //
 // -------divider-------
 //
@@ -7119,7 +7161,7 @@ logs：01
 */
 // 动态规划
 var longestPalindrome = function (s) {
-  let s1 = s
+  let s1 = s;
   let s2 = s.split('').reverse().join('');
   let len = s.length;
   let dp = Array.from(new Array(len + 1), () => new Array(len + 1).fill(0));
@@ -7134,8 +7176,10 @@ var longestPalindrome = function (s) {
       }
 
       if (dp[i][j] > maxLen) {
+        // dp[i][j]表示s1的前i个字符与s2的前j个字符的字串
         let beforeRev = len - 1 - j; // 回文子串的起点
-        if (beforeRev + dp[i][j] === i - 1) { //判断下标是否对应
+        if (beforeRev + dp[i][j] === i - 1) {
+          //判断下标是否对应
           maxLen = dp[i][j];
           maxEnd = i - 1;
         }
@@ -7148,30 +7192,29 @@ var longestPalindrome = function (s) {
 
 // 中心扩展法 时间复杂度O(n^2)
 var longestPalindrome = function (s) {
-  if (s.length <= 1) return s
+  if (s.length <= 1) return s;
 
-  let maxEnd = 0
-  let maxLen = 0
+  let maxEnd = 0;
+  let maxLen = 0;
 
   for (let i = 0; i < s.length - 1; i++) {
-    extendPalindrome(s, i, i) // odd 奇数
-    extendPalindrome(s, i, i + 1) // even 偶数
+    extendPalindrome(s, i, i); // odd 奇数
+    extendPalindrome(s, i, i + 1); // even 偶数
   }
 
-  return s.substring(maxEnd, maxEnd + maxLen)
+  return s.substring(maxEnd, maxEnd + maxLen);
 
   function extendPalindrome(s, l, r) {
     while (l >= 0 && r < s.length && s.charAt(l) === s.charAt(r)) {
-      l--
-      r++
+      l--;
+      r++;
     }
     if (maxLen < r - l - 1) {
-      maxEnd = l + 1 // 最长回文子串的起点
-      maxLen = r - l - 1
+      maxEnd = l + 1; // 最长回文子串的起点
+      maxLen = r - l - 1;
     }
   }
-}
-
+};
 
 //
 // -------divider-------
@@ -7214,7 +7257,6 @@ var firstUniqChar = function (s) {
   return -1;
 };
 
-
 /*
 【反转字符串】
 https://leetcode-cn.com/problems/reverse-string/
@@ -7235,11 +7277,11 @@ logs：01
  * @return {void} Do not return anything, modify s in-place instead.
  */
 var reverseString = function (s) {
-  let l = 0
+  let l = 0;
   let r = s.length - 1;
   while (l < r) {
-    [s[l], s[r]] = [s[r], s[l]]
-    l++
-    r--
+    [s[l], s[r]] = [s[r], s[l]];
+    l++;
+    r--;
   }
 };
