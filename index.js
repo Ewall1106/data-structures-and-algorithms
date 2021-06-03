@@ -4546,6 +4546,77 @@ var maxAreaOfIsland = function (grid) {
 //
 
 /*
+【N皇后】困难
+https://leetcode-cn.com/problems/n-queens/
+n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+输入：n = 4
+输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+解释：如上图所示，4 皇后问题存在两个不同的解法。
+
+logs：04
+[✔️]2021.02.21
+[✔️]2021.02.23
+[✔️]2021.05.07
+[✔️]2021.05.18
+*/
+// DFS+回溯。时间复杂度：O(N!)，其中 N 是皇后数量。
+/**
+ * @param {number} n
+ * @return {string[][]}
+ */
+var solveNQueens = function (n) {
+  if (n < 1) return [];
+  // 定义棋盘
+  let board = new Array(n);
+  for (let i = 0; i < n; i++) {
+    board[i] = new Array(n).fill('.');
+  }
+  let cols = new Set(); // 列
+  let pie = new Set(); // 撇
+  let na = new Set(); // 捺
+  let result = [];
+  dfs(board, 0);
+  return result;
+
+  function dfs(board, row) {
+    // 到达最后一层
+    // --- recursion terminator ---
+    if (row === n) {
+      let stringsBoard = board.slice();
+      for (let i = 0; i < n; i++) {
+        stringsBoard[i] = stringsBoard[i].join('');
+      }
+      result.push(stringsBoard);
+      return;
+    }
+    for (let col = 0; col < n; col++) {
+      // ---- process current ---
+      // 如果当前点的所在的列、所在的对角线都有皇后，即跳过
+      if (cols.has(col) || pie.has(row + col) || na.has(row - col)) {
+        continue;
+      }
+      board[row][col] = 'Q'; // 放置皇后（第一层的第1个位置、第2个位置...）
+      cols.add(col); // 记录放了皇后的列
+      pie.add(row + col); // 记录放了本皇后的正对角线
+      na.add(row - col); // 记录放了本皇后的负对角线
+      // --- drill down ---
+      dfs(board, row + 1); // 下一层
+      // --- reverse state ---
+      board[row][col] = '.'; // 撤销该点的皇后
+      cols.delete(col); // 对应的记录也删一下
+      pie.delete(row + col);
+      na.delete(row - col);
+    }
+    // return undefined
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
 【扫雷游戏】
 https://leetcode-cn.com/problems/minesweeper/description/
 让我们一起来玩扫雷游戏！
@@ -5290,12 +5361,13 @@ https://leetcode-cn.com/problems/assign-cookies/description/
 你拥有的饼干数量和尺寸都足以让所有孩子满足。
 所以你应该输出2.
 
-logs：05
+logs：06
 [✔️]2021.03.03
 [✔️]2021.03.12
 [✔️]2021.04.20
 [✔️]2021.05.18
 [✔️]2021.05.20
+[✔️]2021.06.03
 */
 // 贪心算法+排序。时间复杂度O(n)
 /**
@@ -5343,10 +5415,11 @@ https://leetcode-cn.com/problems/jump-game/
 输出：false
 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ，所以永远不可能到达最后一个下标。
 
-logs：03
+logs：04
 [✔️]2021.03.03
 [✔️]2021.04.20
 [✔️]2021.05.20
+[✔️]2021.06.03
 */
 
 // 贪心算法。
@@ -5452,9 +5525,10 @@ https://leetcode-cn.com/problems/lemonade-change/
 对于最后一位顾客，我们无法退回 15 美元，因为我们现在只有两张 10 美元的钞票。
 由于不是每位顾客都得到了正确的找零，所以答案是 false。
 
-logs：02
+logs：03
 [✔️]2021.03.03
 [✔️]2021.04.20
+[✔️]2021.06.03
 */
 // 贪心算法。
 /**
@@ -5505,79 +5579,27 @@ https://leetcode-cn.com/problems/pascals-triangle/
  [1,4,6,4,1]
 ]
 
-logs：0
+logs：1
+[✔️]2021.06.03
 */
-// 解法1：动态规划
-
-//
-// -------divider-------
-//
-
-/*
-【N皇后】困难
-https://leetcode-cn.com/problems/n-queens/
-n皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
-
-输入：n = 4
-输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
-解释：如上图所示，4 皇后问题存在两个不同的解法。
-
-logs：04
-[✔️]2021.02.21
-[✔️]2021.02.23
-[✔️]2021.05.07
-[✔️]2021.05.18
-*/
-// DFS+回溯。时间复杂度：O(N!)，其中 N 是皇后数量。
+// 动态规划、数学
 /**
- * @param {number} n
- * @return {string[][]}
+ * @param {number} numRows
+ * @return {number[][]}
  */
-var solveNQueens = function (n) {
-  if (n < 1) return [];
-  // 定义棋盘
-  let board = new Array(n);
-  for (let i = 0; i < n; i++) {
-    board[i] = new Array(n).fill('.');
-  }
-  let cols = new Set(); // 列
-  let pie = new Set(); // 撇
-  let na = new Set(); // 捺
-  let result = [];
-  dfs(board, 0);
-  return result;
+var generate = function (numRows) {
+  const rlt = [];
 
-  function dfs(board, row) {
-    // 到达最后一层
-    // --- recursion terminator ---
-    if (row === n) {
-      let stringsBoard = board.slice();
-      for (let i = 0; i < n; i++) {
-        stringsBoard[i] = stringsBoard[i].join('');
-      }
-      result.push(stringsBoard);
-      return;
+  for (let i = 0; i < numRows; i++) {
+    const row = new Array(i + 1).fill(1);
+    for (let j = 1; j < row.length - 1; j++) {
+      // row的第一个和最后一个忽略
+      row[j] = rlt[i - 1][j - 1] + rlt[i - 1][j];
     }
-    for (let col = 0; col < n; col++) {
-      // ---- process current ---
-      // 如果当前点的所在的列、所在的对角线都有皇后，即跳过
-      if (cols.has(col) || pie.has(row + col) || na.has(row - col)) {
-        continue;
-      }
-      board[row][col] = 'Q'; // 放置皇后
-      cols.add(col); // 记录放了皇后的列
-      pie.add(row + col); // 记录放了皇后的正对角线
-      na.add(row - col); // 记录放了皇后的负对角线
-      // --- drill down ---
-      dfs(board, row + 1);
-      // --- reverse state ---
-      board[row][col] = '.'; // 撤销该点的皇后
-      cols.delete(col); // 对应的记录也删一下
-      pie.delete(row + col);
-      na.delete(row - col);
-    }
-    // return undefined
+    rlt.push(row);
   }
+
+  return rlt;
 };
 
 //
@@ -6815,9 +6837,7 @@ LRUCache.prototype.put = function (key, value) {
 /*
 【只出现一次的数字】
 https://leetcode-cn.com/problems/single-number/
-
 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
-
 说明：
 你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
 
@@ -6829,10 +6849,11 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：03
+logs：04
 [✔️]2021.05.16
 [✔️]2021.05.19
 [✔️]2021.05.23
+[✔️]2021.06.03
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -6861,10 +6882,11 @@ https://leetcode-cn.com/problems/thousand-separator/
 输入：n = 1234
 输出："1.234"
 
-logs：03
+logs：04
 [✔️]2021.05.10
 [✔️]2021.05.19
 [✔️]2021.05.23
+[✔️]2021.06.03
 */
 /**
  * @param {number} n
@@ -6903,10 +6925,11 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：03
+logs：04
 2021.05.14
 2021.05.19
 2021.05.23
+2021.06.03
 */
 /**
  * @param {number} x
@@ -6914,20 +6937,20 @@ logs：03
  */
 // 数字方法 时间复杂度O(log(x)) 空间复杂度O(1)
 var reverse = function (x) {
-  let rev = 0;
+  let rlt = 0;
   while (x != 0) {
     // 获取x的最后1位数字
     const digit = x % 10;
-    // 将数字digit推入rev中
-    rev = rev * 10 + digit;
+    // 将数字digit推入rlt中
+    rlt = rlt * 10 + digit;
     // 更新x以便下轮获取倒数第2个数字（取整）
     x = parseInt(x / 10); // 不使用Math.floor的原因是：Math.floor(-12.3) = -13
     // 条件判断
-    if (rev < Math.pow(-2, 31) || rev > Math.pow(2, 31) - 1) {
+    if (rlt < Math.pow(-2, 31) || rlt > Math.pow(2, 31) - 1) {
       return 0;
     }
   }
-  return rev;
+  return rlt;
 };
 
 // 栈 时间复杂度O(n) 空间复杂度O(n)
@@ -6962,10 +6985,11 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：03
+logs：04
 2021.05.15
 2021.05.19
 2021.05.23
+2021.06.03
 */
 /**
  * @param {string[]} strs
@@ -7056,9 +7080,10 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-logs：02
+logs：03
 2021.05.16
 2021.05.19
+2021.06.03
 */
 /**
  * @param {string} s
@@ -7175,8 +7200,8 @@ var longestPalindrome = function (s) {
         dp[i][j] = dp[i - 1][j - 1] + 1;
       }
 
+      // dp[i][j]表示s1的前i个字符与s2的前j个字符的子串
       if (dp[i][j] > maxLen) {
-        // dp[i][j]表示s1的前i个字符与s2的前j个字符的字串
         let beforeRev = len - 1 - j; // 回文子串的起点
         if (beforeRev + dp[i][j] === i - 1) {
           //判断下标是否对应
@@ -7193,15 +7218,12 @@ var longestPalindrome = function (s) {
 // 中心扩展法 时间复杂度O(n^2)
 var longestPalindrome = function (s) {
   if (s.length <= 1) return s;
-
   let maxEnd = 0;
   let maxLen = 0;
-
   for (let i = 0; i < s.length - 1; i++) {
     extendPalindrome(s, i, i); // odd 奇数
     extendPalindrome(s, i, i + 1); // even 偶数
   }
-
   return s.substring(maxEnd, maxEnd + maxLen);
 
   function extendPalindrome(s, l, r) {
