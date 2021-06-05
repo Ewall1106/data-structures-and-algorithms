@@ -4801,7 +4801,7 @@ var minMutation = function (start, end, bank) {
 元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
 时间复杂度O(n^2)
 
-logs：11
+logs：12
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
@@ -4813,6 +4813,7 @@ logs：11
 [✔️]2020.08.28
 [✔️]2020.10.12
 [✔️]2021.05.13
+[✔️]2021.06.05
 */
 function bubbleSort(nums) {
   for (let i = 0; i < nums.length; i++) {
@@ -4836,7 +4837,7 @@ const test = bubbleSort([4, 4, 52, 13, 5, 8, 91, 1]);
 选择排序大致的思路是找到数据结构中的最小值并将其放置在第一位，接着找到第二小的值并将其放在第二位，以此类推。
 时间复杂度O(n^2)
 
-logs：10
+logs：11
 [✔️]2020.05.22
 [✔️]2020.05.25
 [✔️]2020.06.06
@@ -4847,6 +4848,7 @@ logs：10
 [✔️]2020.09.04
 [✔️]2020.09.24
 [✔️]2020.11.19
+[✔️]2021.06.05
 */
 function selectionSort(nums) {
   for (let i = 0; i < nums.length - 1; i++) {
@@ -4920,7 +4922,7 @@ mergeSort(left...right) = merge(mergeSort(left...middle), mergeSort(middle+1...r
 终止条件：
 数组length<=1
 
-logs：9
+logs：10
 [✔️]2020.05.22
 [✔️]2020.05.26
 [✔️]2020.06.15
@@ -4930,6 +4932,7 @@ logs：9
 [✔️]2020.09.14
 [✔️]2020.11.10
 [✔️]2020.12.25
+[✔️]2021.06.05
 */
 
 function mergeSort(nums) {
@@ -5588,7 +5591,7 @@ logs：1
  * @return {number[][]}
  */
 var generate = function (numRows) {
-  const rlt = [];
+  let rlt = [];
 
   for (let i = 0; i < numRows; i++) {
     const row = new Array(i + 1).fill(1);
