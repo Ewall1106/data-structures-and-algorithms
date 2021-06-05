@@ -6790,9 +6790,10 @@ LRUCache(int capacity) 以正整数作为容量 capacity 初始化 LRU 缓存
 int get(int key) 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。
 void put(int key, int value) 如果关键字已经存在，则变更其数据值；如果关键字不存在，则插入该组「关键字-值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。
 
-logs：02
+logs：03
 [✔️]2021.04.25
 [✔️]2021.05.07
+[✔️]2021.06.05
 */
 /**
  * @param {number} capacity
@@ -6820,12 +6821,12 @@ LRUCache.prototype.get = function (key) {
  * @return {void}
  */
 LRUCache.prototype.put = function (key, value) {
-  this.map.delete(key);
-  this.map.set(key, value);
   if (this.map.size > this.capacity) {
     const firstItem = this.map.keys().next().value; // iterator可迭代器
     this.map.delete(firstItem);
   }
+  this.map.delete(key);
+  this.map.set(key, value);
 };
 
 /**
@@ -6852,11 +6853,12 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：04
+logs：05
 [✔️]2021.05.16
 [✔️]2021.05.19
 [✔️]2021.05.23
 [✔️]2021.06.03
+[✔️]2021.06.05
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -6885,11 +6887,12 @@ https://leetcode-cn.com/problems/thousand-separator/
 输入：n = 1234
 输出："1.234"
 
-logs：04
+logs：05
 [✔️]2021.05.10
 [✔️]2021.05.19
 [✔️]2021.05.23
 [✔️]2021.06.03
+[✔️]2021.06.05
 */
 /**
  * @param {number} n
@@ -6928,11 +6931,12 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：04
+logs：05
 2021.05.14
 2021.05.19
 2021.05.23
 2021.06.03
+2021.06.05
 */
 /**
  * @param {number} x
@@ -6988,11 +6992,12 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：04
+logs：05
 2021.05.15
 2021.05.19
 2021.05.23
 2021.06.03
+2021.06.05
 */
 /**
  * @param {string[]} strs
@@ -7032,10 +7037,11 @@ https://leetcode-cn.com/problems/search-insert-position/
 输入: [1,3,5,6], 2
 输出: 1
 
-logs：03
+logs：04
 2021.05.15
 2021.05.19
 2021.05.23
+2021.06.05
 */
 /**
  * @param {number[]} nums
@@ -7083,10 +7089,11 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-logs：03
+logs：04
 2021.05.16
 2021.05.19
 2021.06.03
+2021.06.05
 */
 /**
  * @param {string} s
@@ -7185,7 +7192,7 @@ https://leetcode-cn.com/problems/longest-palindromic-substring/
 输出："a"
 
 logs：01
-2021.06.01
+[✔️]2021.06.01
 */
 // 动态规划
 var longestPalindrome = function (s) {
@@ -7205,7 +7212,7 @@ var longestPalindrome = function (s) {
 
       // dp[i][j]表示s1的前i个字符与s2的前j个字符的子串
       if (dp[i][j] > maxLen) {
-        let beforeRev = len - 1 - j; // 回文子串的起点
+        let beforeRev = len - 1 - j; // 回文子串的起点 "aacabdkacaa"
         if (beforeRev + dp[i][j] === i - 1) {
           //判断下标是否对应
           maxLen = dp[i][j];
@@ -7257,8 +7264,9 @@ s = "leetcode"
 s = "loveleetcode"
 返回 2
 
-logs：01
-2021.06.01
+logs：02
+[✔️]2021.06.01
+[✔️]2021.06.05
 */
 // 使用hash 时间复杂度O(n)
 var firstUniqChar = function (s) {
@@ -7293,8 +7301,9 @@ https://leetcode-cn.com/problems/reverse-string/
 输入：["h","e","l","l","o"]
 输出：["o","l","l","e","h"]
 
-logs：01
-2021.06.01
+logs：02
+[✔️]2021.06.01
+[✔️]2021.06.05
 */
 // 双指针
 /**
