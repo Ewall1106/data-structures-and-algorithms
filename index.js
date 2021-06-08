@@ -1448,6 +1448,58 @@ var maxSlidingWindow = function (nums, k) {
 //
 
 /*
+【两数相加】
+https://leetcode-cn.com/problems/add-two-numbers/
+给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+请你将两个数相加，并以相同形式返回一个表示和的链表。
+你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+示例 1：
+输入：l1 = [2,4,3], l2 = [5,6,4]
+输出：[7,0,8]
+解释：342 + 465 = 807.
+
+示例 2：
+输入：l1 = [0], l2 = [0]
+输出：[0]
+
+示例 3：
+输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+输出：[8,9,9,9,0,0,0,1]
+
+logs：01
+[✔️]2021.06.08
+*/
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function (l1, l2) {
+  let prev = new ListNode(null);
+  temp = prev;
+  let carry = 0;
+  while (l1 || l2) {
+    let a = l1 == null ? 0 : l1.val;
+    let b = l2 == null ? 0 : l2.val;
+    let sum = a + b + carry;
+    carry = sum > 9 ? 1 : 0;
+    sum = sum % 10;
+    temp.next = new ListNode(sum);
+
+    temp = temp.next;
+    if (l1) l1 = l1.next;
+    if (l2) l2 = l2.next;
+  }
+  if (carry == 1) temp.next = new ListNode(carry);
+  return prev.next;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【无重复字符的最长子串】
 https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 
@@ -5259,8 +5311,9 @@ board 和 word 中只包含大写和小写英文字母。
 1 <= board[i].length <= 200
 1 <= word.length <= 10^3
 
-logs：01
+logs：02
 [✔️]2021.06.03
+[✔️]2021.06.08
 */
 // 解法1：DFS
 /**
@@ -5300,33 +5353,6 @@ function dfs(board, r, c, word, index) {
 }
 
 // 解法2：Trie
-
-//
-// -------divider-------
-//
-
-/*
-【位的个数】
-https://leetcode-cn.com/problems/number-of-1-bits/
-编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。
-
-示例 1：
-输入：00000000000000000000000000001011
-输出：3
-解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
-
-示例 2：
-输入：00000000000000000000000010000000
-输出：1
-解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 '1'。
-
-示例 3：
-输入：11111111111111111111111111111101
-输出：31
-解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 '1'。
-
-logs：0
-*/
 
 //
 // -------divider-------
@@ -5419,11 +5445,12 @@ https://leetcode-cn.com/problems/jump-game/
 输出：false
 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ，所以永远不可能到达最后一个下标。
 
-logs：04
+logs：05
 [✔️]2021.03.03
 [✔️]2021.04.20
 [✔️]2021.05.20
 [✔️]2021.06.03
+[✔️]2021.06.08
 */
 
 // 贪心算法。
