@@ -27,12 +27,13 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
 输出：[4,9]
 
-logs：5
+logs：6
 2021.04.30
 2021.05.03
 2021.05.17
 2021.05.23
 2021.05.31
+2021.06.09
 */
 // 排序+双指针 时间复杂度O(mlogm+nlogn)
 /**
@@ -5717,11 +5718,12 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：04
+logs：05
 [✔️]2021.03.30
 [✔️]2021.04.20
 [✔️]2021.05.08
 [✔️]2021.05.18
+[✔️]2021.06.09
 */
 // 暴力法。列举所有可以的交易组合及对于的利润。时间复杂度：时间复杂度：O(n^n)，调用递归函数 n^n次。
 // 动态规划。时间复杂度：O(n*2)
@@ -5877,7 +5879,7 @@ var maxProfit = function (k, prices) {
   // 初始化第一天的值
   for (let k = 0; k <= max_k; k++) {
     dp[0][0][k] = 0;
-    dp[0][1][k] = -prices[0];
+    dp[0][1][k] = -prices[0]; // 必须持有一股，无论交易多少次，最大利润都只能是(-prices[0])
   }
 
   // 状态方程
@@ -6883,12 +6885,13 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：05
+logs：06
 [✔️]2021.05.16
 [✔️]2021.05.19
 [✔️]2021.05.23
 [✔️]2021.06.03
 [✔️]2021.06.05
+[✔️]2021.06.09
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -6917,12 +6920,13 @@ https://leetcode-cn.com/problems/thousand-separator/
 输入：n = 1234
 输出："1.234"
 
-logs：05
+logs：06
 [✔️]2021.05.10
 [✔️]2021.05.19
 [✔️]2021.05.23
 [✔️]2021.06.03
 [✔️]2021.06.05
+[✔️]2021.06.08
 */
 /**
  * @param {number} n
@@ -6961,12 +6965,13 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：05
+logs：06
 2021.05.14
 2021.05.19
 2021.05.23
 2021.06.03
 2021.06.05
+2021.06.08
 */
 /**
  * @param {number} x
@@ -7022,12 +7027,13 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：05
+logs：06
 2021.05.15
 2021.05.19
 2021.05.23
 2021.06.03
 2021.06.05
+2021.06.08
 */
 /**
  * @param {string[]} strs
@@ -7067,11 +7073,12 @@ https://leetcode-cn.com/problems/search-insert-position/
 输入: [1,3,5,6], 2
 输出: 1
 
-logs：04
+logs：05
 2021.05.15
 2021.05.19
 2021.05.23
 2021.06.05
+2021.06.09
 */
 /**
  * @param {number[]} nums
@@ -7119,11 +7126,12 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-logs：04
+logs：05
 2021.05.16
 2021.05.19
 2021.06.03
 2021.06.05
+2021.06.08
 */
 /**
  * @param {string} s
@@ -7232,9 +7240,10 @@ https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/
 输入: [0,0,1,2,5]
 输出: True
 
-logs：02
+logs：03
 2021.05.16
 2021.05.20
+2021.06.09
 */
 /**
  * @param {number[]} nums
@@ -7300,7 +7309,7 @@ var longestPalindrome = function (s) {
 
       // dp[i][j]表示s1的前i个字符与s2的前j个字符的子串
       if (dp[i][j] > maxLen) {
-        let beforeRev = len - 1 - j; // 回文子串的起点 "aacabdkacaa"
+        let beforeRev = len - 1 - j;
         if (beforeRev + dp[i][j] === i - 1) {
           //判断下标是否对应
           maxLen = dp[i][j];
@@ -7352,9 +7361,10 @@ s = "leetcode"
 s = "loveleetcode"
 返回 2
 
-logs：02
+logs：03
 [✔️]2021.06.01
 [✔️]2021.06.05
+[✔️]2021.06.09
 */
 // 使用hash 时间复杂度O(n)
 var firstUniqChar = function (s) {
@@ -7389,9 +7399,10 @@ https://leetcode-cn.com/problems/reverse-string/
 输入：["h","e","l","l","o"]
 输出：["o","l","l","e","h"]
 
-logs：02
+logs：03
 [✔️]2021.06.01
 [✔️]2021.06.05
+[✔️]2021.06.09
 */
 // 双指针
 /**
