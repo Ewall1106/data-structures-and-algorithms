@@ -1522,12 +1522,13 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
 
-logs：05
+logs：06
 [✔️]2021.05.13
 [✔️]2021.05.17
 [✔️]2021.05.18
 [✔️]2021.05.23
 [✔️]2021.05.31
+[✔️]2021.06.10
 */
 // 双指针 滑动窗口 时间复杂度O(n) 空间复杂度O(n)
 /**
@@ -6003,7 +6004,7 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：08
+logs：09
 [✔️]2021.04.01
 [✔️]2021.04.06
 [✔️]2021.04.20
@@ -6012,6 +6013,7 @@ logs：08
 [✔️]2021.05.04
 [✔️]2021.05.10
 [✔️]2021.05.18
+[✔️]2021.06.10
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
@@ -6044,14 +6046,14 @@ var lengthOfLIS = function (nums) {
 【最大子序和】
 https://leetcode-cn.com/problems/maximum-subarray/
 
-给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+给定一个整数数组 nums ，找到一个具有最大和的【连续】子数组（子数组最少包含一个元素），返回其最大和。
 
 示例:
 输入: [-2,1,-3,4,-1,2,1,-5,4],
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：07
+logs：08
 [✔️]2021.03.24
 [✔️]2021.03.25
 [✔️]2021.04.06
@@ -6059,6 +6061,7 @@ logs：07
 [✔️]2021.04.22
 [✔️]2021.05.10
 [✔️]2021.05.18
+[✔️]2021.06.10
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
@@ -6183,12 +6186,13 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：05
+logs：06
 [✔️]2021.03.23
 [✔️]2021.04.06
 [✔️]2021.04.23
 [✔️]2021.05.10
 [✔️]2021.05.18
+[✔️]2021.06.10
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
 // https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
@@ -6236,7 +6240,7 @@ var longestCommonSubsequence = function (text1, text2) {
 //
 
 /*
-【最长公共字串】
+【最长公共子串】
 求两个字符串的最长公共字串值。
 求：返回长度
 求：返回字串
@@ -6245,8 +6249,9 @@ var longestCommonSubsequence = function (text1, text2) {
 输入：s1 = "abcde", s2 = "abce" 
 输出：3
 
-logs：05
+logs：02
 [✔️]2021.06.01
+[✔️]2021.06.10
 */
 // 动态规划 时间复杂度O(n^2)
 var longestCommonSubstring = function (s1, s2) {
