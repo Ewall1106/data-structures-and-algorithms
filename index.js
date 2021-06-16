@@ -2827,13 +2827,14 @@ var inorderTraversal = function (root) {
 https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/
 给定一个 N 叉树，返回其节点值的后序遍历。
 
-logs：06
+logs：07
 [✔️]2021.01.18
 [✔️]2021.02.03
 [✔️]2021.04.16
 [✔️]2021.05.11
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.06.16
 */
 // 递归
 /**
@@ -2885,13 +2886,14 @@ https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 输入：root = [1,null,3,2,4,null,5,6]
 输出：[[1],[3,2,4],[5,6]]
 
-logs：06
+logs：07
 [✔️]2021.01.19
 [✔️]2021.02.04
 [✔️]2021.04.16
 [✔️]2021.05.04
 [✔️]2021.05.11
 [✔️]2021.05.17
+[✔️]2021.06.16
 */
 
 // 迭代 BFS 时间复杂度O(n) 空间复杂度O(n)
@@ -3251,7 +3253,7 @@ https://leetcode-cn.com/problems/invert-binary-tree/
  / \   / \
 9   6 3   1
 
-logs：08
+logs：09
 [✔️]2021.01.24
 [✔️]2021.02.04
 [✔️]2021.04.09
@@ -3260,6 +3262,7 @@ logs：08
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.06.16
 */
 
 // 递归 时间复杂度O(n)
@@ -3547,7 +3550,7 @@ https://leetcode-cn.com/problems/subsets/
 输入：nums = [0]
 输出：[[],[0]]
 
-logs：09
+logs：10
 [✔️]2021.01.25
 [✔️]2021.03.04
 [✔️]2021.03.19
@@ -3557,6 +3560,7 @@ logs：09
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.06.16
 */
 // 全排列+DFS+回溯。
 // input: [1,2,3]
@@ -3651,7 +3655,7 @@ https://leetcode-cn.com/problems/subsets-ii/
   []
 ]
 
-logs：07
+logs：08
 [✔️]2021.02.05
 [✔️]2021.03.04
 [✔️]2021.04.17
@@ -3659,6 +3663,7 @@ logs：07
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.06.16
 */
 // 全排列
 /**
@@ -3703,7 +3708,7 @@ https://leetcode-cn.com/problems/permutations/
   [3,2,1]
 ]
 
-logs：08
+logs：09
 [✔️]2021.02.04
 [✔️]2021.03.05
 [✔️]2021.03.19
@@ -3712,6 +3717,7 @@ logs：08
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.06.16
 */
 // DFS+回溯+全排列。时间复杂度O(2^n)、空间复杂度O(n)
 var permute = function (nums) {
@@ -3887,10 +3893,11 @@ https://leetcode-cn.com/problems/combination-sum/
   [3,5]
 ]
 
-logs：03
+logs：04
 [✔️]2021.02.05
 [✔️]2021.04.17
 [✔️]2021.06.02
+[✔️]2021.06.16
 */
 // 递归、全排列
 /**
@@ -4399,7 +4406,7 @@ https://leetcode-cn.com/problems/find-largest-value-in-each-tree-row/
 
 输出: [1, 3, 9]
 
-logs：09
+logs：10
 [✔️]2021.02.01
 [✔️]2021.02.02
 [✔️]2021.02.17
@@ -4409,6 +4416,7 @@ logs：09
 [✔️]2021.05.10
 [✔️]2021.05.17
 [✔️]2021.06.02
+[✔️]2021.06.16
 */
 // BFS 时间复杂度O(n)
 /**
@@ -4486,12 +4494,13 @@ function dfs(grid, r, c) {
 }
 ------------------------------------------------------
 
-logs：05
+logs：06
 [✔️]2021.02.23
 [✔️]2021.02.24
 [✔️]2021.04.19
 [✔️]2021.05.13
 [✔️]2021.06.02
+[✔️]2021.06.16
 */
 // DFS+递归。时间复杂度：O(MN)、空间复杂度：O(MN)
 // https://leetcode-cn.com/problems/number-of-islands/solution/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-/
@@ -5618,8 +5627,9 @@ https://leetcode-cn.com/problems/pascals-triangle/
  [1,4,6,4,1]
 ]
 
-logs：1
+logs：2
 [✔️]2021.06.03
+[✔️]2021.06.16
 */
 // 动态规划、数学
 /**
@@ -6333,10 +6343,11 @@ https://leetcode-cn.com/problems/unique-paths/
 输入：m = 7, n = 3
 输出：28
 
-logs：3
+logs：4
 [✔️]2021.03.15
 [✔️]2021.04.23
 [✔️]2021.05.18
+[✔️]2021.06.16
 */
 // 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
 // dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
@@ -6522,7 +6533,7 @@ var minimumTotal = function (triangle) {
 
 /*
 【零钱兑换】
-https://leetcode-cn.com/problems/coin-change/description/
+https://leetcode-cncom/problems/coin-change/description/
 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
 你可以认为每种硬币的数量是无限的。
 
@@ -6539,12 +6550,13 @@ https://leetcode-cn.com/problems/coin-change/description/
 输入：coins = [1], amount = 0
 输出：0
 
-logs：05
+logs：06
 [✔️]2021.03.24
 [✔️]2021.04.08
 [✔️]2021.04.08
 [✔️]2021.06.07
 [✔️]2021.06.12
+[✔️]2021.06.16
 */
 // 暴力破解
 // BFS
