@@ -27,7 +27,7 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
 输出：[4,9]
 
-logs：08
+logs：09
 2021.04.30
 2021.05.03
 2021.05.17
@@ -36,6 +36,7 @@ logs：08
 2021.06.09
 2021.06.12
 2021.06.14
+2021.06.17
 */
 // 排序+双指针 时间复杂度O(mlogm+nlogn)
 /**
@@ -1175,7 +1176,7 @@ var isValid = function (s) {
   它的右侧子节点的位置是 2n + 2（如果位置可用）； 
   它的父节点位置是 n / 2（如果位置可用）。
 
-logs：9
+logs：09
 [✔️]2020.05.23
 [✔️]2020.06.01
 [✔️]2020.06.02
@@ -1470,9 +1471,10 @@ https://leetcode-cn.com/problems/add-two-numbers/
 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
 输出：[8,9,9,9,0,0,0,1]
 
-logs：02
+logs：03
 [✔️]2021.06.08
 [✔️]2021.06.14
+[✔️]2021.06.17
 */
 /**
  * @param {ListNode} l1
@@ -6265,9 +6267,10 @@ var longestCommonSubsequence = function (text1, text2) {
 输入：s1 = "abcde", s2 = "abce" 
 输出：3
 
-logs：02
+logs：03
 [✔️]2021.06.01
 [✔️]2021.06.10
+[✔️]2021.06.17
 */
 // 动态规划 时间复杂度O(n^2)
 var longestCommonSubstring = function (s1, s2) {
