@@ -3288,6 +3288,45 @@ var invertTree = function (root) {
 // -------divider-------
 //
 
+/*
+【合并二叉树】
+https://leetcode-cn.com/problems/merge-two-binary-trees/
+给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。
+你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则不为 NULL 的节点将直接作为新二叉树的节点。
+
+示例 1:
+输入: 
+	Tree 1                 Tree 2                  
+          1                     2                             
+         / \                   / \                            
+        3   2                 1   3                        
+       /                       \   \                      
+      5                         4   7           
+
+输出: 
+合并后的树:
+	     3
+	    / \
+	   4   5
+	  / \   \ 
+	 5   4   7
+
+logs：01
+[✔️]2021.06.21
+*/
+var mergeTrees = function (root1, root2) {
+  if (!root1) return root2;
+  if (!root2) return root1;
+  let tree = new TreeNode(root1.val + root2.val);
+  tree.left = mergeTrees(root1.left, root2.left);
+  tree.right = mergeTrees(root1.right, root2.right);
+  return tree;
+};
+
+//
+// -------divider-------
+//
+
 /* -------------------------- 递归、分治、回溯 ---------------------------*/
 
 /* 
@@ -6921,13 +6960,14 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：06
+logs：07
 [✔️]2021.05.16
 [✔️]2021.05.19
 [✔️]2021.05.23
 [✔️]2021.06.03
 [✔️]2021.06.05
 [✔️]2021.06.09
+[✔️]2021.06.21
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -6956,7 +6996,7 @@ https://leetcode-cn.com/problems/thousand-separator/
 输入：n = 1234
 输出："1.234"
 
-logs：07
+logs：08
 [✔️]2021.05.10
 [✔️]2021.05.19
 [✔️]2021.05.23
@@ -6964,6 +7004,7 @@ logs：07
 [✔️]2021.06.05
 [✔️]2021.06.08
 [✔️]2021.06.17
+[✔️]2021.06.21
 */
 /**
  * @param {number} n
@@ -7002,7 +7043,7 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：07
+logs：08
 2021.05.14
 2021.05.19
 2021.05.23
@@ -7010,6 +7051,7 @@ logs：07
 2021.06.05
 2021.06.08
 2021.06.17
+2021.06.21
 */
 /**
  * @param {number} x
@@ -7065,13 +7107,14 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：06
+logs：07
 2021.05.15
 2021.05.19
 2021.05.23
 2021.06.03
 2021.06.05
 2021.06.08
+2021.06.21
 */
 /**
  * @param {string[]} strs
@@ -7111,13 +7154,14 @@ https://leetcode-cn.com/problems/search-insert-position/
 输入: [1,3,5,6], 2
 输出: 1
 
-logs：06
+logs：07
 2021.05.15
 2021.05.19
 2021.05.23
 2021.06.05
 2021.06.09
 2021.06.17
+2021.06.21
 */
 /**
  * @param {number[]} nums
@@ -7165,13 +7209,14 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-logs：06
+logs：07
 2021.05.16
 2021.05.19
 2021.06.03
 2021.06.05
 2021.06.08
 2021.06.17
+2021.06.21
 */
 /**
  * @param {string} s
@@ -7236,9 +7281,10 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string/
 输出："example good a"
 解释：如果两个单词间有多余的空格，将翻转后单词间的空格减少到只含一个。
 
-logs：02
+logs：03
 2021.06.06
 2021.06.17
+2021.06.21
 */
 var reverseWords = function (s) {
   s = s.trim();
@@ -7281,11 +7327,12 @@ https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/
 输入: [0,0,1,2,5]
 输出: True
 
-logs：04
+logs：05
 2021.05.16
 2021.05.20
 2021.06.09
 2021.06.17
+2021.06.21
 */
 /**
  * @param {number[]} nums
@@ -7330,8 +7377,9 @@ https://leetcode-cn.com/problems/longest-palindromic-substring/
 输入：s = "a"
 输出："a"
 
-logs：01
+logs：02
 [✔️]2021.06.01
+[✔️]2021.06.21
 */
 // 动态规划
 var longestPalindrome = function (s) {
@@ -7381,6 +7429,7 @@ var longestPalindrome = function (s) {
       r++;
     }
     if (maxLen < r - l - 1) {
+      // 当到达最后匹配的位置，根据上面while的判断条件l和r还会多++走一步
       maxEnd = l + 1; // 最长回文子串的起点
       maxLen = r - l - 1;
     }
@@ -7403,10 +7452,11 @@ s = "leetcode"
 s = "loveleetcode"
 返回 2
 
-logs：03
+logs：04
 [✔️]2021.06.01
 [✔️]2021.06.05
 [✔️]2021.06.09
+[✔️]2021.06.21
 */
 // 使用hash 时间复杂度O(n)
 var firstUniqChar = function (s) {
@@ -7441,10 +7491,11 @@ https://leetcode-cn.com/problems/reverse-string/
 输入：["h","e","l","l","o"]
 输出：["o","l","l","e","h"]
 
-logs：03
+logs：04
 [✔️]2021.06.01
 [✔️]2021.06.05
 [✔️]2021.06.09
+[✔️]2021.06.21
 */
 // 双指针
 /**
