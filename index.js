@@ -3311,8 +3311,9 @@ https://leetcode-cn.com/problems/merge-two-binary-trees/
 	  / \   \ 
 	 5   4   7
 
-logs：01
+logs：02
 [✔️]2021.06.21
+[✔️]2021.06.22
 */
 var mergeTrees = function (root1, root2) {
   if (!root1) return root2;
@@ -4785,7 +4786,7 @@ https://leetcode-cn.com/problems/word-ladder/
 输出：0
 解释：endWord "cog" 不在字典中，所以无法进行转换。
 
-logs：5
+logs：05
 [✔️]2021.02.22
 [✔️]2021.02.23
 [✔️]2021.03.01
@@ -4808,23 +4809,23 @@ var ladderLength = function (beginWord, endWord, wordList) {
   queue.push([beginWord, 1]);
 
   while (queue.length) {
-    for (let i = 0, len = queue.length; i < len; i++) {
-      let [word, level] = queue.shift();
-      if (word == endWord) return level;
+    // for (let i = 0, len = queue.length; i < len; i++) {
+    let [word, level] = queue.shift();
+    if (word == endWord) return level;
 
-      for (let j = 0; j < word.length; j++) {
-        // 26个字母
-        for (let k = 97; k <= 122; k++) {
-          // 组合新词
-          let s = word.slice(0, j) + String.fromCharCode(k) + word.slice(j + 1);
-          // wordSet里有
-          if (wordSet.has(s)) {
-            queue.push([s, level + 1]); // 作为下一层的词入列
-            wordSet.delete(s); // 避免该词重复入列
-          }
+    for (let j = 0; j < word.length; j++) {
+      // 26个字母
+      for (let k = 97; k <= 122; k++) {
+        // 组合新词
+        let s = word.slice(0, j) + String.fromCharCode(k) + word.slice(j + 1);
+        // wordSet里有
+        if (wordSet.has(s)) {
+          queue.push([s, level + 1]); // 作为下一层的词入列
+          wordSet.delete(s); // 避免该词重复入列
         }
       }
     }
+    // }
   }
   return 0;
 };
@@ -5553,9 +5554,10 @@ https://leetcode-cn.com/problems/jump-game-ii/
 解释: 跳到最后一个位置的最小跳跃数是 2。
      从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
 
-logs：2
+logs：03
 [✔️]2021.05.15
 [✔️]2021.05.20
+[✔️]2021.06.22
 */
 // 贪心算法 时间复杂度O(n)
 // https://leetcode-cn.com/problems/jump-game-ii/solution/45-by-ikaruga/
@@ -5673,9 +5675,10 @@ https://leetcode-cn.com/problems/pascals-triangle/
  [1,4,6,4,1]
 ]
 
-logs：2
+logs：03
 [✔️]2021.06.03
 [✔️]2021.06.16
+[✔️]2021.06.22
 */
 // 动态规划、数学
 /**
@@ -6173,11 +6176,12 @@ https://leetcode-cn.com/problems/maximum-product-subarray/
 输出: 0
 解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
 
-logs：4
+logs：05
 [✔️]2021.04.21
 [✔️]2021.04.23
 [✔️]2021.05.10
 [✔️]2021.05.18
+[✔️]2021.6.22
 */
 var maxProduct = function (nums) {
   const dp_max = nums.slice(); // 记录最大值
@@ -6390,11 +6394,12 @@ https://leetcode-cn.com/problems/unique-paths/
 输入：m = 7, n = 3
 输出：28
 
-logs：4
+logs：05
 [✔️]2021.03.15
 [✔️]2021.04.23
 [✔️]2021.05.18
 [✔️]2021.06.16
+[✔️]2021.06.2
 */
 // 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
 // dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
