@@ -3620,6 +3620,10 @@ var subsets = function (nums) {
     result.push(list.slice());
     for (let i = index; i < nums.length; i++) {
       list.push(nums[i]);
+      // 这里是【i+1】而非【index+1】因为如果是后者的话，在第一轮看起来是没问题的
+      // [[],[1],[1,2],[1,2,3],[1,3],[1,3,3],[2],[2,2],[2,2,3],[2,3],[2,3,3],[3],[3,2],[3,2,3],[3,3],[3,3,3]]
+      //                                     ———————————————————————.....
+      //                                     但是递归第二轮的时候，传递给下层的值不对，应该是当前索引+1，而非当前层+1
       dfs(list, i + 1);
       list.pop();
     }
@@ -5976,10 +5980,11 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 输出: 3 
 解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]
 
-logs：03
+logs：04
 [✔️]2021.04.01
 [✔️]2021.04.20
 [✔️]2021.05.18
+[✔️]2021.06.22
 */
 /**
  * @param {number[]} prices
@@ -6025,10 +6030,11 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-transactio
 在此处卖出 prices[5] = 9
 总利润: ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
 
-logs：03
+logs：04
 [✔️]2021.04.01
 [✔️]2021.04.10
 [✔️]2021.05.18
+[✔️]2021.06.22
 */
 /**
  * @param {number[]} prices
@@ -6399,7 +6405,7 @@ logs：05
 [✔️]2021.04.23
 [✔️]2021.05.18
 [✔️]2021.06.16
-[✔️]2021.06.2
+[✔️]2021.06.22
 */
 // 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
 // dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
