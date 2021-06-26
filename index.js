@@ -27,7 +27,7 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
 输出：[4,9]
 
-logs：09
+logs：10
 2021.04.30
 2021.05.03
 2021.05.17
@@ -37,6 +37,7 @@ logs：09
 2021.06.12
 2021.06.14
 2021.06.17
+2021.06.25
 */
 // 排序+双指针 时间复杂度O(mlogm+nlogn)
 /**
@@ -1471,10 +1472,11 @@ https://leetcode-cn.com/problems/add-two-numbers/
 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
 输出：[8,9,9,9,0,0,0,1]
 
-logs：03
+logs：04
 [✔️]2021.06.08
 [✔️]2021.06.14
 [✔️]2021.06.17
+[✔️]2021.06.25
 */
 /**
  * @param {ListNode} l1
@@ -1574,11 +1576,12 @@ https://leetcode-cn.com/problems/sort-list/
 输入：head = [-1,5,3,4,0]
 输出：[-1,0,3,4,5]
 
-logs：04
+logs：05
 [✔️]2020.05.16
 [✔️]2020.05.17
 [✔️]2020.05.31
 [✔️]2020.06.14
+[✔️]2020.06.25
 */
 // 合并两个有序链表+归并排序
 // 时间复杂度O(nlogn) 空间复杂度O(n)
@@ -3311,9 +3314,10 @@ https://leetcode-cn.com/problems/merge-two-binary-trees/
 	  / \   \ 
 	 5   4   7
 
-logs：02
+logs：03
 [✔️]2021.06.21
 [✔️]2021.06.22
+[✔️]2021.06.25
 */
 var mergeTrees = function (root1, root2) {
   if (!root1) return root2;
@@ -3620,7 +3624,7 @@ var subsets = function (nums) {
     result.push(list.slice());
     for (let i = index; i < nums.length; i++) {
       list.push(nums[i]);
-      // 这里是【i+1】而非【index+1】因为如果是后者的话，在第一轮看起来是没问题的
+      // 这里是【i+1】而非【index+1】因为如果是后者的话，虽然在第一轮看起来是没问题的
       // [[],[1],[1,2],[1,2,3],[1,3],[1,3,3],[2],[2,2],[2,2,3],[2,3],[2,3,3],[3],[3,2],[3,2,3],[3,3],[3,3,3]]
       //                                     ———————————————————————.....
       //                                     但是递归第二轮的时候，传递给下层的值不对，应该是当前索引+1，而非当前层+1
@@ -3757,7 +3761,7 @@ https://leetcode-cn.com/problems/permutations/
   [3,2,1]
 ]
 
-logs：09
+logs：10
 [✔️]2021.02.04
 [✔️]2021.03.05
 [✔️]2021.03.19
@@ -3767,6 +3771,7 @@ logs：09
 [✔️]2021.05.17
 [✔️]2021.05.31
 [✔️]2021.06.16
+[✔️]2021.06.25
 */
 // DFS+回溯+全排列。时间复杂度O(2^n)、空间复杂度O(n)
 var permute = function (nums) {
@@ -3826,6 +3831,8 @@ var permuteUnique = function (nums) {
     for (let i = 0; i < nums.length; i++) {
       // 当前数在所在重复数集合中是「从左往右第一个未被填过的数字」
       if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+        //            -----------------------------------------------
+        //            以[1,1,2]为例，当遍历到第二个1并将其作为首位的时候，这是要忽略的
         continue;
       }
       used[i] = true;
@@ -3852,7 +3859,7 @@ https://leetcode-cn.com/problems/combinations/
 输出:
 [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
 
-logs：07
+logs：08
 [✔️]2021.01.25
 [✔️]2021.02.18
 [✔️]2021.03.05
@@ -3860,6 +3867,7 @@ logs：07
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.06.25
 */
 // DFS+回溯。时间复杂度O(2^n)、空间复杂度O(n)
 var combine = function (n, k) {
@@ -3908,6 +3916,24 @@ var combine = function (n, k) {
     dfs(index + 1, list); // 基于该选择，继续往下递归，考察下一个数
     list.pop(); // 上面的递归结束，撤销该选择，不选这个数
     dfs(index + 1, list); // 不选这个数，继续往下递归，考察下一个数
+  }
+};
+
+// 变形：
+// subStr('word', 2) => 6
+// wo wr wd or od rd
+var subStr = function (word, n) {
+  let res = 0;
+  dfs('', 0);
+  return res;
+
+  function dfs(s, index) {
+    if (s.length === n) {
+      return res++;
+    }
+    for (let i = index; i < word.length; i++) {
+      dfs(s + word[i], i + 1);
+    }
   }
 };
 
