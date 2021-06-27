@@ -2212,6 +2212,79 @@ var middleNode = function (head) {
 // -------divider-------
 //
 
+/*
+【相交链表】
+https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
+给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 null 。
+题目数据保证整个链式结构中不存在环。
+注意，函数返回结果后，链表必须 保持其原始结构 。
+
+logs：01
+[✔️]2020.06.26
+*/
+// 双指针 时间复杂度O(m+n) 空间复杂度O(1)
+// https://leetcode-cn.com/problems/intersection-of-two-linked-lists/solution/tu-jie-xiang-jiao-lian-biao-by-user7208t/
+var getIntersectionNode = function (headA, headB) {
+  if (headA == null || headB == null) return null;
+  let a = headA,
+    b = headB;
+  while (a != b) {
+    a = a == null ? headB : a.next;
+    b = b == null ? headA : b.next;
+  }
+  return a;
+};
+
+//
+// -------divider-------
+//
+
+/*
+【回文链表】
+https://leetcode-cn.com/problems/palindrome-linked-list/
+请判断一个链表是否为回文链表。
+
+示例 1:
+输入: 1->2
+输出: false
+
+示例 2:
+输入: 1->2->2->1
+输出: true
+
+logs：01
+[✔️]2020.06.26
+*/
+var isPalindrome = function (head) {
+  // 将链表分成两半
+  let slow = (fast = head);
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  // 将后半部分反转
+  let prev = null;
+  while (slow) {
+    let next = slow.next;
+    slow.next = prev;
+    prev = slow;
+    slow = next;
+  }
+  // 与链表一一比较
+  while (prev) {
+    if (prev.val != head.val) {
+      return false;
+    }
+    prev = prev.next;
+    head = head.next;
+  }
+  return true;
+};
+
+//
+// -------divider-------
+//
+
 /* -------------------------- 集合、字典、散列表  ---------------------------*/
 
 /* 
