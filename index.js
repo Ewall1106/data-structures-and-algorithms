@@ -15,6 +15,45 @@ LRU Cache
 /* -------------------------- 数组、栈 ---------------------------*/
 
 /*
+【找到所有数组中消失的数字】
+https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/
+给你一个含 n 个整数的数组 nums ，其中 nums[i] 在区间 [1, n] 内。请你找出所有在 [1, n] 范围内但没有出现在 nums 中的数字，并以数组的形式返回结果。
+
+n == nums.length
+1 <= nums[i] <= n
+
+示例 1：
+输入：nums = [4,3,2,7,8,2,3,1]
+输出：[5,6]
+
+示例 2：
+输入：nums = [1,1]
+输出：[2]
+
+logs：01
+2021.06.28
+*/
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function (nums) {
+  let res = [];
+  let temp = new Array(nums.length + 1).fill(0);
+  for (let i = 0; i < nums.length; i++) {
+    temp[nums[i]]++;
+  }
+  for (let i = 1; i <= nums.length; i++) {
+    if (temp[i] === 0) res.push(i);
+  }
+  return res;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【两个数组的交集 II】
 https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 给定两个数组，编写一个函数来计算它们的交集。
@@ -1086,6 +1125,43 @@ function baseConverter(number, base) {
 // -------divider-------
 //
 
+/*
+【比特位计数】
+https://leetcode-cn.com/problems/counting-bits/
+给定一个非负整数 num。对于 0 ≤ i ≤ num 范围中的每个数字 i ，计算其二进制数中的 1 的数目并将它们作为数组返回。
+
+示例 1:
+输入: 2
+输出: [0,1,1]
+
+logs：01
+[✔️]2021.06.27
+*/
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var countBits = function (n) {
+  let res = [];
+  for (let i = 0; i <= n; i++) {
+    res.push(countZero(i));
+  }
+  return res;
+};
+var countZero = function (n) {
+  let zero = 0;
+  while (n != 0) {
+    let rem = n % 2;
+    if (rem === 1) zero++;
+    n = Math.floor(n / 2);
+  }
+  return zero;
+};
+
+//
+// -------divider-------
+//
+
 /* 
 【有效的括号】
 https://leetcode-cn.com/problems/valid-parentheses/
@@ -1472,11 +1548,12 @@ https://leetcode-cn.com/problems/add-two-numbers/
 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
 输出：[8,9,9,9,0,0,0,1]
 
-logs：04
+logs：05
 [✔️]2021.06.08
 [✔️]2021.06.14
 [✔️]2021.06.17
 [✔️]2021.06.25
+[✔️]2021.06.28
 */
 /**
  * @param {ListNode} l1
@@ -1529,7 +1606,7 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
 
-logs：07
+logs：08
 [✔️]2021.05.13
 [✔️]2021.05.17
 [✔️]2021.05.18
@@ -1537,6 +1614,7 @@ logs：07
 [✔️]2021.05.31
 [✔️]2021.06.10
 [✔️]2021.06.14
+[✔️]2021.06.28
 */
 // 双指针 滑动窗口 时间复杂度O(n) 空间复杂度O(n)
 /**
@@ -1576,12 +1654,13 @@ https://leetcode-cn.com/problems/sort-list/
 输入：head = [-1,5,3,4,0]
 输出：[-1,0,3,4,5]
 
-logs：05
+logs：06
 [✔️]2020.05.16
 [✔️]2020.05.17
 [✔️]2020.05.31
 [✔️]2020.06.14
 [✔️]2020.06.25
+[✔️]2020.06.28
 */
 // 合并两个有序链表+归并排序
 // 时间复杂度O(nlogn) 空间复杂度O(n)
@@ -2219,8 +2298,9 @@ https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
 题目数据保证整个链式结构中不存在环。
 注意，函数返回结果后，链表必须 保持其原始结构 。
 
-logs：01
+logs：02
 [✔️]2020.06.26
+[✔️]2020.06.28
 */
 // 双指针 时间复杂度O(m+n) 空间复杂度O(1)
 // https://leetcode-cn.com/problems/intersection-of-two-linked-lists/solution/tu-jie-xiang-jiao-lian-biao-by-user7208t/
@@ -2252,8 +2332,9 @@ https://leetcode-cn.com/problems/palindrome-linked-list/
 输入: 1->2->2->1
 输出: true
 
-logs：01
+logs：02
 [✔️]2020.06.26
+[✔️]2020.06.28
 */
 var isPalindrome = function (head) {
   // 将链表分成两半
@@ -2966,7 +3047,7 @@ https://leetcode-cn.com/problems/n-ary-tree-level-order-traversal/
 输入：root = [1,null,3,2,4,null,5,6]
 输出：[[1],[3,2,4],[5,6]]
 
-logs：07
+logs：08
 [✔️]2021.01.19
 [✔️]2021.02.04
 [✔️]2021.04.16
@@ -2974,6 +3055,7 @@ logs：07
 [✔️]2021.05.11
 [✔️]2021.05.17
 [✔️]2021.06.16
+[✔️]2021.06.28
 */
 
 // 迭代 BFS 时间复杂度O(n) 空间复杂度O(n)
@@ -4465,6 +4547,44 @@ var minDepth = function (root) {
 //
 
 /*
+【二叉树的直径】
+https://leetcode-cn.com/problems/diameter-of-binary-tree/
+给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
+
+示例 :
+给定二叉树
+          1
+         / \
+        2   3
+       / \     
+      4   5    
+返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
+注意：两结点之间的路径长度是以它们之间边的数目表示。
+
+logs：01
+[✔️]2020.06.28
+*/
+// dfs 时间复杂度O(n)
+// 任意一个节点，都要记录以此节点为根节点的直径情况：左子树高度+右子树高度（https://leetcode-cn.com/problems/diameter-of-binary-tree/solution/hot-100-9er-cha-shu-de-zhi-jing-python3-di-gui-ye-/）
+var diameterOfBinaryTree = function (root) {
+  let res = 1;
+  depth(root);
+  return res - 1;
+
+  function depth(node) {
+    if (node == null) return 0;
+    let left = depth(node.left);
+    let right = depth(node.right);
+    res = Math.max(res, left + right + 1);
+    return Math.max(left, right) + 1;
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
 【二叉树的序列化与反序列化】
 https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/
 
@@ -4489,19 +4609,6 @@ logs：02
 
 // DFS(深度优先搜索)。时间复杂度O(n)、空间复杂度O(n)
 // 先序遍历是以优先于后代节点的顺序访问每个节点的。先序遍历的一种应用是打印一个结构化的文档。
-/**
- * Definition for a binary tree node.
- * function TreeNode(val) {
- *     this.val = val;
- *     this.left = this.right = null;
- * }
- */
-/**
- * Encodes a tree to a single string.
- *
- * @param {TreeNode} root
- * @return {string}
- */
 var serialize = function (root) {
   const result = [];
   dfs(root);
@@ -4516,12 +4623,6 @@ var serialize = function (root) {
   }
 };
 
-/**
- * Decodes your encoded data to tree.
- *
- * @param {string} data
- * @return {TreeNode}
- */
 var deserialize = function (data) {
   data = data.split(',');
   return buildTree(data);
