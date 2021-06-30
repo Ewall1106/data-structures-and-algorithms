@@ -15,6 +15,47 @@ LRU Cache
 /* -------------------------- 数组、栈 ---------------------------*/
 
 /*
+【打乱数组 洗牌算法】
+https://leetcode-cn.com/problems/shuffle-an-array/
+给你一个整数数组 nums ，设计算法来打乱一个没有重复元素的数组。
+
+logs：01
+2021.06.29
+*/
+/**
+ * @param {number[]} nums
+ */
+var Solution = function (nums) {
+  this.nums = nums;
+};
+/**
+ * Resets the array to its original configuration and return it.
+ * @return {number[]}
+ */
+Solution.prototype.reset = function () {
+  return this.nums;
+};
+/**
+ * Returns a random shuffling of the array.
+ * @return {number[]}
+ */
+Solution.prototype.shuffle = function () {
+  const shuffled = this.nums.slice();
+  const len = shuffled.length;
+  const swap = (i, j) => {
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  };
+  for (let i = 0; i < len; i++) {
+    swap(i, Math.floor(Math.random() * len));
+  }
+  return shuffled;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【找到所有数组中消失的数字】
 https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/
 给你一个含 n 个整数的数组 nums ，其中 nums[i] 在区间 [1, n] 内。请你找出所有在 [1, n] 范围内但没有出现在 nums 中的数字，并以数组的形式返回结果。
@@ -4990,12 +5031,13 @@ https://leetcode-cn.com/problems/word-ladder/
 输出：0
 解释：endWord "cog" 不在字典中，所以无法进行转换。
 
-logs：05
+logs：06
 [✔️]2021.02.22
 [✔️]2021.02.23
 [✔️]2021.03.01
 [✔️]2021.05.10
 [✔️]2021.05.17
+[✔️]2021.06.28
 */
 // BFS。时间复杂度：O(n*c)
 // https://leetcode-cn.com/problems/word-ladder/solution/shou-hua-tu-jie-127-dan-ci-jie-long-bfsde-dian-x-2/
@@ -5758,10 +5800,11 @@ https://leetcode-cn.com/problems/jump-game-ii/
 解释: 跳到最后一个位置的最小跳跃数是 2。
      从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
 
-logs：03
+logs：04
 [✔️]2021.05.15
 [✔️]2021.05.20
 [✔️]2021.06.22
+[✔️]2021.06.28
 */
 // 贪心算法 时间复杂度O(n)
 // https://leetcode-cn.com/problems/jump-game-ii/solution/45-by-ikaruga/
@@ -5879,10 +5922,11 @@ https://leetcode-cn.com/problems/pascals-triangle/
  [1,4,6,4,1]
 ]
 
-logs：03
+logs：04
 [✔️]2021.06.03
 [✔️]2021.06.16
 [✔️]2021.06.22
+[✔️]2021.06.28
 */
 // 动态规划、数学
 /**
@@ -5927,12 +5971,14 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
 输出: 0
 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
-logs：05
+logs：06
 [✔️]2021.03.30
 [✔️]2021.04.20
 [✔️]2021.05.08
 [✔️]2021.05.18
 [✔️]2021.06.06
+[✔️]2021.06.29
+
 */
 // 动态规划。O(n*2)
 /**
@@ -6275,7 +6321,7 @@ https://leetcode-cn.com/problems/longest-increasing-subsequence/
 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
 你算法的时间复杂度应该为 O(n2) 。
 
-logs：09
+logs：10
 [✔️]2021.04.01
 [✔️]2021.04.06
 [✔️]2021.04.20
@@ -6285,6 +6331,7 @@ logs：09
 [✔️]2021.05.10
 [✔️]2021.05.18
 [✔️]2021.06.10
+[✔️]2021.06.29
 */
 // 暴力破解 时间复杂度O(2^n)
 // 动态规划 时间复杂度O(n^2)
@@ -6316,7 +6363,6 @@ var lengthOfLIS = function (nums) {
 /*
 【最大子序和】
 https://leetcode-cn.com/problems/maximum-subarray/
-
 给定一个整数数组 nums ，找到一个具有最大和的【连续】子数组（子数组最少包含一个元素），返回其最大和。
 
 示例:
@@ -6324,7 +6370,7 @@ https://leetcode-cn.com/problems/maximum-subarray/
 输出: 6
 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
 
-logs：08
+logs：09
 [✔️]2021.03.24
 [✔️]2021.03.25
 [✔️]2021.04.06
@@ -6333,6 +6379,7 @@ logs：08
 [✔️]2021.05.10
 [✔️]2021.05.18
 [✔️]2021.06.10
+[✔️]2021.06.29
 */
 
 // 动态规划 时间复杂度O(n)、空间复杂度O(n)
@@ -6458,13 +6505,14 @@ https://leetcode-cn.com/problems/longest-common-subsequence/
 输出：0
 解释：两个字符串没有公共子序列，返回 0。
 
-logs：06
+logs：07
 [✔️]2021.03.23
 [✔️]2021.04.06
 [✔️]2021.04.23
 [✔️]2021.05.10
 [✔️]2021.05.18
 [✔️]2021.06.10
+[✔️]2021.06.28
 */
 // 动态规划 时间复杂度O(mn)、空间复杂度O(mn)
 // https://leetcode.com/problems/longest-common-subsequence/discuss/348884/C%2B%2B-with-picture-O(nm)
@@ -6600,12 +6648,13 @@ https://leetcode-cn.com/problems/unique-paths/
 输入：m = 7, n = 3
 输出：28
 
-logs：05
+logs：06
 [✔️]2021.03.15
 [✔️]2021.04.23
 [✔️]2021.05.18
 [✔️]2021.06.16
 [✔️]2021.06.22
+[✔️]2021.06.29
 */
 // 动态规划。时间复杂度O(mn)、空间复杂度O(mn) 自底向上
 // dp方程=dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
@@ -6686,10 +6735,11 @@ https://leetcode-cn.com/problems/unique-paths-ii/
 输入：obstacleGrid = [[0,1],[0,0]]
 输出：1
 
-logs：03
+logs：04
 [✔️]2021.03.16
 [✔️]2021.05.18
 [✔️]2021.06.12
+[✔️]2021.06.29
 */
 // 动态方程。时间复杂度：O(mn)、空间复杂度：O(mn)
 /**
@@ -6791,7 +6841,7 @@ var minimumTotal = function (triangle) {
 
 /*
 【零钱兑换】
-https://leetcode-cncom/problems/coin-change/description/
+https://leetcode-cn.com/problems/coin-change/description/
 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
 你可以认为每种硬币的数量是无限的。
 
@@ -6808,13 +6858,14 @@ https://leetcode-cncom/problems/coin-change/description/
 输入：coins = [1], amount = 0
 输出：0
 
-logs：06
+logs：07
 [✔️]2021.03.24
 [✔️]2021.04.08
 [✔️]2021.04.08
 [✔️]2021.06.07
 [✔️]2021.06.12
 [✔️]2021.06.16
+[✔️]2021.06.28
 */
 // 暴力破解
 // BFS
