@@ -71,8 +71,9 @@ n == nums.length
 输入：nums = [1,1]
 输出：[2]
 
-logs：01
+logs：02
 2021.06.28
+2021.06.30
 */
 /**
  * @param {number[]} nums
@@ -7084,10 +7085,11 @@ enention -> exention (将 'n' 替换为 'x')
 exention -> exection (将 'n' 替换为 'c')
 exection -> execution (插入 'u')
 
-logs：03
+logs：04
 [✔️]2021.05.05
 [✔️]2021.05.07
 [✔️]2021.06.12
+[✔️]2021.06.30
 */
 // 解法1：BFS 类似于【单词接龙】的题
 // 解法2：动态规划：
@@ -7119,8 +7121,8 @@ var minDistance = function (word1, word2) {
     dp[i] = new Array(n + 1).fill(0);
   }
 
-  for (let i = 1; i <= m; i++) {
-    dp[i][0] = dp[i - 1][0] + 1;
+  for (let i = 1; i <= m; i++) { 
+    dp[i][0] = dp[i - 1][0] + 1; // word2的前0个字符转换为word1的前i个字符需要的步数
   }
   for (let j = 1; j <= n; j++) {
     dp[0][j] = dp[0][j - 1] + 1;
@@ -7222,7 +7224,7 @@ https://leetcode-cn.com/problems/single-number/
 输入: [4,1,2,1,2]
 输出: 4
 
-logs：07
+logs：08
 [✔️]2021.05.16
 [✔️]2021.05.19
 [✔️]2021.05.23
@@ -7230,6 +7232,7 @@ logs：07
 [✔️]2021.06.05
 [✔️]2021.06.09
 [✔️]2021.06.21
+[✔️]2021.06.30
 */
 // 排序+指针
 var singleNumber = function (nums) {
@@ -7258,7 +7261,7 @@ https://leetcode-cn.com/problems/thousand-separator/
 输入：n = 1234
 输出："1.234"
 
-logs：08
+logs：09
 [✔️]2021.05.10
 [✔️]2021.05.19
 [✔️]2021.05.23
@@ -7267,6 +7270,7 @@ logs：08
 [✔️]2021.06.08
 [✔️]2021.06.17
 [✔️]2021.06.21
+[✔️]2021.06.30
 */
 /**
  * @param {number} n
@@ -7305,7 +7309,7 @@ https://leetcode-cn.com/problems/reverse-integer/
 输入：x = 120
 输出：21
 
-logs：08
+logs：09
 2021.05.14
 2021.05.19
 2021.05.23
@@ -7314,6 +7318,7 @@ logs：08
 2021.06.08
 2021.06.17
 2021.06.21
+2021.06.30
 */
 /**
  * @param {number} x
@@ -7369,7 +7374,7 @@ https://leetcode-cn.com/problems/longest-common-prefix/
 输出：""
 解释：输入不存在公共前缀。
 
-logs：07
+logs：08
 2021.05.15
 2021.05.19
 2021.05.23
@@ -7377,6 +7382,7 @@ logs：07
 2021.06.05
 2021.06.08
 2021.06.21
+2021.06.30
 */
 /**
  * @param {string[]} strs
@@ -7416,7 +7422,7 @@ https://leetcode-cn.com/problems/search-insert-position/
 输入: [1,3,5,6], 2
 输出: 1
 
-logs：07
+logs：08
 2021.05.15
 2021.05.19
 2021.05.23
@@ -7424,6 +7430,7 @@ logs：07
 2021.06.09
 2021.06.17
 2021.06.21
+2021.06.30
 */
 /**
  * @param {number[]} nums
@@ -7471,7 +7478,7 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 
-logs：07
+logs：08
 2021.05.16
 2021.05.19
 2021.06.03
@@ -7479,6 +7486,7 @@ logs：07
 2021.06.08
 2021.06.17
 2021.06.21
+2021.06.30
 */
 /**
  * @param {string} s
@@ -7543,10 +7551,11 @@ https://leetcode-cn.com/problems/reverse-words-in-a-string/
 输出："example good a"
 解释：如果两个单词间有多余的空格，将翻转后单词间的空格减少到只含一个。
 
-logs：03
+logs：04
 2021.06.06
 2021.06.17
 2021.06.21
+2021.06.30
 */
 var reverseWords = function (s) {
   s = s.trim();
