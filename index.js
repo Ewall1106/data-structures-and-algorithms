@@ -1140,28 +1140,69 @@ logs：10
 */
 // 十进制转二进制。要把十进制转化成二进制，我们可以将该十进制数除以 2（二进制是满二进一）并对商取整，直到结果是 0 为止。
 function decimalToBinary(number) {
-  const remStack = [];
+  const res = [];
   while (number > 0) {
     let rem = number % 2;
-    remStack.push(rem);
+    res.unshift(rem);
     number = Math.floor(number / 2);
   }
-  return remStack.join('');
+  return res.join('');
 }
 
 // 十进制转其它任意进制
 function baseConverter(number, base) {
   if (base < 2 || base > 36) return '';
 
-  const stack = [];
+  const res = [];
   const digits = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   while (number > 0) {
     let rem = number % base;
-    stack.push(digits[rem]);
+    res.unshift(digits[rem]);
     number = Math.floor(number / base);
   }
-  return stack.join('');
+  return res.join('');
 }
+
+//
+// -------divider-------
+//
+/*
+【汉明距离】
+https://leetcode-cn.com/problems/hamming-distance/
+
+两个整数之间的 汉明距离 指的是这两个数字对应二进制位不同的位置的数目。
+给你两个整数 x 和 y，计算并返回它们之间的汉明距离。
+
+示例 1：
+输入：x = 1, y = 4
+输出：2
+解释：
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+上面的箭头指出了对应二进制位不同的位置。
+
+示例 2：
+输入：x = 3, y = 1
+输出：1
+
+logs：01
+[✔️]2021.06.30
+*/
+// 位运算
+// 计数法
+var hammingDistance = function (x, y) {
+  x = x.toString(2); // 转二进制
+  y = y.toString(2);
+  let res = 0;
+  let maxLen = Math.max(x.length, y.length);
+  x = x.padStart(maxLen, 0);
+  y = y.padStart(maxLen, 0);
+  for (let i = 0; i < maxLen; i++) {
+    if (x[i] !== y[i]) res++;
+  }
+  return res;
+};
 
 //
 // -------divider-------
@@ -3825,6 +3866,7 @@ var subsets = function (nums) {
       // [[],[1],[1,2],[1,2,3],[1,3],[1,3,3],[2],[2,2],[2,2,3],[2,3],[2,3,3],[3],[3,2],[3,2,3],[3,3],[3,3,3]]
       //                                     ———————————————————————.....
       //                                     但是递归第二轮的时候，传递给下层的值不对，应该是当前索引+1，而非当前层+1
+      //                                                                     当在第0层循环到3的时候，进入下一层(0+1)，此时初始化位置i=1，即从位置1开始遍历得[3,2]，这明显是不符合要求的。
       dfs(list, i + 1);
       list.pop();
     }
@@ -4607,7 +4649,7 @@ logs：01
 [✔️]2020.06.28
 */
 // dfs 时间复杂度O(n)
-// 任意一个节点，都要记录以此节点为根节点的直径情况：左子树高度+右子树高度（https://leetcode-cn.com/problems/diameter-of-binary-tree/solution/hot-100-9er-cha-shu-de-zhi-jing-python3-di-gui-ye-/）
+// 任意一个节点，都要记录【以此节点为根节点】的直径情况：左子树高度+右子树高度（https://leetcode-cn.com/problems/diameter-of-binary-tree/solution/hot-100-9er-cha-shu-de-zhi-jing-python3-di-gui-ye-/）
 var diameterOfBinaryTree = function (root) {
   let res = 1;
   depth(root);
@@ -7121,7 +7163,7 @@ var minDistance = function (word1, word2) {
     dp[i] = new Array(n + 1).fill(0);
   }
 
-  for (let i = 1; i <= m; i++) { 
+  for (let i = 1; i <= m; i++) {
     dp[i][0] = dp[i - 1][0] + 1; // word2的前0个字符转换为word1的前i个字符需要的步数
   }
   for (let j = 1; j <= n; j++) {
