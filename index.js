@@ -5,8 +5,8 @@
 集合、字典、散列表
 树、二叉树、二叉搜索树
 递归、分治、回溯
-图、DFS、BFS
 动态规划、贪心算法
+图、DFS、BFS
 排序、搜索算法
 LRU Cache
 字符串、数字
@@ -19,8 +19,9 @@ LRU Cache
 https://leetcode-cn.com/problems/shuffle-an-array/
 给你一个整数数组 nums ，设计算法来打乱一个没有重复元素的数组。
 
-logs：01
+logs：02
 2021.06.29
+2021.07.04
 */
 /**
  * @param {number[]} nums
@@ -56,46 +57,6 @@ Solution.prototype.shuffle = function () {
 //
 
 /*
-【找到所有数组中消失的数字】
-https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/
-给你一个含 n 个整数的数组 nums ，其中 nums[i] 在区间 [1, n] 内。请你找出所有在 [1, n] 范围内但没有出现在 nums 中的数字，并以数组的形式返回结果。
-
-n == nums.length
-1 <= nums[i] <= n
-
-示例 1：
-输入：nums = [4,3,2,7,8,2,3,1]
-输出：[5,6]
-
-示例 2：
-输入：nums = [1,1]
-输出：[2]
-
-logs：02
-2021.06.28
-2021.06.30
-*/
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
-var findDisappearedNumbers = function (nums) {
-  let res = [];
-  let temp = new Array(nums.length + 1).fill(0);
-  for (let i = 0; i < nums.length; i++) {
-    temp[nums[i]]++;
-  }
-  for (let i = 1; i <= nums.length; i++) {
-    if (temp[i] === 0) res.push(i);
-  }
-  return res;
-};
-
-//
-// -------divider-------
-//
-
-/*
 【两个数组的交集 II】
 https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 给定两个数组，编写一个函数来计算它们的交集。
@@ -108,7 +69,7 @@ https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/
 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
 输出：[4,9]
 
-logs：10
+logs：11
 2021.04.30
 2021.05.03
 2021.05.17
@@ -119,6 +80,7 @@ logs：10
 2021.06.14
 2021.06.17
 2021.06.25
+2021.07.04
 */
 // 排序+双指针 时间复杂度O(mlogm+nlogn)
 /**
@@ -169,12 +131,33 @@ logs：11
 2021.05.03
 2021.05.17
 */
+// 单调栈 时间复杂度O(n) 空间复杂度O(n)
+var largestRectangleArea = function (heights) {
+  if (!heights || !heights.length) return 0;
 
-// 暴力破解法 for-loop列出所有的面积可能 时间复杂度O(n^2)
-/**
- * @param {number[]} heights
- * @return {number}
- */
+  heights.push(0);
+  heights.unshift(0);
+
+  let maxArea = 0;
+  let stack = [];
+  for (let i = 0; i < heights.length; i++) {
+    // 通过与当前柱高做比较，可以确定栈中柱的右边界
+    // 而栈中维护的都是从小到大排序的元素的索引，所以左边界就是前一个值
+    while (stack.length > 0 && heights[stack[stack.length - 1]] > heights[i]) {
+      maxArea = Math.max(
+        maxArea,
+        // 当前柱子的左边界并不一定是【stack.pop()】的值
+        // 举例：[2,1,2]的柱子1的左边界是0，是【stack[stack.length - 1]】的值
+        heights[stack.pop()] * (i - stack[stack.length - 1] - 1)
+      );
+    }
+    stack.push(i);
+  }
+  return maxArea;
+};
+
+// 暴力破解法 时间复杂度O(n^2) 超时
+// For-loop列出所有的面积可能
 var largestRectangleArea = function (heights) {
   let area = 0;
   // 枚举左边界
@@ -192,12 +175,8 @@ var largestRectangleArea = function (heights) {
   return area;
 };
 
-// 双指针法 时间复杂度O(n^2)
+// 双指针法 时间复杂度O(n^2) 超时
 // 使用一重循环枚举某一根柱子高度为h，随后我们从这跟柱子开始向两侧延伸，直到遇到高度小于h的柱子，就确定了矩形的左右边界。
-/**
- * @param {number[]} heights
- * @return {number}
- */
 var largestRectangleArea = function (heights) {
   let area = 0;
   for (let i = 0; i < heights.length; i++) {
@@ -214,33 +193,6 @@ var largestRectangleArea = function (heights) {
   return area;
 };
 
-// 单调栈 时间复杂度O(n) 空间复杂度O(n)
-/**
- * @param {number[]} heights
- * @return {number}
- */
-var largestRectangleArea = function (heights) {
-  if (!heights || !heights.length) return 0;
-
-  heights.push(0);
-  heights.unshift(0);
-
-  let maxArea = 0;
-  let stack = [];
-  for (let i = 0; i < heights.length; i++) {
-    // 通过与当前柱高做比较，可以确定栈中柱的右边界
-    // 而栈中维护的都是从小到大排序的元素的索引，所以左边界就是前一个值
-    while (stack.length > 0 && heights[stack[stack.length - 1]] > heights[i]) {
-      maxArea = Math.max(
-        maxArea,
-        heights[stack.pop()] * (i - stack[stack.length - 1] - 1)
-      );
-    }
-    stack.push(i);
-  }
-  return maxArea;
-};
-
 //
 // -------divider-------
 //
@@ -255,7 +207,7 @@ pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
-logs：10
+logs：11
 [✔️]2020.12.02
 [✔️]2021.01.04
 [✔️]2021.01.15
@@ -267,6 +219,7 @@ logs：10
 [✔️]2021.04.07
 [✔️]2021.04.26
 [✔️]2021.05.03
+[✔️]2021.07.04
 */
 
 // 辅助栈法
@@ -305,7 +258,7 @@ https://leetcode-cn.com/problems/container-with-most-water/
 在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。
 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
 
-logs：10
+logs：11
 [✔️]2020.11.29
 [✔️]2020.11.30
 [✔️]2020.12.01
@@ -316,6 +269,7 @@ logs：10
 [✔️]2021.02.01
 [✔️]2021.03.08
 [✔️]2021.04.07
+[✔️]2021.07.04
 */
 
 // 暴力破解法 时间复杂度O(n*2)
@@ -360,7 +314,7 @@ https://leetcode-cn.com/problems/move-zeroes/
 必须在原数组上操作，不能拷贝额外的数组。
 尽量减少操作次数。
 
-logs：14
+logs：15
 [✔️]2020.11.27
 [✔️]2020.11.28
 [✔️]2020.12.03
@@ -375,6 +329,7 @@ logs：14
 [✔️]2021.04.26
 [✔️]2021.05.17
 [✔️]2021.05.23
+[✔️]2021.07.04
 */
 // 使用一个额外数组。时间复杂度O(n)、空间复杂度O(n)
 // 双指针。时间复杂度O(n)
@@ -435,7 +390,7 @@ https://leetcode-cn.com/problems/missing-number/
 说明:
 你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?
 
-logs：10
+logs：11
 [✔️]2020.05.15
 [✔️]2020.05.16
 [✔️]2020.05.19
@@ -446,6 +401,7 @@ logs：10
 [✔️]2020.08.20
 [✔️]2020.11.02
 [✔️]2021.01.12
+[✔️]2021.07.04
 */
 
 // 解法1：排序。排完序以后与数组下标比较。时间复杂度O(n)
@@ -484,6 +440,47 @@ var missingNumber = function (nums) {
 //
 
 /*
+【找到所有数组中消失的数字】
+https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/
+给你一个含 n 个整数的数组 nums ，其中 nums[i] 在区间 [1, n] 内。请你找出所有在 [1, n] 范围内但没有出现在 nums 中的数字，并以数组的形式返回结果。
+
+n == nums.length
+1 <= nums[i] <= n
+
+示例 1：
+输入：nums = [4,3,2,7,8,2,3,1]
+输出：[5,6]
+
+示例 2：
+输入：nums = [1,1]
+输出：[2]
+
+logs：03
+2021.06.28
+2021.06.30
+2021.07.04
+*/
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function (nums) {
+  let res = [];
+  let temp = new Array(nums.length + 1).fill(0);
+  for (let i = 0; i < nums.length; i++) {
+    temp[nums[i]]++;
+  }
+  for (let i = 1; i <= nums.length; i++) {
+    if (temp[i] === 0) res.push(i);
+  }
+  return res;
+};
+
+//
+// -------divider-------
+//
+
+/*
 【存在重复元素】
 https://leetcode-cn.com/problems/contains-duplicate/
 给定一个整数数组，判断是否存在重复元素。
@@ -501,7 +498,7 @@ https://leetcode-cn.com/problems/contains-duplicate/
 输入: [1,1,1,3,3,4,3,2,4,2]
 输出: true
 
-logs：11
+logs：12
 [✔️]2020.05.15
 [✔️]2020.05.16
 [✔️]2020.05.19
@@ -513,6 +510,7 @@ logs：11
 [✔️]2020.11.17
 [✔️]2021.01.19
 [✔️]2021.05.17
+[✔️]2021.07.04
 */
 
 // 去重。对数组去重以后在比较length
@@ -733,7 +731,7 @@ var merge = function (nums1, m, nums2, n) {
 // 解法2：双指针。
 // 因为 nums1 的空间都集中在后面，所以从后向前处理排序的数据会更好，节省空间，一边遍历一边将值填充进去
 // 设置指针 len1 和 len2 分别指向 nums1 和 nums2 的有数字尾部，从尾部值开始比较遍历，同时设置指针 len 指向 nums1 的最末尾，每次遍历比较值大小之后，则进行填充
-// 当 len1<0 时遍历结束，此时 nums2 中若还有数据未拷贝完全，则说明都是比num1最小的还要小，因为是已经排好序的，所以就将其直接拷贝到 nums1 的前面，最后得到结果数组
+// 当 len1 < 0 时遍历结束，此时 nums2 中若还有数据未拷贝完全，则说明都是比num1最小的还要小，因为是已经排好序的，所以就将其直接拷贝到 nums1 的前面，最后得到结果数组
 // 时间复杂度：O(m+n)
 var merge = function (nums1, m, nums2, n) {
   let len1 = m - 1;
@@ -764,7 +762,7 @@ https://leetcode-cn.com/problems/merge-intervals/
 输出: [[1,5]]
 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
 
-logs：11
+logs：12
 [✔️]2020.08.28
 [✔️]2020.08.31
 [✔️]2020.09.16
@@ -776,6 +774,7 @@ logs：11
 [✔️]2020.12.16
 [✔️]2021.01.23
 [✔️]2021.05.17
+[✔️]2021.07.04
 */
 // 排序。时间复杂度 O(nlogn)
 var merge = function (intervals) {
@@ -795,6 +794,10 @@ var merge = function (intervals) {
   }
   return merged;
 };
+
+//
+// -------divider-------
+//
 
 /*
 【汇总区间】
@@ -837,7 +840,7 @@ https://leetcode-cn.com/problems/summary-ranges/
 输入：nums = [0]
 输出：["0"]
 
-logs：12
+logs：13
 [✔️]2021.01.27
 [✔️]2021.02.02
 [✔️]2021.02.17
@@ -850,13 +853,9 @@ logs：12
 [✔️]2021.05.14
 [✔️]2021.05.17
 [✔️]2021.05.23
+[✔️]2021.07.04
 */
-
 // 双指针。时间复杂度O(n)、空间复杂度O(n)
-/**
- * @param {number[]} nums
- * @return {string[]}
- */
 var summaryRanges = function (nums) {
   let result = [];
   let j = 0;
@@ -892,7 +891,7 @@ https://leetcode-cn.com/problems/plus-one/
 输出: [4,3,2,2]
 解释: 输入数组表示数字 4321。
 
-logs：11
+logs：12
 [✔️]2020.05.10
 [✔️]2020.05.11
 [✔️]2020.06.01
@@ -904,6 +903,7 @@ logs：11
 [✔️]2020.11.17
 [✔️]2021.01.23
 [✔️]2021.04.09
+[✔️]2021.07.04
 */
 
 // 解析：
@@ -944,7 +944,7 @@ https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
 函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
 你不需要考虑数组中超出新长度后面的元素。
 
-logs：12
+logs：13
 [✔️]2020.05.09
 [✔️]2020.05.10
 [✔️]2020.05.11
@@ -957,6 +957,7 @@ logs：12
 [✔️]2021.03.09
 [✔️]2021.05.17
 [✔️]2021.05.23
+[✔️]2021.07.04
 */
 
 // 解法：使用两个指针，如果相等就跳过。时间复杂度：O(n)
@@ -1066,7 +1067,7 @@ nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位
 nums1和nums2中所有元素是唯一的。
 nums1和nums2 的数组大小都不超过1000。
 
-logs：12
+logs：13
 [✔️]2020.05.09
 [✔️]2020.05.14
 [✔️]2020.06.01
@@ -1079,6 +1080,7 @@ logs：12
 [✔️]2021.01.23
 [✔️]2021.03.10
 [✔️]2021.05.17
+[✔️]2021.07.04
 */
 
 // 单调栈。我们可以忽略数组 nums1，先对将 nums2 中的每一个元素，求出其下一个更大的元素。随后对于将这些答案放入哈希映射（HashMap）中，再遍历数组 nums1，并直接找出答案。
@@ -1186,8 +1188,9 @@ https://leetcode-cn.com/problems/hamming-distance/
 输入：x = 3, y = 1
 输出：1
 
-logs：01
+logs：02
 [✔️]2021.06.30
+[✔️]2021.07.04
 */
 // 位运算
 // 计数法
@@ -1217,8 +1220,9 @@ https://leetcode-cn.com/problems/counting-bits/
 输入: 2
 输出: [0,1,1]
 
-logs：01
+logs：02
 [✔️]2021.06.27
+[✔️]2021.07.04
 */
 /**
  * @param {number} n
@@ -1274,7 +1278,7 @@ https://leetcode-cn.com/problems/valid-parentheses/
 输入: "{[]}"
 输出: true
 
-logs：11
+logs：12
 [✔️]2020.04.20
 [✔️]2020.05.08
 [✔️]2020.06.02
@@ -1286,6 +1290,7 @@ logs：11
 [✔️]2020.11.18
 [✔️]2021.04.07
 [✔️]2021.05.23
+[✔️]2021.07.04
 */
 
 // 解法1：栈stack。时间复杂度：O(n)、空间复杂度O(n)
@@ -1548,7 +1553,7 @@ https://leetcode-cn.com/problems/sliding-window-maximum/
  1  3  -1  -3 [5  3  6] 7       6
  1  3  -1  -3  5 [3  6  7]      7
 
-logs：11
+logs：12
 [✔️]2020.05.28
 [✔️]2020.05.28
 [✔️]2020.06.04
@@ -1560,6 +1565,7 @@ logs：11
 [✔️]2020.12.25
 [✔️]2021.04.13
 [✔️]2021.05.31
+[✔️]2021.07.05
 */
 // 暴力破解法 时间复杂度：O(n*k) 空间复杂度：O(n)
 var maxSlidingWindow = function (nums, k) {
@@ -1631,12 +1637,13 @@ https://leetcode-cn.com/problems/add-two-numbers/
 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
 输出：[8,9,9,9,0,0,0,1]
 
-logs：05
+logs：06
 [✔️]2021.06.08
 [✔️]2021.06.14
 [✔️]2021.06.17
 [✔️]2021.06.25
 [✔️]2021.06.28
+[✔️]2021.07.05
 */
 /**
  * @param {ListNode} l1
@@ -1689,7 +1696,7 @@ https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串
 
-logs：08
+logs：09
 [✔️]2021.05.13
 [✔️]2021.05.17
 [✔️]2021.05.18
@@ -1698,6 +1705,7 @@ logs：08
 [✔️]2021.06.10
 [✔️]2021.06.14
 [✔️]2021.06.28
+[✔️]2021.07.05
 */
 // 双指针 滑动窗口 时间复杂度O(n) 空间复杂度O(n)
 /**
@@ -1737,13 +1745,14 @@ https://leetcode-cn.com/problems/sort-list/
 输入：head = [-1,5,3,4,0]
 输出：[-1,0,3,4,5]
 
-logs：06
+logs：07
 [✔️]2020.05.16
 [✔️]2020.05.17
 [✔️]2020.05.31
 [✔️]2020.06.14
 [✔️]2020.06.25
 [✔️]2020.06.28
+[✔️]2020.07.05
 */
 // 合并两个有序链表+归并排序
 // 时间复杂度O(nlogn) 空间复杂度O(n)
@@ -1791,7 +1800,7 @@ https://leetcode-cn.com/problems/reverse-linked-list/
 输入: 1->2->3->4->5->NULL
 输出: 5->4->3->2->1->NULL
 
-logs：17
+logs：18
 [✔️]2020.04.19
 [✔️]2020.04.20
 [✔️]2020.04.29
@@ -1809,6 +1818,7 @@ logs：17
 [✔️]2021.04.13
 [✔️]2021.05.31
 [✔️]2021.06.14
+[✔️]2021.07.05
 */
 // 迭代解法：时间复杂度O(n)、空间复杂度：O(1)
 var reverseList = function (head) {
@@ -1847,24 +1857,25 @@ var reverseList = function (head) {
 //
 
 /* 
-  【两两交换链表中的节点】
-  https://leetcode-cn.com/problems/swap-nodes-in-pairs/
-  给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
-  
-  示例：
-  给定 1->2->3->4, 你应该返回 2->1->4->3.
+【两两交换链表中的节点】
+https://leetcode-cn.com/problems/swap-nodes-in-pairs/
+给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
 
-  logs：10
-  [✔️]2020.04.20
-  [✔️]2020.06.08
-  [✔️]2020.06.19
-  [✔️]2020.06.29
-  [✔️]2020.07.10
-  [✔️]2020.07.23
-  [✔️]2020.10.09
-  [✔️]2020.11.16
-  [✔️]2021.05.04
-  [✔️]2021.05.17
+示例：
+给定 1->2->3->4, 你应该返回 2->1->4->3.
+
+logs：12
+[✔️]2020.04.20
+[✔️]2020.06.08
+[✔️]2020.06.19
+[✔️]2020.06.29
+[✔️]2020.07.10
+[✔️]2020.07.23
+[✔️]2020.10.09
+[✔️]2020.11.16
+[✔️]2021.05.04
+[✔️]2021.05.17
+[✔️]2021.07.05
 */
 
 // 迭代：时间复杂度：O(N)，其中 N 指的是链表的节点数量。空间复杂度：O(1)。
@@ -1909,7 +1920,7 @@ k 是一个正整数，它的值小于或等于链表的长度。
 当 k = 2 时，应当返回: 2->1->4->3->5
 当 k = 3 时，应当返回: 3->2->1->4->5
 
-logs：12
+logs：13
 [✔️]2020.06.03
 [✔️]2020.06.09
 [✔️]2020.06.24
@@ -1922,6 +1933,7 @@ logs：12
 [✔️]2021.04.16
 [✔️]2021.05.04
 [✔️]2021.06.18
+[✔️]2021.07.05
 */
 // 递归 不使用额外节点
 /**
@@ -1991,7 +2003,7 @@ var reverseKGroup = function (head, k) {
   输入：1->2->4, 1->3->4
   输出：1->1->2->3->4->4
 
-  logs：11
+  logs：12
   [✔️]2020.05.25
   [✔️]2020.06.02
   [✔️]2020.06.04
@@ -2003,6 +2015,7 @@ var reverseKGroup = function (head, k) {
   [✔️]2020.12.18
   [✔️]2021.04.13
   [✔️]2021.05.04
+  [✔️]2021.07.05
 */
 
 // Recursion。时间复杂度O(m+n)
@@ -2073,7 +2086,7 @@ var mergeTwoLists = function (l1, l2) {
   输出：false
   解释：链表中没有环。
 
-  logs：11
+  logs：12
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.04.30
@@ -2085,6 +2098,7 @@ var mergeTwoLists = function (l1, l2) {
   [✔️]2020.12.18
   [✔️]2021.01.11
   [✔️]2021.04.10
+  [✔️]2021.07.05
 */
 
 // 解法1：让他一直循环，如果有环的话，那么会一直循环下去，设置一个限制时间。
@@ -2144,7 +2158,7 @@ var hasCycle = function (head) {
   输出：no cycle
   解释：链表中没有环。
 
-  logs：14
+  logs：15
   [✔️]2020.04.20
   [✔️]2020.04.29
   [✔️]2020.06.08
@@ -2159,6 +2173,7 @@ var hasCycle = function (head) {
   [✔️]2021.04.13
   [✔️]2021.05.04
   [✔️]2021.05.17
+  [✔️]2021.07.05
 */
 // 快慢指针。时间复杂度O(n) 空间复杂度O(1)
 var detectCycle = function (head) {
@@ -2228,7 +2243,7 @@ https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
 进阶：
 你能尝试使用一趟扫描实现吗？
 
-logs：11
+logs：12
 [✔️]2020.05.25
 [✔️]2020.06.08
 [✔️]2020.06.09
@@ -2239,6 +2254,7 @@ logs：11
 [✔️]2020.11.23
 [✔️]2020.12.28
 [✔️]2021.04.13
+[✔️]2021.07.05
 */
 // 快慢指针 不需要额外的哑结点 时间复杂度O(n)
 var removeNthFromEnd = function (head, n) {
@@ -2247,7 +2263,7 @@ var removeNthFromEnd = function (head, n) {
     fast = fast.next;
     n--;
   }
-  if (fast == null) return head.next; // The head need to be removed, do it.
+  if (fast == null) return head.next; // ([1], 1)这种情况
   while (fast && fast.next) {
     fast = fast.next;
     slow = slow.next;
@@ -2319,7 +2335,7 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
 输出：此列表中的结点 4 (序列化形式：[4,5,6])
 由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
 
-logs：11
+logs：12
 [✔️]2020.05.25
 [✔️]2020.06.08
 [✔️]2020.06.09
@@ -2331,6 +2347,7 @@ logs：11
 [✔️]2020.12.22
 [✔️]2021.04.13
 [✔️]2021.05.04
+[✔️]2021.07.05
 */
 // 双指针。时间复杂度O(n)、空间复杂度O(1)
 // 用两个指针 slow 与 fast 一起遍历链表。slow 一次走一步，fast 一次走两步。那么当 fast 到达链表的末尾时，slow 必然位于中间。
@@ -2381,9 +2398,10 @@ https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
 题目数据保证整个链式结构中不存在环。
 注意，函数返回结果后，链表必须 保持其原始结构 。
 
-logs：02
+logs：03
 [✔️]2020.06.26
 [✔️]2020.06.28
+[✔️]2020.07.05
 */
 // 双指针 时间复杂度O(m+n) 空间复杂度O(1)
 // https://leetcode-cn.com/problems/intersection-of-two-linked-lists/solution/tu-jie-xiang-jiao-lian-biao-by-user7208t/
@@ -2415,9 +2433,10 @@ https://leetcode-cn.com/problems/palindrome-linked-list/
 输入: 1->2->2->1
 输出: true
 
-logs：02
+logs：03
 [✔️]2020.06.26
 [✔️]2020.06.28
+[✔️]2020.07.05
 */
 var isPalindrome = function (head) {
   // 将链表分成两半
@@ -2537,7 +2556,7 @@ https://leetcode-cn.com/problems/two-sum/
 因为 nums[0] + nums[1] = 2 + 7 = 9
 所以返回 [0, 1]
 
-logs：11
+logs：12
 [✔️]2020.05.07
 [✔️]2020.05.22
 [✔️]2020.05.29
@@ -2549,6 +2568,7 @@ logs：11
 [✔️]2020.12.29
 [✔️]2021.04.14
 [✔️]2021.05.17
+[✔️]2021.07.05
 */
 
 // 解法1：暴力破解法。使用两个for循环，如果相加等于target值则return，时间复杂度为O(n^2)
@@ -2602,7 +2622,7 @@ https://leetcode-cn.com/problems/3sum/
   [-1, -1, 2]
 ]
 
-logs：12
+logs：13
 [✔️]2020.05.21
 [✔️]2020.05.29
 [✔️]2020.06.01
@@ -2615,6 +2635,7 @@ logs：12
 [✔️]2021.04.09
 [✔️]2021.04.14
 [✔️]2021.05.17
+[✔️]2021.07.05
 */
 // 排序+双指针。时间复杂度O(n^2)、空间复杂度O(n)
 /**
@@ -3012,7 +3033,7 @@ https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
 输入：root = []
 输出：[]
 
-logs：10
+logs：11
 [✔️]2021.01.18
 [✔️]2021.02.02
 [✔️]2021.02.20
@@ -3023,6 +3044,7 @@ logs：10
 [✔️]2021.05.11
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.07.05
 */
 
 // 递归 时间复杂度O(n) 空间复杂度O(n)
@@ -3216,7 +3238,7 @@ https://leetcode-cn.com/problems/validate-binary-search-tree/
 解释: 输入为: [5,1,4,null,null,3,6]。
      根节点的值为 5 ，但是其右子节点值为 4 。
 
-logs：12
+logs：13
 [✔️]2020.05.24
 [✔️]2020.05.27
 [✔️]2020.06.12
@@ -3229,6 +3251,7 @@ logs：12
 [✔️]2021.04.29
 [✔️]2021.05.04
 [✔️]2021.05.17
+[✔️]2021.07.05
 */
 // 使用一个中序遍历，判断中序遍历后的数组是否为升序。时间复杂度：O(n)
 /**
@@ -3310,7 +3333,7 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 输出: 2
 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：10
+logs：11
 [✔️]2020.05.24
 [✔️]2020.05.25
 [✔️]2020.05.27
@@ -3321,6 +3344,7 @@ logs：10
 [✔️]2020.12.10
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.07.05
 */
 
 // 递归。时间复杂度O(n)
@@ -3388,7 +3412,7 @@ https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
 输出: 5
 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
 
-logs：10
+logs：11
 [✔️]2020.05.25
 [✔️]2020.05.27
 [✔️]2020.06.12
@@ -3399,6 +3423,7 @@ logs：10
 [✔️]2021.01.08
 [✔️]2021.04.16
 [✔️]2021.05.12
+[✔️]2021.07.05
 */
 // 递归 时间复杂度O(n)。
 // 在当前节点的左子树和右子树中递归找p和q，如果存在那么就是【公共祖先】了；继续重复递归就可以找到【最近公共祖先】。
@@ -3447,7 +3472,7 @@ https://leetcode-cn.com/problems/symmetric-tree/
    \   \
    3    3
 
-logs：14
+logs：15
 [✔️]2020.08.28
 [✔️]2020.09.08
 [✔️]2020.09.10
@@ -3462,6 +3487,7 @@ logs：14
 [✔️]2021.05.12
 [✔️]2021.05.17
 [✔️]2021.05.31
+[✔️]2021.07.05
 */
 
 // dfs。时间复杂度O(n)、空间复杂度O(n)
@@ -3469,6 +3495,7 @@ var isSymmetric = function (root) {
   return dfs(root, root);
 
   function dfs(p, q) {
+    // 保证p、q不会为null，这样p.val、q.val不会报错
     if (p == null && q == null) return true;
     if (p == null || q == null) return false;
     return p.val === q.val && dfs(p.left, q.right) && dfs(p.right, q.left);
@@ -3498,7 +3525,7 @@ https://leetcode-cn.com/problems/invert-binary-tree/
  / \   / \
 9   6 3   1
 
-logs：10
+logs：11
 [✔️]2021.01.24
 [✔️]2021.02.04
 [✔️]2021.04.09
@@ -3509,6 +3536,7 @@ logs：10
 [✔️]2021.05.31
 [✔️]2021.06.16
 [✔️]2021.06.18
+[✔️]2021.07.05
 */
 
 // 递归 时间复杂度O(n)
@@ -3816,6 +3844,58 @@ var generateParenthesis = function (n) {
     // 右括号必须比左括号个数小
     // "(())()" -- 这种情况就是需要保证right<left
     if (right < left) dfs(`${s})`, left, right + 1);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【找出某一节点所在链条中所有的父级ID】
+
+举例：
+比如 '112'的父级 id 路径为 ['1', '11', '112']
+const data = [{
+  id: '1',
+  name: 'test1',
+  children: [
+    {
+      id: '11',
+      name: 'test11',
+      children: [{ id: '111', name: 'test111' }, { id: '112', name: 'test112' }]
+    },
+    {
+      id: '12',
+      name: 'test12',
+      children: [{ id: '121', name: 'test121' }, { id: '122', name: 'test122' }]
+    }
+  ]
+}];
+
+logs：01
+[✔️]2021.07.05
+*/
+var fn = function (nums, target) {
+  let res = [];
+  dfs([nums[0]]);
+  return res;
+
+  function dfs(list) {
+    let node = list[list.length - 1];
+    if (node.id === target) {
+      for (let i = 0; i < list.length; i++) {
+        res.push(list[i].id);
+      }
+      return;
+    }
+    if (node.children && node.children.length) {
+      for (let i = 0; i < node.children.length; i++) {
+        list.push(node.children[i]);
+        dfs(list);
+        list.pop();
+      }
+    }
   }
 };
 
@@ -7181,6 +7261,59 @@ var minDistance = function (word1, word2) {
   }
 
   return dp[m][n];
+};
+
+//
+// -------divider-------
+//
+
+/*
+【单词拆分】
+https://leetcode-cn.com/problems/word-break/
+
+给定一个非空字符串 s 和一个包含非空单词的列表 wordDict，判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。
+
+说明：
+拆分时可以重复使用字典中的单词。
+你可以假设字典中没有重复的单词。
+
+示例 1：
+输入: s = "leetcode", wordDict = ["leet", "code"]
+输出: true
+解释: 返回 true 因为 "leetcode" 可以被拆分成 "leet code"。
+
+示例 2：
+输入: s = "applepenapple", wordDict = ["apple", "pen"]
+输出: true
+解释: 返回 true 因为 "applepenapple" 可以被拆分成 "apple pen apple"。
+     注意你可以重复使用字典中的单词。
+
+logs：01
+[✔️]2021.07.01
+*/
+
+// dp动态规划
+// dp[i] 表示s的前i位是否可以用wordDict中的单词表示。
+var wordBreak = function (s, wordDict) {
+  const len = s.length;
+  const wordDictSet = new Set(wordDict);
+  const dp = new Array(len + 1).fill(false);
+
+  dp[0] = true;
+
+  for (let i = 1; i <= len; i++) {
+    for (let j = 0; j < i; j++) {
+      // leetcode
+      //        ↑ 假设i=7
+      //    ↑ 当j=3的时候，dp[j]为true 且 wordDict包含'code'
+      if (dp[j] && wordDictSet.has(s.substr(j, i - j))) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+
+  return dp[len];
 };
 
 //
