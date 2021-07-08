@@ -4539,8 +4539,9 @@ https://leetcode-cn.com/problems/binary-tree-paths/
 输出: ["1->2->5", "1->3"]
 解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
 
-logs：01
+logs：02
 [✔️]2020.07.07
+[✔️]2020.07.08
 */
 var binaryTreePaths = function (root) {
   const res = [];
@@ -4572,8 +4573,9 @@ https://leetcode-cn.com/problems/path-sum/
 输入：root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
 输出：true
 
-logs：01
+logs：02
 [✔️]2020.07.07
+[✔️]2020.07.08
 */
 var hasPathSum = function (root, targetSum) {
   return dfs([], root, targetSum);
@@ -4604,8 +4606,9 @@ https://leetcode-cn.com/problems/path-sum-ii/
 输入：root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
 输出：[[5,4,11,2],[5,8,4,5]]
 
-logs：01
+logs：02
 [✔️]2020.07.07
+[✔️]2020.07.08
 */
 var pathSum = function (root, sum) {
   let res = [];
@@ -4666,19 +4669,19 @@ logs：01
 var pathSum = function (root, targetSum, res = { count: 0 }) {
   if (root == null) return 0;
   // 使用先序遍历，将每个节点都作为根节点
-  dfs([], root, targetSum);
+  dfs(root, targetSum);
   pathSum(root.left, targetSum, res);
   pathSum(root.right, targetSum, res);
   // 使用一个对象存count，因为复杂数据类型是按引用传递的
   return res.count;
 
-  function dfs(path, node, remain) {
+  function dfs(node, remain) {
     if (node == null) return;
     if (node.val === remain) {
       res.count++;
     }
-    dfs(path, node.left, remain - node.val); //哪怕node.val是负数也是减，8 - (-3) = 11
-    dfs(path, node.right, remain - node.val);
+    dfs(node.left, remain - node.val); //哪怕node.val是负数也是减，8 - (-3) = 11
+    dfs(node.right, remain - node.val);
   }
 };
 
@@ -7502,6 +7505,62 @@ var wordBreak = function (s, wordDict) {
   }
 
   return dp[len];
+};
+
+/*
+【最小路径和】
+https://leetcode-cn.com/problems/minimum-path-sum/
+给定一个包含非负整数的 m x n 网格 grid ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+说明：每次只能向下或者向右移动一步。
+
+示例 1：
+输入：grid = [[1,3,1],[1,5,1],[4,2,1]]
+输出：7
+解释：因为路径 1→3→1→1→1 的总和最小。
+
+logs：01
+[✔️]2021.07.08
+*/
+var minPathSum = function (grid) {
+  let m = grid.length;
+  let n = grid[0].length;
+
+  let dp = Array.from(new Array(m), () => new Array(n));
+  dp[0][0] = grid[0][0];
+
+  for (let i = 1; i < m; i++) {
+    dp[i][0] = dp[i - 1][0] + grid[i][0];
+  }
+  for (let i = 1; i < n; i++) {
+    dp[0][i] = dp[0][i - 1] + grid[0][i];
+  }
+
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+    }
+  }
+
+  return dp[m - 1][n - 1];
+};
+
+// dfs 超时
+var minPathSum = function (grid) {
+  let m = grid.length;
+  let n = grid[0].length;
+  let min = Infinity;
+  dfs(grid, 0, 0, 0);
+  return min;
+
+  function dfs(grid, r, c, count) {
+    if (!(r >= 0 && r < grid.length && c >= 0 && c < grid[0].length)) return;
+    if (r === m - 1 && c === n - 1) {
+      min = Math.min(min, count + grid[r][c]);
+      return;
+    }
+    dfs(grid, r + 1, c, count + grid[r][c]);
+    dfs(grid, r, c + 1, count + grid[r][c]);
+  }
 };
 
 //
