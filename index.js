@@ -5,9 +5,9 @@
 集合、字典、散列表
 树、二叉树、二叉搜索树
 递归、分治、回溯
-动态规划、贪心算法
 图、DFS、BFS
 排序、搜索算法
+动态规划、贪心算法
 LRU Cache
 字符串、数字
 */
@@ -3855,7 +3855,7 @@ var generateParenthesis = function (n) {
 【找出某一节点所在链条中所有的父级ID】
 
 举例：
-比如 '112'的父级 id 路径为 ['1', '11', '112']
+比如 '112' 的父级 id 路径为 ['1', '11', '112']
 const data = [{
   id: '1',
   name: 'test1',
@@ -4516,6 +4516,194 @@ function BFS(graph, start, end) {
   }
 }
 */
+
+//
+// -------divider-------
+//
+
+/*
+【二叉树的所有路径】
+https://leetcode-cn.com/problems/binary-tree-paths/
+
+给定一个二叉树，返回所有从根节点到叶子节点的路径。
+说明: 叶子节点是指没有子节点的节点。
+
+示例:
+输入:
+   1
+ /   \
+2     3
+ \
+  5
+
+输出: ["1->2->5", "1->3"]
+解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
+
+logs：01
+[✔️]2020.07.07
+*/
+var binaryTreePaths = function (root) {
+  const res = [];
+  dfs(root, '');
+  return res;
+
+  function dfs(node, path) {
+    if (node == null) return;
+    if (node.left === null && node.right === null) {
+      res.push(`${path}->${node.val}`.substring(2));
+      return;
+    }
+    dfs(node.left, `${path}->${node.val}`);
+    dfs(node.right, `${path}->${node.val}`);
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【路径总和】
+https://leetcode-cn.com/problems/path-sum/
+
+给你二叉树的根节点 root 和一个表示目标和的整数 targetSum ，判断该树中是否存在 【根节点到叶子节点】 的路径，这条路径上所有节点值相加等于目标和 targetSum 。
+【叶子节点】 是指没有子节点的节点。
+
+输入：root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+输出：true
+
+logs：01
+[✔️]2020.07.07
+*/
+var hasPathSum = function (root, targetSum) {
+  return dfs([], root, targetSum);
+
+  function dfs(path, node, remain) {
+    if (node == null) return false;
+    if (node.left == null && node.right == null && node.val === remain) {
+      return true;
+    }
+    return (
+      dfs(path, node.left, remain - node.val) ||
+      dfs(path, node.right, remain - node.val)
+    );
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【 路径总和 II】
+https://leetcode-cn.com/problems/path-sum-ii/
+
+给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。
+叶子节点 是指没有子节点的节点。
+
+输入：root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+输出：[[5,4,11,2],[5,8,4,5]]
+
+logs：01
+[✔️]2020.07.07
+*/
+var pathSum = function (root, sum) {
+  let res = [];
+  dfs([], root, sum);
+  return res;
+
+  function dfs(path, node, remain) {
+    if (node == null) return;
+    if (node.left == null && node.right == null && node.val === remain) {
+      //                                           ————————————————————
+      //                         如果条件改为remain===0，此时node为null，取node.left/node.right会报错
+      path.push(node.val);
+      res.push(path.slice());
+      path.pop();
+      return;
+    }
+    path.push(node.val);
+    dfs(path, node.left, remain - node.val);
+    dfs(path, node.right, remain - node.val);
+    path.pop();
+  }
+};
+
+//
+// -------divider-------
+//
+
+/*
+【路径总和 III】
+https://leetcode-cn.com/problems/path-sum-iii/
+
+给定一个二叉树，它的每个结点都存放着一个整数值。
+找出路径和等于给定数值的路径总数。
+路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。
+二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。
+
+示例：
+root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+返回 3。和等于 8 的路径有:
+
+1.  5 -> 3
+2.  5 -> 2 -> 1
+3.  -3 -> 11
+
+logs：01
+[✔️]2020.07.07
+*/
+// dfs
+var pathSum = function (root, targetSum, res = { count: 0 }) {
+  if (root == null) return 0;
+  // 使用先序遍历，将每个节点都作为根节点
+  dfs([], root, targetSum);
+  pathSum(root.left, targetSum, res);
+  pathSum(root.right, targetSum, res);
+  // 使用一个对象存count，因为复杂数据类型是按引用传递的
+  return res.count;
+
+  function dfs(path, node, remain) {
+    if (node == null) return;
+    if (node.val === remain) {
+      res.count++;
+    }
+    dfs(path, node.left, remain - node.val); //哪怕node.val是负数也是减，8 - (-3) = 11
+    dfs(path, node.right, remain - node.val);
+  }
+};
+
+// 变形：求出所有的路径
+var pathSum = function (root, targetSum, res = []) {
+  if (root == null) return 0;
+  // 使用先序遍历，将每个节点都作为根节点
+  dfs([], root, targetSum);
+  pathSum(root.left, targetSum, res);
+  pathSum(root.right, targetSum, res);
+  return res;
+
+  function dfs(path, node, remain) {
+    if (node == null) return;
+    if (node.val === remain) {
+      path.push(node.val);
+      res.push(path.slice());
+      path.pop();
+    }
+    path.push(node.val);
+    dfs(path, node.left, remain - node.val);
+    dfs(path, node.right, remain - node.val);
+    path.pop();
+  }
+};
 
 //
 // -------divider-------
